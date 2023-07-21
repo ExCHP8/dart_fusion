@@ -44,4 +44,4 @@ class MyClass extends AppStateWidget {
 ```
 
 ## Documentation
-[Dart generated doc](https://github.com/Nialixus/Appstate-Widget/tree/main/doc/api/index.html "AppStateWidget Documentation")
+[Dart Generated Documentation](https://raw.githack.com/Nialixus/Appstate-Widget/main/doc/api/index.html "AppStateWidget Documentation")
