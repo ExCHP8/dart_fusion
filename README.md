@@ -1,5 +1,15 @@
 # AppStateWidget
-Making `StatefulWidget` prettier and less boilerplate.
+The AppStateWidget library offers a solution to simplify the boilerplate code commonly associated with using StatefulWidget. By providing a clean and efficient approach, it enhances the developer experience. Designed with convenience and simplicity in mind, AppStateWidget streamlines the development process, allowing you to focus on building intuitive user interfaces without getting bogged down by repetitive code.
+
+## Key Features
+* Reduce Boilerplate
+  With AppStateWidget, you can significantly reduce boilerplate code when working with StatefulWidget. Say goodbye to excessive code blocks and welcome concise, elegant declarations.
+* Improved Readability
+  By abstracting away common patterns, the library ensures cleaner and more readable code, making it easier to comprehend and maintain your project.
+* Easy to Use
+  Implementing AppStateWidget is straightforward. Just extend the class, override specific methods like onStart, onPreparation, onFinish, and let the magic happen.
+* Data Passing Made Simple
+  With a convenient data method, you can easily declare and pass data between the widget and its state, ensuring your data management is both efficient and organized.
 
 ## Installation
 put this in your pubspec.yaml
