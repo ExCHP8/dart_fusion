@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 /// Though this doesn't support [AppStateValue.setState] one of the suggested
 /// workaround is making an extended class of [ValueNotifier] and build it with
 /// [ValueListenableBuilder].
-class AppStateWidget extends StatefulWidget {
+abstract class AppStateWidget extends StatefulWidget {
   /// Default constant constructor with one field of [key].
   ///
   /// To use it, you're going to need extending this class
@@ -23,28 +23,28 @@ class AppStateWidget extends StatefulWidget {
   ///
   ///   @override
   ///   void onPreparation(AppStateValue state){
-  ///     state.data['controller'].text = 'Loading';
+  ///     state.value<TextEditingController>('controller').text = 'Loading';
   ///   }
   ///
   ///   @override
   ///   Widget onStart(AppStateValue state){
-  ///     return TextField(controller: state.data['controller']);
+  ///     return TextField(controller: state.value<TextEditingController>('controller'));
   ///   }
   ///
   ///   void onReady(AppStateValue state){
-  ///     state.data['controller'].text = 'Loaded';
+  ///      state.value<TextEditingController>('controller').text = 'Loaded';
   ///   }
   ///
   ///   @override
   ///   void onFinish(AppStateValue state){
-  ///     state.data['controller'].dispose();
+  ///      state.value<TextEditingController>('controller').dispose();
   ///   }
   /// }
   /// ```
   const AppStateWidget({super.key});
 
   /// Overriding [AppStateValue.build] inside [createState].
-  Widget onStart(AppStateValue state) => const Placeholder();
+  Widget onStart(AppStateValue state);
 
   /// A map to declare and passing data inside class. This make things cleaner.
   Map<String, dynamic> data(AppStateValue state) => {"message": "Hello World"};
@@ -83,4 +83,15 @@ class AppStateValue extends State<AppStateWidget> {
     widget.onFinish(this);
     super.dispose();
   }
+}
+
+/// Extensioning values used in [AppStateValue].
+extension AppStateExtension on AppStateValue {
+  /// A shortcut to call value from [AppStateValue.data].
+  ///
+  /// ```dart
+  /// final controller = state.value<TextEditingController>('controller');
+  /// print(controller.runtimeType); // TextEditingController
+  /// ```
+  T value<T extends Object?>(String key) => data[key] as T;
 }

@@ -7,7 +7,7 @@ put this in your pubspec.yaml
 dependencies:
   appstate_widget:
     git:
-      url: https://github.com/Nialixus/Appstate-Widget.git
+      url: https://github.com/Nialixus/appstate_widget.git
 ```
 
 ## Usage
@@ -15,33 +15,33 @@ To use it, you're going to need extending this class like this
 
 ```dart
 class MyClass extends AppStateWidget {
-    const MyClass({super.key});
+  const MyClass({super.key});
 
-    @override
-    Map<String, dynamic> data(AppStateValue state){
-    return {"controller": TextEditingController()};
-    }
+  @override
+  Map<String, dynamic> data(AppStateValue state){
+    return {'controller': TextEditingController()};
+  }
 
-    @override
-    void onPreparation(AppStateValue state){
-    state.data['controller'].text = 'Loading';
-    }
+  @override
+  void onPreparation(AppStateValue state){
+    state.value<TextEditingController>('controller').text = 'Loading';
+  }
 
-    @override
-    Widget onStart(AppStateValue state){
-    return TextField(controller: state.data['controller']);
-    }
+  @override
+  Widget onStart(AppStateValue state){
+    return TextField(controller: state.value<TextEditingController>('controller'));
+  }
 
-    void onReady(AppStateValue state){
-    state.data['controller'].text = 'Loaded';
-    }
+  void onReady(AppStateValue state){
+    state.value<TextEditingController>('controller').text = 'Data Loaded';
+  }
 
-    @override
-    void onFinish(AppStateValue state){
-    state.data['controller'].dispose();
-    }
+  @override
+  void onFinish(AppStateValue state){
+    state.value<TextEditingController>('controller').dispose();
+  }
 }
 ```
 
 ## Documentation
-[Dart Generated Documentation](https://raw.githack.com/Nialixus/Appstate-Widget/main/doc/api/index.html "AppStateWidget Documentation")
+[AppStateWidget Dart Documentation](https://raw.githack.com/Nialixus/Appstate-Widget/main/doc/api/index.html "AppStateWidget Documentation")
