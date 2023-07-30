@@ -10,3 +10,8 @@
 * Add AppImage
 * Add AppLog
 * Add AppRoute
+## 1.3.0
+* Add num limiter
+* Add AppBuilder
+* Add JSON typdef
+* Add JSON extension

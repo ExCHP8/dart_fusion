@@ -44,7 +44,7 @@ abstract class AppStateWidget extends StatefulWidget {
   Widget onStart(AppStateValue state);
 
   /// A map to declare and passing data inside class. This make things cleaner.
-  Map<String, dynamic> data(AppStateValue state) => {"message": "Hello World"};
+  JSON data(AppStateValue state) => {"message": "Hello World"};
 
   /// Overriding [AppStateValue.dispose] inside [createState].
   void onFinish(AppStateValue state) {}
@@ -61,7 +61,7 @@ abstract class AppStateWidget extends StatefulWidget {
 
 /// State child class of [AppStateWidget].
 class AppStateValue extends State<AppStateWidget> {
-  late Map<String, dynamic> data = widget.data(this);
+  late JSON data = widget.data(this);
 
   @override
   Widget build(BuildContext context) {
@@ -80,15 +80,4 @@ class AppStateValue extends State<AppStateWidget> {
     widget.onFinish(this);
     super.dispose();
   }
-}
-
-/// Extensioning values used in [AppStateValue].
-extension AppStateExtension on AppStateValue {
-  /// A shortcut to call value from [AppStateValue.data].
-  ///
-  /// ```dart
-  /// final controller = state.value<TextEditingController>('controller');
-  /// print(controller.runtimeType); // TextEditingController
-  /// ```
-  T value<T extends Object?>(String key) => data[key] as T;
 }

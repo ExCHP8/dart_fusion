@@ -76,21 +76,21 @@
 
   @override
   void onPreparation(AppStateValue state){
-    state.data['controller'].text = 'Loading';
+    state.value&lt;TextEditingController&gt;('controller').text = 'Loading';
   }
 
   @override
   Widget onStart(AppStateValue state){
-    return TextField(controller: state.data['controller']);
+    return TextField(controller: state.value&lt;TextEditingController&gt;('controller'));
   }
 
   void onReady(AppStateValue state){
-    state.data['controller'].text = 'Loaded';
+     state.value&lt;TextEditingController&gt;('controller').text = 'Loaded';
   }
 
   @override
   void onFinish(AppStateValue state){
-    state.data['controller'].dispose();
+     state.value&lt;TextEditingController&gt;('controller').dispose();
   }
 }
 </code></pre>
@@ -170,7 +170,7 @@
 <footer>
   <span class="no-break">
     appstate_widget
-      1.0.0
+      1.2.0
   </span>
 
   

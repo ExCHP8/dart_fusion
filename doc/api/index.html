@@ -29,7 +29,7 @@
 <header id="title">
   <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
   <ol class="breadcrumbs gt-separated dark hidden-xs">
-    <li><a href="https://github.com/Nialixus/Appstate-Widget">appstate_widget package</a></li>
+    <li><a href="https://github.com/Nialixus/appstate_widget.git">appstate_widget package</a></li>
   </ol>
   <div class="self-name">appstate_widget</div>
   <form class="search navbar-right" role="search">
@@ -53,44 +53,58 @@
       
 <section class="desc markdown">
   <h1 id="appstatewidget">AppStateWidget</h1>
-<p>Making <code>StatefulWidget</code> prettier and less boilerplate.</p>
+<p>The AppStateWidget library offers a solution to simplify the boilerplate code commonly associated with using StatefulWidget. By providing a clean and efficient approach, it enhances the developer experience. Designed with convenience and simplicity in mind, AppStateWidget streamlines the development process, allowing you to focus on building intuitive user interfaces without getting bogged down by repetitive code.</p>
+<h2 id="key-features">Key Features</h2>
+<ul>
+<li>Reduce Boilerplate
+With AppStateWidget, you can significantly reduce boilerplate code when working with StatefulWidget. Say goodbye to excessive code blocks and welcome concise, elegant declarations.</li>
+<li>Improved Readability
+By abstracting away common patterns, the library ensures cleaner and more readable code, making it easier to comprehend and maintain your project.</li>
+<li>Easy to Use
+Implementing AppStateWidget is straightforward. Just extend the class, override specific methods like onStart, onPreparation, onFinish, and let the magic happen.</li>
+<li>Data Passing Made Simple
+With a convenient data method, you can easily declare and pass data between the widget and its state, ensuring your data management is both efficient and organized.</li>
+</ul>
 <h2 id="installation">Installation</h2>
 <p>put this in your pubspec.yaml</p>
 <pre class="language-yaml"><code class="language-yaml">dependencies:
   appstate_widget:
     git:
-      url: https://github.com/Nialixus/Appstate-Widget.git
+      url: https://github.com/Nialixus/appstate_widget.git
+      ref: v1.3.0
 </code></pre>
 <h2 id="usage">Usage</h2>
 <p>To use it, you're going to need extending this class like this</p>
 <pre class="language-dart"><code class="language-dart">class MyClass extends AppStateWidget {
-    const MyClass({super.key});
+  const MyClass({super.key});
 
-    @override
-    Map&lt;String, dynamic&gt; data(AppStateValue state){
-    return {"controller": TextEditingController()};
-    }
+  @override
+  Map&lt;String, dynamic&gt; data(AppStateValue state){
+    return {'controller': TextEditingController()};
+  }
 
-    @override
-    void onPreparation(AppStateValue state){
-    state.data['controller'].text = 'Loading';
-    }
+  @override
+  void onPreparation(AppStateValue state){
+    state.value&lt;TextEditingController&gt;('controller').text = 'Loading';
+  }
 
-    @override
-    Widget onStart(AppStateValue state){
-    return TextField(controller: state.data['controller']);
-    }
+  @override
+  Widget onStart(AppStateValue state){
+    return TextField(controller: state.value&lt;TextEditingController&gt;('controller'));
+  }
 
-    void onReady(AppStateValue state){
-    state.data['controller'].text = 'Loaded';
-    }
+  void onReady(AppStateValue state){
+    state.value&lt;TextEditingController&gt;('controller').text = 'Data Loaded';
+  }
 
-    @override
-    void onFinish(AppStateValue state){
-    state.data['controller'].dispose();
-    }
+  @override
+  void onFinish(AppStateValue state){
+    state.value&lt;TextEditingController&gt;('controller').dispose();
+  }
 }
 </code></pre>
+<h2 id="documentation">Documentation</h2>
+<p><a href="https://raw.githack.com/Nialixus/Appstate-Widget/main/doc/api/index.html" title="AppStateWidget Documentation">AppStateWidget Dart Documentation</a></p>
 </section>
 
 
@@ -117,7 +131,7 @@
 </header>
 
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
-  <li><a href="https://github.com/Nialixus/Appstate-Widget">appstate_widget package</a></li>
+  <li><a href="https://github.com/Nialixus/appstate_widget.git">appstate_widget package</a></li>
 </ol>
 
 
@@ -137,7 +151,7 @@
 <footer>
   <span class="no-break">
     appstate_widget
-      1.0.0
+      1.2.0
   </span>
 
   

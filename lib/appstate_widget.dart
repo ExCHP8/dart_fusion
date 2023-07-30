@@ -12,3 +12,7 @@ part 'src/app_image.dart';
 part 'src/app_log.dart';
 part 'src/app_route.dart';
 part 'src/app_state.dart';
+part 'src/app_builder.dart';
+part 'src/app_extension.dart';
+
+typedef JSON = Map<String, dynamic>;
