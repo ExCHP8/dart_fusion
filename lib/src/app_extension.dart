@@ -47,3 +47,49 @@ extension AppJson on JSON {
   /// ```
   T of<T extends Object?>(String key) => this[key] as T;
 }
+
+/// Extension on [BuildContext] to provide easy access to common theming and
+/// media query properties.
+extension OnContext on BuildContext {
+  /// The [ThemeData] defined for this [BuildContext].
+  ThemeData get theme => Theme.of(this);
+
+  /// The [ColorScheme] defined for the current [ThemeData].
+  ColorScheme get color => theme.colorScheme;
+
+  /// The [TextTheme] defined for the current [ThemeData].
+  TextTheme get text => theme.textTheme;
+
+  /// The [BottomNavigationBarThemeData] defined for the current [ThemeData].
+  BottomNavigationBarThemeData get bottomTheme =>
+      theme.bottomNavigationBarTheme;
+
+  /// The [MediaQueryData] for this [BuildContext].
+  MediaQueryData get query => MediaQuery.of(this);
+
+  /// The size of the media query for this [BuildContext].
+  Size get querySize => MediaQuery.sizeOf(this);
+
+  /// The height of the media query for this [BuildContext].
+  double get height => querySize.height;
+
+  /// The width of the media query for this [BuildContext].
+  double get width => querySize.width;
+
+  /// Returns `true` if the width of the media query for this [BuildContext]
+  /// is less than 600.0, indicating it's a phone-sized device.
+  bool get isPhone => width < 600.0;
+
+  /// Returns `true` if the width of the media query for this [BuildContext]
+  /// is greater than 700.0, indicating it's a desktop-sized device.
+  bool get isDesktop => width > 700.0;
+
+  /// Returns `true` if the width of the media query for this [BuildContext]
+  /// is greater than 600.0 and less than 700.0, indicating it's a tablet-sized device.
+  bool get isTablet => !isPhone && !isDesktop;
+
+  /// Closes the current route and returns an optional [argument].
+  ///
+  /// The [argument] will be passed back to the previous route.
+  void close<T extends Object?>([T? argument]) => Navigator.pop(this, argument);
+}

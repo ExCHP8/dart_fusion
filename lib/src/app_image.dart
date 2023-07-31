@@ -62,69 +62,11 @@ class AppImage<Source extends Object> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (source is File) {
-      final source = this.source as File;
-      if (source.path.endsWith(".svg")) {
-        return SvgPicture.file(
-          source,
-          width: size?.width,
-          height: size?.height,
-          fit: fit,
-          alignment: alignment,
-          placeholderBuilder: placeholderBuilder,
-          semanticsLabel: semanticsLabel,
-          color: color,
-          colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
-        );
-      } else {
-        return Image.file(source,
-            width: size?.width,
-            height: size?.height,
-            fit: fit,
-            alignment: alignment,
-            errorBuilder: errorBuilder,
-            frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-          if (placeholderBuilder != null) return placeholderBuilder!(context);
-          return const SizedBox();
-        },
-            semanticLabel: semanticsLabel,
-            color: color,
-            colorBlendMode: colorBlendMode);
-      }
-    } else if (source is Uint8List) {
-      final source = this.source as Uint8List;
-      try {
-        return SvgPicture.memory(
-          source,
-          width: size?.width,
-          height: size?.height,
-          fit: fit,
-          alignment: alignment,
-          placeholderBuilder: placeholderBuilder,
-          semanticsLabel: semanticsLabel,
-          color: color,
-          colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
-        );
-      } catch (e) {
-        return Image.memory(source,
-            width: size?.width,
-            height: size?.height,
-            fit: fit,
-            alignment: alignment,
-            errorBuilder: errorBuilder,
-            frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-          if (placeholderBuilder != null) return placeholderBuilder!(context);
-          return const SizedBox();
-        },
-            semanticLabel: semanticsLabel,
-            color: color,
-            colorBlendMode: colorBlendMode);
-      }
-    } else {
-      final source = this.source.toString();
-      if (source.startsWith("http")) {
-        if (source.endsWith(".svg")) {
-          return SvgPicture.network(
+    try {
+      if (source is File) {
+        final source = this.source as File;
+        if (source.path.endsWith(".svg")) {
+          return SvgPicture.file(
             source,
             width: size?.width,
             height: size?.height,
@@ -136,23 +78,26 @@ class AppImage<Source extends Object> extends StatelessWidget {
             colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
           );
         } else {
-          return Image.network(source,
+          return Image.file(source,
               width: size?.width,
               height: size?.height,
               fit: fit,
               alignment: alignment,
               errorBuilder: errorBuilder,
               frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-            if (placeholderBuilder != null) return placeholderBuilder!(context);
-            return const SizedBox();
+            if (placeholderBuilder != null && frame == null) {
+              return placeholderBuilder!(context);
+            }
+            return child;
           },
               semanticLabel: semanticsLabel,
               color: color,
               colorBlendMode: colorBlendMode);
         }
-      } else {
-        if (source.endsWith(".svg")) {
-          return SvgPicture.asset(
+      } else if (source is Uint8List) {
+        final source = this.source as Uint8List;
+        try {
+          return SvgPicture.memory(
             source,
             width: size?.width,
             height: size?.height,
@@ -163,22 +108,91 @@ class AppImage<Source extends Object> extends StatelessWidget {
             color: color,
             colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
           );
-        } else {
-          return Image.asset(source,
+        } catch (e) {
+          return Image.memory(source,
               width: size?.width,
               height: size?.height,
               fit: fit,
               alignment: alignment,
               errorBuilder: errorBuilder,
               frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-            if (placeholderBuilder != null) return placeholderBuilder!(context);
-            return const SizedBox();
+            if (placeholderBuilder != null && frame == null) {
+              return placeholderBuilder!(context);
+            }
+            return child;
           },
               semanticLabel: semanticsLabel,
               color: color,
               colorBlendMode: colorBlendMode);
         }
+      } else {
+        final source = this.source.toString();
+        if (source.startsWith("http")) {
+          if (source.endsWith(".svg")) {
+            return SvgPicture.network(
+              source,
+              width: size?.width,
+              height: size?.height,
+              fit: fit,
+              alignment: alignment,
+              placeholderBuilder: placeholderBuilder,
+              semanticsLabel: semanticsLabel,
+              color: color,
+              colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
+            );
+          } else {
+            return Image.network(source,
+                width: size?.width,
+                height: size?.height,
+                fit: fit,
+                alignment: alignment,
+                errorBuilder: errorBuilder,
+                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+              if (placeholderBuilder != null && frame == null) {
+                return placeholderBuilder!(context);
+              }
+              return child;
+            },
+                semanticLabel: semanticsLabel,
+                color: color,
+                colorBlendMode: colorBlendMode);
+          }
+        } else {
+          final source = this.source as String;
+          if (source.endsWith(".svg")) {
+            return SvgPicture.asset(
+              source,
+              width: size?.width,
+              height: size?.height,
+              fit: fit,
+              alignment: alignment,
+              placeholderBuilder: placeholderBuilder,
+              semanticsLabel: semanticsLabel,
+              color: color,
+              colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
+            );
+          } else {
+            return Image.asset(source,
+                width: size?.width,
+                height: size?.height,
+                fit: fit,
+                alignment: alignment,
+                errorBuilder: errorBuilder,
+                semanticLabel: semanticsLabel,
+                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+              if (placeholderBuilder != null && frame == null) {
+                return placeholderBuilder!(context);
+              }
+              return child;
+            }, color: color, colorBlendMode: colorBlendMode);
+          }
+        }
       }
+    } catch (e) {
+      if (kDebugMode) {
+        AppLog(e, level: Level.error);
+      }
+      return const SizedBox();
     }
   }
 

@@ -15,3 +15,7 @@
 * Add AppBuilder
 * Add JSON typdef
 * Add JSON extension
+## 1.4.0
+* Add AppButton
+* Update AppImage
+* Add Context Extension
