@@ -7,7 +7,7 @@ part of '../appstate_widget.dart';
 /// ```
 class AppModel extends Equatable {
   /// Default constructor
-  const AppModel({this.modelType = 'Model'});
+  const AppModel();
 
   /// Convert a JSON to this model.
   ///
@@ -31,15 +31,7 @@ class AppModel extends Equatable {
   /// Model model = const Model();
   /// JSON json = model.toJSON;
   /// ```
-  JSON get toJSON => {'model_type': modelType};
-
-  /// Required as an indicator type to be parsed from JSON.
-  ///
-  /// ```dart
-  /// Model model = const Model();
-  /// print(model.toJSON); // {"model_type": "Model"}
-  /// ```
-  final String modelType;
+  JSON get toJSON => {'model_type': runtimeType};
 
   @override
   List<Object?> get props =>

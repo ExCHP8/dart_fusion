@@ -22,4 +22,6 @@
 ## 1.5.0
 * Update AppButton
 ## 1.6.0
-* Add Model
+* Add AppModel
+## 1.7.0
+* Update AppModel
