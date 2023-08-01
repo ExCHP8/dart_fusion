@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the querySize property from the OnContext extension, for the Dart programming language.">
-  <title>querySize property - OnContext extension - appstate_widget library - Dart API</title>
+  <meta name="description" content="API docs for the toJSON property from the AppModel class, for the Dart programming language.">
+  <title>toJSON property - AppModel class - appstate_widget library - Dart API</title>
 
 
   
@@ -30,10 +30,10 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../../index.html">appstate_widget</a></li>
     <li><a href="../../appstate_widget/appstate_widget-library.html">appstate_widget</a></li>
-    <li><a href="../../appstate_widget/OnContext.html">OnContext</a></li>
-    <li class="self-crumb">querySize property</li>
+    <li><a href="../../appstate_widget/AppModel-class.html">AppModel</a></li>
+    <li class="self-crumb">toJSON property</li>
   </ol>
-  <div class="self-name">querySize</div>
+  <div class="self-name">toJSON</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -53,7 +53,7 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-property">querySize</span> property 
+<h1><span class="kind-property">toJSON</span> property 
 </h1></div>
 
 
@@ -62,21 +62,24 @@
 
 <section class="multi-line-signature">
   
-  <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-ui/Size-class.html">Size</a></span>
-  <span class="name ">querySize</span>
+  <span class="returntype"><a href="../../appstate_widget/JSON.html">JSON</a></span>
+  <span class="name ">toJSON</span>
   
 
 </section>
 
 
 <section class="desc markdown">
-  <p>The size of the media query for this <a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html">BuildContext</a>.</p>
+  <p>Convert this model to JSON.</p>
+<pre class="language-dart"><code class="language-dart">Model model = const Model();
+JSON json = model.toJSON;
+</code></pre>
 </section>
 
 
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Size get querySize =&gt; MediaQuery.sizeOf(this);</code></pre>
+  <pre class="language-dart"><code class="language-dart">JSON get toJSON =&gt; {&#39;model_type&#39;: modelType};</code></pre>
 </section>
 
 </section>
@@ -94,32 +97,36 @@
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
   <li><a href="../../index.html">appstate_widget</a></li>
   <li><a href="../../appstate_widget/appstate_widget-library.html">appstate_widget</a></li>
-  <li><a href="../../appstate_widget/OnContext.html">OnContext</a></li>
-  <li class="self-crumb">querySize property</li>
+  <li><a href="../../appstate_widget/AppModel-class.html">AppModel</a></li>
+  <li class="self-crumb">toJSON property</li>
 </ol>
 
 
-    <h5>OnContext extension</h5>
+    <h5>AppModel class</h5>
     <ol>
 
+        <li class="section-title"><a href="../../appstate_widget/AppModel-class.html#constructors">Constructors</a></li>
+          <li><a href="../../appstate_widget/AppModel/AppModel.html">AppModel</a></li>
+          <li><a href="../../appstate_widget/AppModel/AppModel.fromJSON.html">fromJSON</a></li>
 
 
+        <li class="section-title">
+          <a href="../../appstate_widget/AppModel-class.html#instance-properties">Properties</a>
+        </li>
+          <li class="inherited"><a href="https://pub.dev/documentation/equatable/2.0.5/equatable/Equatable/hashCode.html">hashCode</a></li>
+          <li><a href="../../appstate_widget/AppModel/modelType.html">modelType</a></li>
+          <li><a href="../../appstate_widget/AppModel/props.html">props</a></li>
+          <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
+          <li class="inherited"><a href="https://pub.dev/documentation/equatable/2.0.5/equatable/Equatable/stringify.html">stringify</a></li>
+          <li><a href="../../appstate_widget/AppModel/toJSON.html">toJSON</a></li>
 
-        <li class="section-title"> <a href="../../appstate_widget/OnContext.html#instance-properties">Properties</a></li>
-          <li><a href="../../appstate_widget/OnContext/bottomTheme.html">bottomTheme</a></li>
-          <li><a href="../../appstate_widget/OnContext/color.html">color</a></li>
-          <li><a href="../../appstate_widget/OnContext/height.html">height</a></li>
-          <li><a href="../../appstate_widget/OnContext/isDesktop.html">isDesktop</a></li>
-          <li><a href="../../appstate_widget/OnContext/isPhone.html">isPhone</a></li>
-          <li><a href="../../appstate_widget/OnContext/isTablet.html">isTablet</a></li>
-          <li><a href="../../appstate_widget/OnContext/query.html">query</a></li>
-          <li><a href="../../appstate_widget/OnContext/querySize.html">querySize</a></li>
-          <li><a href="../../appstate_widget/OnContext/text.html">text</a></li>
-          <li><a href="../../appstate_widget/OnContext/theme.html">theme</a></li>
-          <li><a href="../../appstate_widget/OnContext/width.html">width</a></li>
+        <li class="section-title"><a href="../../appstate_widget/AppModel-class.html#instance-methods">Methods</a></li>
+          <li><a href="../../appstate_widget/AppModel/copyWith.html">copyWith</a></li>
+          <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
+          <li class="inherited"><a href="https://pub.dev/documentation/equatable/2.0.5/equatable/Equatable/toString.html">toString</a></li>
 
-        <li class="section-title"><a href="../../appstate_widget/OnContext.html#instance-methods">Methods</a></li>
-          <li><a href="../../appstate_widget/OnContext/close.html">close</a></li>
+        <li class="section-title inherited"><a href="../../appstate_widget/AppModel-class.html#operators">Operators</a></li>
+          <li class="inherited"><a href="https://pub.dev/documentation/equatable/2.0.5/equatable/Equatable/operator_equals.html">operator ==</a></li>
 
 
 

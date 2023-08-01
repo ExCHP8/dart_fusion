@@ -3,6 +3,7 @@ library appstate_widget;
 
 import 'dart:io';
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,5 +17,6 @@ part 'src/app_state.dart';
 part 'src/app_builder.dart';
 part 'src/app_extension.dart';
 part 'src/app_button.dart';
+part 'src/app_model.dart';
 
 typedef JSON = Map<String, dynamic>;

@@ -21,3 +21,5 @@
 * Add Context Extension
 ## 1.5.0
 * Update AppButton
+## 1.6.0
+* Add Model
