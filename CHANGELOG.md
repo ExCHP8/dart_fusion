@@ -19,3 +19,5 @@
 * Add AppButton
 * Update AppImage
 * Add Context Extension
+## 1.5.0
+* Update AppButton

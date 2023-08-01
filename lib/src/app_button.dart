@@ -91,40 +91,61 @@ class InkMaterial extends StatelessWidget {
 /// A custom button widget that wraps the [InkMaterial] widget to provide
 /// tap interactions with various customization options.
 class AppButton extends StatelessWidget {
-  /// Creates an [AppButton] widget.
+  /// Creates a custom button widget with optional parameters for customization.
   ///
-  /// The [child] is the content to display inside the button.
-  /// The [padding] sets the padding around the button content.
-  /// The [margin] sets the margin around the button.
-  /// The [color] sets the background color of the button.
-  /// The [borderRadius] defines the rounded corners of the button.
-  /// The [ignore] determines whether the button should ignore tap interactions.
-  /// The [onTap] callback is triggered when the button is tapped.
+  /// The [padding] parameter specifies the padding around the button content.
+  /// The [margin] parameter specifies the margin around the button.
+  /// The [color] parameter sets the background color of the button.
+  /// The [borderRadius] parameter determines the rounded corners of the button.
+  /// The [ignore] parameter specifies whether the button should ignore tap interactions.
+  /// The [onTap] parameter is the callback function triggered when the button is tapped.
+  /// The [text] parameter provides the text to display inside the button.
+  /// The [prefix] and [suffix] parameters are optional widgets to display before and after the text.
+  /// The [gap] parameter sets the space between the text and prefix/suffix widgets.
+  /// The [style] parameter allows you to customize the text style of the button text.
+  /// The [focusColor], [splashColor], [hoverColor], and [highlightColor] parameters
+  /// set the colors for specific material interaction states.
+  /// The [shapeBorder] parameter allows you to customize the shape of the button material.
+  /// The [controller] parameter provides a MaterialStatesController to manually control
+  /// the interaction states of the material.
+  /// The [mainAxisSize] parameter specifies the main axis size of the button.
+  /// The [child] parameter allows you to provide a custom child widget for the button.
+  ///
+  /// By default, the [padding] is set to `EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0)`.
+  /// The [mainAxisSize] is set to `MainAxisSize.min`.
   ///
   /// Example:
   /// ```dart
   /// AppButton(
+  ///   text: "Click Me",
   ///   color: Colors.blue,
-  ///   borderRadius: BorderRadius.circular(10),
   ///   onTap: () {
-  ///     // Add your onTap functionality here
+  ///     // Handle button tap event
   ///   },
-  ///   child: Text('Tap Me'),
   /// )
   /// ```
-  const AppButton({
-    super.key,
-    this.padding,
-    this.margin,
-    this.color,
-    this.borderRadius,
-    this.ignore = false,
-    required this.onTap,
-    required this.child,
-  });
-
-  /// The content to display inside the button.
-  final Widget child;
+  const AppButton(
+      {super.key,
+      this.padding =
+          const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.00),
+      this.margin,
+      this.color,
+      this.borderRadius,
+      this.ignore = false,
+      this.text = "",
+      required this.onTap,
+      this.prefix,
+      this.suffix,
+      this.gap = 10.0,
+      this.style,
+      this.focusColor,
+      this.splashColor,
+      this.hoverColor,
+      this.highlightColor,
+      this.shapeBorder,
+      this.controller,
+      this.mainAxisSize = MainAxisSize.min,
+      this.child});
 
   /// The padding around the button content.
   final EdgeInsets? padding;
@@ -144,6 +165,45 @@ class AppButton extends StatelessWidget {
   /// The callback function triggered when the button is tapped.
   final VoidCallback onTap;
 
+  /// The text to display inside the button.
+  final String text;
+
+  /// An optional widget to display before the text.
+  final Widget? prefix;
+
+  /// An optional widget to display after the text.
+  final Widget? suffix;
+
+  /// The space between the text and prefix/suffix widgets.
+  final double gap;
+
+  /// The text style for the button text.
+  final TextStyle? style;
+
+  /// The main axis size of the button.
+  final MainAxisSize mainAxisSize;
+
+  /// An optional custom child widget for the button.
+  final Widget? child;
+
+  /// The color when the material is focused.
+  final Color? focusColor;
+
+  /// The color when the material is splashed.
+  final Color? splashColor;
+
+  /// The color when the material is hovered.
+  final Color? hoverColor;
+
+  /// The color when the material is highlighted.
+  final Color? highlightColor;
+
+  /// The custom shape of the material.
+  final ShapeBorder? shapeBorder;
+
+  /// The controller to manually control the interaction states of the material.
+  final MaterialStatesController? controller;
+
   @override
   Widget build(BuildContext context) {
     return AbsorbPointer(
@@ -152,82 +212,40 @@ class AppButton extends StatelessWidget {
         padding: margin ?? EdgeInsets.zero,
         child: InkMaterial(
           onTap: onTap,
+          controller: controller,
+          focusColor: focusColor,
+          highlightColor: highlightColor,
+          hoverColor: hoverColor,
+          splashColor: splashColor,
           color: color,
+          shapeBorder: shapeBorder,
           borderRadius: borderRadius,
-          child: Padding(padding: padding ?? EdgeInsets.zero, child: child),
-        ),
-      ),
-    );
-  }
-
-  /// A convenient method to create a general button with text and optional
-  /// prefix and suffix widgets.
-  ///
-  /// The [onTap] is the callback function when the button is tapped.
-  /// The [text] is the text to display inside the button.
-  /// The [padding] sets the padding around the button content.
-  /// The [gap] sets the gap between the prefix and suffix widgets.
-  /// The [color] sets the background color of the button.
-  /// The [borderRadius] defines the rounded corners of the button.
-  /// The [margin] sets the margin around the button.
-  /// The [style] sets the text style of the button text.
-  /// The [prefix] is a widget displayed before the text.
-  /// The [suffix] is a widget displayed after the text.
-  /// The [ignore] determines whether the button should ignore tap interactions.
-  ///
-  /// Example:
-  /// ```dart
-  /// AppButton.general(
-  ///   onTap: () {
-  ///     // Add your onTap functionality here
-  ///   },
-  ///   text: 'Tap Me',
-  ///   color: Colors.blue,
-  ///   borderRadius: BorderRadius.circular(10),
-  /// )
-  /// ```
-  static Widget general({
-    required VoidCallback onTap,
-    required String text,
-    EdgeInsets padding =
-        const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.00),
-    double gap = 10.0,
-    Color? color,
-    BorderRadius? borderRadius,
-    EdgeInsets? margin,
-    TextStyle? style,
-    Widget? prefix,
-    Widget? suffix,
-    bool ignore = false,
-  }) {
-    return Builder(
-      builder: (context) => AppButton(
-        onTap: onTap,
-        ignore: ignore,
-        color: color,
-        margin: margin,
-        borderRadius: borderRadius ?? BorderRadius.circular(10.0),
-        padding: padding,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (prefix != null)
-              Padding(
-                padding: EdgeInsets.only(right: gap),
-                child: prefix,
-              ),
-            Text(
-              text,
-              style: style ??
-                  context.text.bodyMedium
-                      ?.copyWith(color: context.color.primary),
-            ),
-            if (suffix != null)
-              Padding(
-                padding: EdgeInsets.only(left: gap),
-                child: suffix,
-              ),
-          ],
+          child: Padding(
+            padding: padding ?? EdgeInsets.zero,
+            child: child ??
+                Row(
+                  mainAxisSize: mainAxisSize,
+                  children: [
+                    if (prefix != null)
+                      Padding(
+                        padding: EdgeInsets.only(right: gap),
+                        child: prefix,
+                      ),
+                    if (text.isNotEmpty)
+                      Text(
+                        text,
+                        style: style ??
+                            context.text.bodyMedium
+                                ?.copyWith(color: context.color.primary),
+                      ),
+                    if (suffix != null)
+                      Padding(
+                        padding: EdgeInsets.only(left: gap),
+                        child: suffix,
+                      ),
+                  ],
+                ),
+          ),
         ),
       ),
     );
