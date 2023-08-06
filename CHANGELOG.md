@@ -25,3 +25,6 @@
 * Add AppModel
 ## 1.7.0
 * Update AppModel
+## 1.8.0
+* Add List Extension
+* Add AppState Inherited Widget

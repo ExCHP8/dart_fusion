@@ -92,4 +92,26 @@ extension OnContext on BuildContext {
   ///
   /// The [argument] will be passed back to the previous route.
   void close<T extends Object?>([T? argument]) => Navigator.pop(this, argument);
+
+  /// Getting [AppStateValue] from its descendant.
+  AppStateValue? get appstate => AppStateInherited.of(this)?.value;
+
+  /// A shortcut to get [AppStateValue.data] with [BuildContext].
+  T? value<T extends Object?>(String key) => appstate?.value<T>(key);
+}
+
+/// Extensioning generic [List] value.
+extension ListExtension<OldValue extends Object?> on List<OldValue> {
+  /// Generate index and item of a [List].
+  ///
+  /// ```dart
+  /// List<String> texts = ["one", "two", "three"];
+  /// List<Widget> widgets = texts.to((index, item) => Text("$index: $item"));
+  /// ```
+  List<NewValue> to<NewValue extends Object?>(
+          NewValue Function(int index, OldValue item) value) =>
+      asMap()
+          .entries
+          .map<NewValue>((map) => value(map.key, map.value))
+          .toList();
 }

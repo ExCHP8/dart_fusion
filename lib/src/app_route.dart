@@ -9,15 +9,17 @@ class AppRoute extends GoRoute {
   /// The [path] parameter is the route path to be matched for navigation.
   /// The [builder] parameter is an optional function that returns a widget to be built when the route is navigated to.
   AppRoute({
+    this.baseURL = "http://localhost:8080",
     required String path,
     Widget Function(BuildContext context, GoRouterState state)? builder,
   }) : super(path: path, builder: builder);
+  final String baseURL;
 
   @override
   Widget Function(BuildContext context, GoRouterState state)? get builder {
     if (super.builder != null) {
       return (BuildContext context, GoRouterState state) {
-        AppLog("http://localhost:8080${state.location}");
+        AppLog("$baseURL${state.location}");
         return super.builder!(context, state);
       };
     }

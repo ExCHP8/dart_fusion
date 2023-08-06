@@ -66,7 +66,7 @@ class AppStateValue extends State<AppStateWidget> {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) => widget.onReady(this));
-    return widget.onStart(this);
+    return AppStateInherited(value: this, child: widget.onStart(this));
   }
 
   @override
@@ -79,5 +79,27 @@ class AppStateValue extends State<AppStateWidget> {
   void dispose() {
     widget.onFinish(this);
     super.dispose();
+  }
+}
+
+/// A scope to pass [AppStateValue] data to its descendant.
+class AppStateInherited extends InheritedWidget {
+  /// [AppStateValue] data to be passed.
+  final AppStateValue value;
+
+  /// Default constructor to pass [AppStateValue] to its descendant.
+  const AppStateInherited({
+    super.key,
+    required this.value,
+    required Widget child,
+  }) : super(child: child);
+
+  @override
+  bool updateShouldNotify(covariant InheritedWidget oldWidget) =>
+      oldWidget != this;
+
+  /// A shortcut to call [AppStateInherited] from [BuildContext].
+  static AppStateInherited? of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<AppStateInherited>();
   }
 }
