@@ -95,7 +95,7 @@
 Widget Function(BuildContext context, GoRouterState state)? get builder {
   if (super.builder != null) {
     return (BuildContext context, GoRouterState state) {
-      AppLog(&quot;http:&#47;&#47;localhost:8080${state.location}&quot;);
+      AppLog(&quot;$baseURL${state.location}&quot;);
       return super.builder!(context, state);
     };
   }
@@ -133,6 +133,7 @@ Widget Function(BuildContext context, GoRouterState state)? get builder {
         <li class="section-title">
           <a href="../../appstate_widget/AppRoute-class.html#instance-properties">Properties</a>
         </li>
+          <li><a href="../../appstate_widget/AppRoute/baseURL.html">baseURL</a></li>
           <li><a href="../../appstate_widget/AppRoute/builder.html">builder</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
           <li class="inherited"><a href="https://pub.dev/documentation/go_router/9.1.1/go_router/GoRoute/name.html">name</a></li>
@@ -172,7 +173,7 @@ Widget Function(BuildContext context, GoRouterState state)? get builder {
 <footer>
   <span class="no-break">
     appstate_widget
-      1.7.0
+      1.8.0
   </span>
 
   

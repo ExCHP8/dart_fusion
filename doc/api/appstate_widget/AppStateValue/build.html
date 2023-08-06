@@ -182,7 +182,7 @@ prints green, as expected.</p>
   <pre class="language-dart"><code class="language-dart">@override
 Widget build(BuildContext context) {
   WidgetsBinding.instance.addPostFrameCallback((_) =&gt; widget.onReady(this));
-  return widget.onStart(this);
+  return AppStateInherited(value: this, child: widget.onStart(this));
 }</code></pre>
 </section>
 
@@ -255,7 +255,7 @@ Widget build(BuildContext context) {
 <footer>
   <span class="no-break">
     appstate_widget
-      1.7.0
+      1.8.0
   </span>
 
   
