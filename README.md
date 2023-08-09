@@ -18,7 +18,7 @@ dependencies:
   appstate_widget:
     git:
       url: https://github.com/Nialixus/appstate_widget.git
-      ref: v1.8.0
+      ref: v1.9.0
 ```
 
 ## Usage
@@ -52,6 +52,23 @@ class MyClass extends AppStateWidget {
     state.value<TextEditingController>('controller').dispose();
   }
 }
+```
+
+and you can also get [AppStateValue] in its child, by calling this
+
+```dart
+AppStateInherited.of(context);
+```
+
+or get the data in [AppStateValue] with this
+
+```dart
+context.value<TextEditingController>("controller");
+```
+
+also to cell setState we change it to
+```dart
+state.update();
 ```
 
 ## Documentation

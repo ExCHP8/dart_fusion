@@ -28,3 +28,5 @@
 ## 1.8.0
 * Add List Extension
 * Add AppState Inherited Widget
+## 1.9.0
+* Add update function (equivalent to setState)

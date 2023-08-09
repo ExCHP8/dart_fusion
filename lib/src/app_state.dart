@@ -1,10 +1,6 @@
 part of '../appstate_widget.dart';
 
 /// Making [StatefulWidget] prettier and less boilerplate.
-///
-/// Though this doesn't support [AppStateValue.setState] one of the suggested
-/// workaround is making an extended class of [ValueNotifier] and build it with
-/// [ValueListenableBuilder].
 abstract class AppStateWidget extends StatefulWidget {
   /// Default constant constructor with one field of [key].
   ///
@@ -61,7 +57,11 @@ abstract class AppStateWidget extends StatefulWidget {
 
 /// State child class of [AppStateWidget].
 class AppStateValue extends State<AppStateWidget> {
+  /// Declare [AppStateWidget.data].
   late JSON data = widget.data(this);
+
+  /// Overriding [setState].
+  void update() => setState(() {});
 
   @override
   Widget build(BuildContext context) {

@@ -19,4 +19,5 @@ part 'src/app_extension.dart';
 part 'src/app_button.dart';
 part 'src/app_model.dart';
 
+/// Define [JSON] Type as a shortcut for [Map<String, dynamic>].
 typedef JSON = Map<String, dynamic>;
