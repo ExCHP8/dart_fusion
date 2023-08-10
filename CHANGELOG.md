@@ -30,3 +30,7 @@
 * Add AppState Inherited Widget
 ## 1.9.0
 * Add update function (equivalent to setState)
+## 2.0.0
+* Add ScrollBehavior
+* Fix file in AppImage
+* Change AppModel to Model

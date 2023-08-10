@@ -2,14 +2,13 @@
 library appstate_widget;
 
 import 'dart:io';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
+part 'src/app_behavior.dart';
 part 'src/app_image.dart';
 part 'src/app_log.dart';
 part 'src/app_route.dart';

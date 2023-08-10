@@ -5,17 +5,16 @@ part of '../appstate_widget.dart';
 /// ```dart
 /// class NewModel extends Model {}
 /// ```
-class AppModel extends Equatable {
+class Model extends Equatable {
   /// Default constructor
-  const AppModel();
+  const Model();
 
   /// Convert a JSON to this model.
   ///
   /// ```dart
   /// Model model = Model.fromJSON(json);
   /// ```
-  // ignore: avoid_unused_constructor_parameters
-  const AppModel.fromJSON(JSON value) : this();
+  Model fromJSON(JSON value) => const Model();
 
   /// Copy variables in this model and make a new one out of it.
   ///
@@ -23,7 +22,7 @@ class AppModel extends Equatable {
   /// Model model = const Model();
   /// Model newModel = model.copyWith();
   /// ```
-  AppModel copyWith() => const AppModel();
+  Model copyWith() => const Model();
 
   /// Convert this model to JSON.
   ///
@@ -34,6 +33,8 @@ class AppModel extends Equatable {
   JSON get toJSON => {'model_type': runtimeType};
 
   @override
-  List<Object?> get props =>
-      toJSON.entries.map((e) => '${e.key}: ${e.value}').toList();
+  List<Object?> get props => toJSON.entries.map((e) => '${e.key}: ${e.value}').toList();
+
+  @override
+  String toString() => toJSON.entries.map((e) => '${e.key}: ${e.value}').toString();
 }
