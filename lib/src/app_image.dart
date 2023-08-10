@@ -63,34 +63,35 @@ class AppImage<Source extends Object> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     try {
-      if (source is File && !kIsWeb) {
-        final source = this.source as File;
-        if (source.path.endsWith(".svg")) {
-          return SvgPicture.file(
-            source,
-            width: size?.width,
-            height: size?.height,
-            fit: fit,
-            alignment: alignment,
-            placeholderBuilder: placeholderBuilder,
-            semanticsLabel: semanticsLabel,
-            color: color,
-            colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
-          );
-        } else {
-          return Image.file(source,
-              width: size?.width,
-              height: size?.height,
-              fit: fit,
-              alignment: alignment,
-              errorBuilder: errorBuilder, frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-            if (placeholderBuilder != null && frame == null) {
-              return placeholderBuilder!(context);
-            }
-            return child;
-          }, semanticLabel: semanticsLabel, color: color, colorBlendMode: colorBlendMode);
-        }
-      } else if (source is Uint8List) {
+      // if (source is File) {
+      //   final source = this.source as File;
+      //   if (source.path.endsWith(".svg")) {
+      //     return SvgPicture.file(
+      //       source,
+      //       width: size?.width,
+      //       height: size?.height,
+      //       fit: fit,
+      //       alignment: alignment,
+      //       placeholderBuilder: placeholderBuilder,
+      //       semanticsLabel: semanticsLabel,
+      //       color: color,
+      //       colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
+      //     );
+      //   } else {
+      //     return Image.file(source,
+      //         width: size?.width,
+      //         height: size?.height,
+      //         fit: fit,
+      //         alignment: alignment,
+      //         errorBuilder: errorBuilder, frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+      //       if (placeholderBuilder != null && frame == null) {
+      //         return placeholderBuilder!(context);
+      //       }
+      //       return child;
+      //     }, semanticLabel: semanticsLabel, color: color, colorBlendMode: colorBlendMode);
+      //   }
+      // } else 
+      if (source is Uint8List) {
         final source = this.source as Uint8List;
         try {
           return SvgPicture.memory(

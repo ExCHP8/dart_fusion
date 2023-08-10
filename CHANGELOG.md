@@ -34,3 +34,5 @@
 * Add ScrollBehavior
 * Fix file in AppImage
 * Change AppModel to Model
+## 2.1.0
+* Remove AppImage File

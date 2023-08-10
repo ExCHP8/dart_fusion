@@ -71,7 +71,7 @@ With a convenient data method, you can easily declare and pass data between the 
   appstate_widget:
     git:
       url: https://github.com/Nialixus/appstate_widget.git
-      ref: v1.9.0
+      ref: v2.1.0
 </code></pre>
 <h2 id="usage">Usage</h2>
 <p>To use it, you're going to need extending this class like this</p>
@@ -102,6 +102,15 @@ With a convenient data method, you can easily declare and pass data between the 
     state.value&lt;TextEditingController&gt;('controller').dispose();
   }
 }
+</code></pre>
+<p>and you can also get <a href="appstate_widget/AppStateValue-class.html">AppStateValue</a> in its child, by calling this</p>
+<pre class="language-dart"><code class="language-dart">AppStateInherited.of(context);
+</code></pre>
+<p>or get the data in <a href="appstate_widget/AppStateValue-class.html">AppStateValue</a> with this</p>
+<pre class="language-dart"><code class="language-dart">context.value&lt;TextEditingController&gt;("controller");
+</code></pre>
+<p>also to cell setState we change it to</p>
+<pre class="language-dart"><code class="language-dart">state.update();
 </code></pre>
 <h2 id="documentation">Documentation</h2>
 <p><a href="https://raw.githack.com/Nialixus/Appstate-Widget/main/doc/api/index.html" title="AppStateWidget Documentation">AppStateWidget Dart Documentation</a></p>
@@ -151,7 +160,7 @@ With a convenient data method, you can easily declare and pass data between the 
 <footer>
   <span class="no-break">
     appstate_widget
-      1.9.0
+      2.1.0
   </span>
 
   

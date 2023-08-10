@@ -1,7 +1,6 @@
 /// Making [StatefulWidget] prettier and less boilerplate.
 library appstate_widget;
 
-import 'package:universal_io/io.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
