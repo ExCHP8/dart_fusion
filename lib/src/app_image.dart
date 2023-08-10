@@ -147,7 +147,7 @@ class AppImage<Source extends Object> extends StatelessWidget {
             }, semanticLabel: semanticsLabel, color: color, colorBlendMode: colorBlendMode);
           }
         } else {
-          final source = this.source as String;
+          final source = this.source.toString();
           if (source.endsWith(".svg")) {
             return SvgPicture.asset(
               source,
