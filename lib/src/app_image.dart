@@ -63,7 +63,7 @@ class AppImage<Source extends Object> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     try {
-      if (source is File) {
+      if (source is File && !kIsWeb) {
         final source = this.source as File;
         if (source.path.endsWith(".svg")) {
           return SvgPicture.file(
