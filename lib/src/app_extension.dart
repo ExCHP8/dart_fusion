@@ -78,7 +78,7 @@ extension OnContext on BuildContext {
 
   /// Returns `true` if the width of the media query for this [BuildContext]
   /// is less than 600.0, indicating it's a phone-sized device.
-  bool get isPhone => width < 600.0;
+  bool get isPhone => width < 400.0;
 
   /// Returns `true` if the width of the media query for this [BuildContext]
   /// is greater than 700.0, indicating it's a desktop-sized device.

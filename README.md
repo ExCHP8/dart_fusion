@@ -18,7 +18,7 @@ dependencies:
   appstate_widget:
     git:
       url: https://github.com/Nialixus/appstate_widget.git
-      ref: v2.1.0
+      ref: v2.2.0
 ```
 
 ## Usage

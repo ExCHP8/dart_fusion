@@ -1,6 +1,6 @@
 name: appstate_widget
 description: Make stateful widget prettier and less boilerplate.
-version: 2.1.0
+version: 2.2.0
 homepage: https://github.com/Nialixus/appstate_widget.git
 
 environment:

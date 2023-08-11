@@ -36,3 +36,5 @@
 * Change AppModel to Model
 ## 2.1.0
 * Remove AppImage File
+## 2.2.0
+* Change context isDesktop from 600.0 to 400.0
