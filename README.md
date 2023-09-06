@@ -1,4 +1,4 @@
-# AppStateWidget
+# Dart Fusion
 The AppStateWidget library offers a solution to simplify the boilerplate code commonly associated with using StatefulWidget. By providing a clean and efficient approach, it enhances the developer experience. Designed with convenience and simplicity in mind, AppStateWidget streamlines the development process, allowing you to focus on building intuitive user interfaces without getting bogged down by repetitive code.
 
 ## Key Features
@@ -17,7 +17,7 @@ put this in your pubspec.yaml
 dependencies:
   appstate_widget:
     git:
-      url: https://github.com/Nialixus/appstate_widget.git
+      url: https://github.com/Nialixus/dart_fusion.git
       ref: v2.2.0
 ```
 

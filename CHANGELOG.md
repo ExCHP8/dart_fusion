@@ -38,3 +38,8 @@
 * Remove AppImage File
 ## 2.2.0
 * Change context isDesktop from 600.0 to 400.0
+## 2.3.0
+* Change AppState Widget to Dart Fusion
+* Update `typedefs`, `state widget`, `models`, `image`, `log` `extensions`, `button`, `builder` and `behavior`.
+* Add `textarea`, `parse`, `overlay` and `cli`.
+* Remove `route`.
