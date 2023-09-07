@@ -175,4 +175,29 @@ extension StringExtension on String {
   String add({required Map<String, String> key}) => key.entries.fold(this, (output, entry) {
         return output.replaceAll(entry.key, entry.value);
       });
+
+  String get capitalize {
+    try {
+      return this[0].toUpperCase() + substring(1, length);
+    } catch (e) {
+      return toString().toUpperCase();
+    }
+  }
+}
+
+extension IntExtension on int {
+  String get toBytes {
+    if (this < 1024) {
+      return '$this B';
+    } else if (this < 1024 * 1024) {
+      double sizeInKB = this / 1024;
+      return '${sizeInKB.toStringAsFixed(2)} KB';
+    } else if (this < 1024 * 1024 * 1024) {
+      double sizeInMB = this / (1024 * 1024);
+      return '${sizeInMB.toStringAsFixed(2)} MB';
+    } else {
+      double sizeInGB = this / (1024 * 1024 * 1024);
+      return '${sizeInGB.toStringAsFixed(2)} GB';
+    }
+  }
 }
