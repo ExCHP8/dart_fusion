@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:args/args.dart';
 
 part 'src/asset.dart';
+part 'src/model.dart';
 
 Future<void> main(List<String> arguments) async {
   ArgParser scanner = ArgParser()
@@ -15,8 +16,8 @@ Future<void> main(List<String> arguments) async {
     ..addOption('output', abbr: 'o')
     ..addFlag('help', abbr: 'h', negatable: false, defaultsTo: false, help: 'Print this usage information');
   ArgParser generator = ArgParser()
-    ..addOption('input', abbr: 'i')
-    ..addOption('output', abbr: 'o')
+    ..addOption('input',
+        abbr: 'i', defaultsTo: 'lib/src/models', help: 'Input directory of where the models took place.')
     ..addFlag('help', abbr: 'h', negatable: false, defaultsTo: false, help: 'Print this usage information');
   ArgParser runner = ArgParser()
     ..addCommand('asset', scanner)
@@ -28,9 +29,9 @@ Future<void> main(List<String> arguments) async {
     if (argument?.name == 'asset') {
       insertAsset(from: argument!);
     } else if (argument?.name == 'model') {
-      print("Model motherfather");
-    } else if (argument?.name == 'localization') {
-      print("Localization motherfather!");
+      insertModel(from: argument!);
+    } else if (argument?.name == 'localize') {
+      print("\x1B[31mThe feature has not yet been developed 🚧.\x1B[0m");
     } else {
       throw '\x1B[0mAvailable commands :';
     }

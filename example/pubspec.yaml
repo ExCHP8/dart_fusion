@@ -20,7 +20,9 @@ dev_dependencies:
 
 flutter:
   assets:
-    - assets/image
-    - assets/translation
-    - assets
+    - assets/image/icon/
+    - assets/image/background/
+    - assets/image/
+    - assets/translation/
+    - assets/
   uses-material-design: true

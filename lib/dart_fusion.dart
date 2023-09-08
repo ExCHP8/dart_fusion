@@ -20,3 +20,4 @@ part 'src/d_overlay.dart';
 part 'src/d_typedefs.dart';
 part 'src/d_parse.dart';
 part 'src/d_textarea.dart';
+part 'src/d_annotation.dart';

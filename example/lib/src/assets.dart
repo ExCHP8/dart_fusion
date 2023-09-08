@@ -1,5 +1,5 @@
 // Dart Fusion Auto-Generated Asset Scanner
-// Created at 2023-09-07 18:10:07.506472
+// Created at 2023-09-08 09:44:57.397720
 // 🍔 [Buy me a coffee](https://www.buymeacoffee.com/nialixus) 🚀
 // ignore_for_file: constant_identifier_names
 
@@ -62,6 +62,38 @@ class ImageAssets {
   /// String value = ImageAssets.foreground;
   /// ```
   static const String foreground = 'assets/image/foreground.png';
+
+}
+
+/// An asset class scanned from `assets/image/background`, containing 1 files.
+/// 
+/// ```dart
+/// String value = BackgroundImageAssets.value;
+/// ```
+class BackgroundImageAssets {
+
+  /// Asset derived from `assets/image/background/environment.svg`, with 0 B size.
+  /// 
+  /// ```dart
+  /// String value = BackgroundImageAssets.environment;
+  /// ```
+  static const String environment = 'assets/image/background/environment.svg';
+
+}
+
+/// An asset class scanned from `assets/image/icon`, containing 1 files.
+/// 
+/// ```dart
+/// String value = IconImageAssets.value;
+/// ```
+class IconImageAssets {
+
+  /// Asset derived from `assets/image/icon/avatar.svg`, with 0 B size.
+  /// 
+  /// ```dart
+  /// String value = IconImageAssets.avatar;
+  /// ```
+  static const String avatar = 'assets/image/icon/avatar.svg';
 
 }
 

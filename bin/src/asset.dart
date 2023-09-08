@@ -156,9 +156,9 @@ extension DirectoryListExtension on List<Directory> {
 
     for (var directory in this) {
       int assetsIndex = lines.lastIndexWhere((line) => line.trim() == 'assets:');
-      int directoryIndex = lines.lastIndexWhere((line) => line.trim() == '- ${directory.path}');
+      int directoryIndex = lines.lastIndexWhere((line) => line.trim() == '- ${directory.path}/');
       if (directoryIndex == -1) {
-        lines.insert(assetsIndex + 1, '    - ${directory.path}');
+        lines.insert(assetsIndex + 1, '    - ${directory.path}/');
       }
     }
 
