@@ -1,6 +1,9 @@
+import 'package:dart_fusion/dart_fusion.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await DartFusion.initialize(localization: false);
   runApp(const MyApp());
 }
 

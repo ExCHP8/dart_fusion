@@ -17,10 +17,14 @@ class Variable {
   /// the annotated variable or field.
   const Variable({
     this.doc,
+    this.toJSON = false,
   });
 
   /// Additional documentation for the variable or field.
   final String? doc;
+
+  /// Is variable has [toJSON] function or not.
+  final bool toJSON;
 }
 
 /// Annotates a class with options for code generation.
@@ -48,6 +52,7 @@ class Model {
   /// specify code generation options and provide additional documentation for
   /// the annotated class.
   const Model({
+    this.immutable = true,
     this.toJSON = true,
     this.copyWith = true,
     this.fromJSON = true,
@@ -65,6 +70,9 @@ class Model {
 
   /// Additional documentation for the annotated class.
   final String? doc;
+
+  /// Wether class is immutable or not.
+  final bool immutable;
 }
 
 /// An instance of [Variable] to be used as an annotation.

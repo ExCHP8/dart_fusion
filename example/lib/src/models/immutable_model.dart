@@ -1,8 +1,13 @@
 import 'package:dart_fusion/dart_fusion.dart';
+import 'package:example/src/models/mutable_model.dart';
 
-@Model()
+@model
 class ImmutableModel extends DModel {
-  const ImmutableModel({required this.message, required this.status});
+  const ImmutableModel({
+    required this.message,
+    required this.status,
+    required this.model,
+  });
 
   @variable
   final String message;
@@ -10,8 +15,11 @@ class ImmutableModel extends DModel {
   @variable
   final int status;
 
+  @Variable(toJSON: true)
+  final MutableModel model;
+
   @override
-	JSON get toJSON => {
-		...super.toJSON,
-	};
+  JSON get toJSON => {
+        ...super.toJSON,
+      };
 }

@@ -1,5 +1,5 @@
 // Dart Fusion Auto-Generated Asset Scanner
-// Created at 2023-09-08 09:44:57.397720
+// Created at 2023-09-09 14:41:40.288138
 // 🍔 [Buy me a coffee](https://www.buymeacoffee.com/nialixus) 🚀
 // ignore_for_file: constant_identifier_names
 

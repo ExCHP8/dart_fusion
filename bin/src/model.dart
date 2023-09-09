@@ -10,28 +10,34 @@ void insertModel({required ArgResults from}) {
       String input = from['input']!.toString();
       for (var file in Directory(input).listSync(recursive: true).whereType<File>()) {
         List<String> lines = file.readAsLinesSync();
-        List<ObjectParser> objects = [];
-        for (int x = 0; x < lines.length; x++) {
-          if (lines[x].trim().startsWith('@DVariable')) {
-            objects.add(ObjectParser.fromString(lines[x + 1]));
+        for (int index = 0; index < lines.length; index++) {
+          if (lines[index].trim().startsWith(RegExp(r'@model|@Model'))) {
+            print('index:${lines[index]}');
           }
         }
+        // List<VariableParser> objects = [];
+        // for (int x = 0; x < lines.length; x++) {
+        //   if (lines[x].trim().startsWith('@DVariable')) {
+        //     objects.add(VariableParser.fromString(lines[x + 1]));
+        //   }
+        // }
 
         // Add toJSON
-        lines.replace('JSON get toJSON ...\t}', replacement: (value) {
-          StringBuffer buffer = StringBuffer();
-          if (!value) buffer.write('\n  @override\n');
-          buffer.write('\tJSON get toJSON => {\n');
-          for (var object in objects) {
-            buffer.write("\t\t'${object.name}': ${object.name},\n");
-          }
-          buffer
-            ..write('\t\t...super.toJSON,\n')
-            ..write('\t};');
-          return buffer.toString();
-        });
+        // lines.replace('JSON get toJSON ...\t}', replacement: (value) {
+        //   StringBuffer buffer = StringBuffer();
+        //   if (!value) buffer.write('\n  @override\n');
+        //   buffer.write('\tJSON get toJSON => {\n');
+        //   for (var object in objects) {
+        //     buffer.write("\t\t'${object.name}': ${object.name},\n");
+        //   }
+        //   buffer
+        //     ..write('\t\t...super.toJSON,\n')
+        //     ..write('\t};');
+        //   return buffer.toString();
+        // });
 
         file.writeAsStringSync(lines.join("\n"));
+        print('Success motherfather');
       }
     }
   } catch (e) {
@@ -60,29 +66,70 @@ extension StringListExtension on List<String> {
       insert(index, replacement(false));
     } else {
       List<int> indexes = [index];
-      while (!this[index].trim().contains(part.last)) {
+      while (!this[index].trim().contains(part.last) || index == length) {
         index++;
         indexes.add(index);
-        print(this[index]);
-        print(index);
       }
       removeRange(indexes.first, indexes.last + 1);
       insert(indexes.first, replacement(true));
     }
   }
+
+  bool contain(String source, {required Pattern pattern, void Function(List<int> indexes)? result}) {
+    final part = source.split('...').map((e) => e.trim());
+    int index = indexWhere((e) => e.trim().startsWith(part.first));
+    bool existed = false;
+    if (index == 1) {
+      existed = false;
+    } else {
+      List<int> indexes = [index];
+      while (!this[index].trim().contains(part.last) || index == length) {
+        index++;
+        indexes.add(index);
+      }
+      for (var index in indexes) {
+        if (this[index].trim().contains(pattern)) {
+          existed = true;
+          break;
+        } else {
+          continue;
+        }
+      }
+
+      if (result != null) result(indexes);
+    }
+    return existed;
+  }
 }
 
-class ClassParser {
-  const ClassParser({required this.name});
+class ClassGenerator {
+  const ClassGenerator({
+    this.doc,
+    required this.name,
+    required this.toJSON,
+    required this.copyWith,
+    required this.fromJSON,
+    required this.immutable,
+  });
   final String name;
+  final bool toJSON;
+  final bool copyWith;
+  final bool fromJSON;
+  final String? doc;
+  final bool immutable;
 
-  factory ClassParser.fromString(String value) {
-    var content = value.split(' ')..removeAt(0);
-    return ClassParser(name: content.first);
+  factory ClassGenerator.fromList(List<String> value) {
+    return ClassGenerator(name: name, toJSON: toJSON, copyWith: copyWith, fromJSON: fromJSON, immutable: immutable);
   }
 
   @override
-  String toString() => '$runtimeType(name: $name)';
+  String toString() => '$runtimeType('
+      'doc: $doc'
+      'name: $name, '
+      'to_json: $toJSON, '
+      'from_json: $fromJSON, '
+      'copy_with: $copyWith, '
+      'immutable: $immutable)';
 }
 
 class VariableParser {
