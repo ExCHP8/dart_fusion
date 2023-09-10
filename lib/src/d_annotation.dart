@@ -18,6 +18,7 @@ class Variable {
   const Variable({
     this.doc,
     this.toJSON = false,
+    this.fromJSON = false,
   });
 
   /// Additional documentation for the variable or field.
@@ -25,6 +26,9 @@ class Variable {
 
   /// Is variable has [toJSON] function or not.
   final bool toJSON;
+
+  /// Is variable has [fromJSON] function or not.
+  final bool fromJSON;
 }
 
 /// Annotates a class with options for code generation.

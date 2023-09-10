@@ -8,13 +8,14 @@ void insertModel({required ArgResults from}) {
       throw '\x1B[0mAvailable commands :';
     } else {
       String input = from['input']!.toString();
+
       for (var file in Directory(input).listSync(recursive: true).whereType<File>()) {
-        List<String> lines = file.readAsLinesSync();
-        for (int index = 0; index < lines.length; index++) {
-          if (lines[index].trim().startsWith(RegExp(r'@model|@Model'))) {
-            print('index:${lines[index]}');
-          }
-        }
+        ModelParser.fromFile(file);
+        // for (int index = 0; index < lines.length; index++) {
+        //   if (lines[index].trim().startsWith(RegExp(r'@model|@Model'))) {
+        //     print('index:${lines[index]}');
+        //   }
+        // }
         // List<VariableParser> objects = [];
         // for (int x = 0; x < lines.length; x++) {
         //   if (lines[x].trim().startsWith('@DVariable')) {
@@ -35,9 +36,6 @@ void insertModel({required ArgResults from}) {
         //     ..write('\t};');
         //   return buffer.toString();
         // });
-
-        file.writeAsStringSync(lines.join("\n"));
-        print('Success motherfather');
       }
     }
   } catch (e) {
@@ -63,7 +61,7 @@ extension StringListExtension on List<String> {
     int index = indexWhere((e) => e.trim().startsWith(part.first));
     if (index == -1) {
       index = lastIndexWhere((e) => e.trim().contains(part.last));
-      insert(index, replacement(false));
+      insert(index + 1, replacement(false));
     } else {
       List<int> indexes = [index];
       while (!this[index].trim().contains(part.last) || index == length) {
@@ -75,37 +73,67 @@ extension StringListExtension on List<String> {
     }
   }
 
-  bool contain(String source, {required Pattern pattern, void Function(List<int> indexes)? result}) {
-    final part = source.split('...').map((e) => e.trim());
-    int index = indexWhere((e) => e.trim().startsWith(part.first));
-    bool existed = false;
-    if (index == 1) {
-      existed = false;
-    } else {
-      List<int> indexes = [index];
-      while (!this[index].trim().contains(part.last) || index == length) {
-        index++;
-        indexes.add(index);
-      }
-      for (var index in indexes) {
-        if (this[index].trim().contains(pattern)) {
-          existed = true;
-          break;
+  bool contain(Pattern pattern, {required List<String> sources}) {
+    try {
+      bool existed = false;
+      for (var source in sources) {
+        Iterable<String> part = source.split('...').map((e) => e.trim());
+        int index = indexWhere((e) => e.trim().startsWith(part.first));
+        if (index == 1) {
+          existed = false;
         } else {
-          continue;
+          List<int> indexes = [index];
+          while (!this[index].contains(part.last) || index == length) {
+            index++;
+            indexes.add(index);
+          }
+          for (var index in indexes) {
+            if (this[index].trim().contains(pattern)) {
+              existed = true;
+              break;
+            } else {
+              continue;
+            }
+          }
         }
       }
 
-      if (result != null) result(indexes);
+      return existed;
+    } catch (e) {
+      return false;
     }
-    return existed;
+  }
+
+  List<int> range(List<String> sources) {
+    try {
+      List<int> ranges = [-1, -1];
+      for (var source in sources) {
+        Iterable<String> part = source.split('...').map((e) => e.trim());
+        int index = indexWhere((e) => e.trim().startsWith(part.first));
+        List<int> indexes = [index];
+        if (index == 1) {
+          throw 'Nothing found';
+        } else {
+          while (!this[index].contains(part.last) || index == length) {
+            index++;
+            indexes.add(index);
+          }
+        }
+        ranges = [indexes.first, indexes.last];
+      }
+      return ranges;
+    } catch (e) {
+      return [-1, -1];
+    }
   }
 }
 
-class ClassGenerator {
-  const ClassGenerator({
+class ModelParser {
+  const ModelParser({
     this.doc,
+    required this.end,
     required this.name,
+    required this.begin,
     required this.toJSON,
     required this.copyWith,
     required this.fromJSON,
@@ -117,14 +145,71 @@ class ClassGenerator {
   final bool fromJSON;
   final String? doc;
   final bool immutable;
+  final int begin;
+  final int end;
 
-  factory ClassGenerator.fromList(List<String> value) {
-    return ClassGenerator(name: name, toJSON: toJSON, copyWith: copyWith, fromJSON: fromJSON, immutable: immutable);
+  static void fromFile(File file) {
+    final data = file.readAsStringSync().split(RegExp(r'(?=@Model)|(?=@model)')).map((e) {
+      if (e.trim().startsWith(RegExp(r'(?=@Model)|(?=@model)'))) {
+        final value = e.split('\n');
+        bool noToJSON = value.contain('toJSON: false', sources: ['@Model(...)']);
+        bool noCopyWith = value.contain('copyWith: false', sources: ['@Model(...)']);
+        bool noFromJSON = value.contain('fromJSON: false', sources: ['@Model(...)']);
+        bool noImmutable = value.contain('immutable: false', sources: ['@Model(...)']);
+        final model = ModelParser(
+          end: value.length,
+          begin: 0,
+          name: 'name',
+          toJSON: !noToJSON,
+          copyWith: !noCopyWith,
+          fromJSON: !noFromJSON,
+          immutable: !noImmutable,
+        );
+        if (model.toJSON) {
+          value.replace('\tJSON get toJSON...;', replacement: (exist) {
+            return '${exist ? '' : '\n\t@override\n'}'
+                '\tJSON get toJSON => {\n'
+                '\t\t...super.toJSON, \n'
+                '\t};';
+          });
+        }
+        return value.join('\n');
+      }
+      return e;
+    }).join('');
+    file.writeAsStringSync(data);
+
+    // for (int index = 0; index < lines.length; index++) {
+    //   if (lines[index].trim().startsWith('@Model')) {
+    //     final value = lines.sublist(index);
+    //     bool noToJSON = value.contain('toJSON: false', sources: ['@Model(...)']);
+    //     bool noCopyWith = value.contain('copyWith: false', sources: ['@Model(...)']);
+    //     bool noFromJSON = value.contain('fromJSON: false', sources: ['@Model(...)']);
+    //     bool noImmutable = value.contain('immutable: false', sources: ['@Model(...)']);
+    //     final ranges = value.range(['@Model(...}']);
+    //     if (!ranges.contains(-1)) {
+    //       print(value.sublist(ranges.first, ranges.last + 1).join('\n'));
+    //     }
+    //     final model = ModelParser(
+    //       end: ranges.last,
+    //       begin: ranges.first,
+    //       name: 'name',
+    //       toJSON: !noToJSON,
+    //       copyWith: !noCopyWith,
+    //       fromJSON: !noFromJSON,
+    //       immutable: !noImmutable,
+    //     );
+    //     if (!(model.begin == -1 || model.end == -1)) models.add(model);
+    //   }
+    // }
+    // return models;
   }
 
   @override
   String toString() => '$runtimeType('
-      'doc: $doc'
+      'begin: $begin, '
+      'end: $end, '
+      'doc: $doc, '
       'name: $name, '
       'to_json: $toJSON, '
       'from_json: $fromJSON, '

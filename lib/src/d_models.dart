@@ -9,13 +9,6 @@ class DModel extends Equatable {
   /// Default constructor
   const DModel();
 
-  /// Convert a JSON to this DModel.
-  ///
-  /// ```dart
-  /// DModel DModel = DModel.fromJSON(json);
-  /// ```
-  const DModel.fromJSON(JSON value) : this();
-
   /// Copy variables in this DModel and make a new one out of it.
   ///
   /// ```dart
@@ -31,6 +24,13 @@ class DModel extends Equatable {
   /// JSON json = DModel.toJSON;
   /// ```
   JSON get toJSON => {'model_type': runtimeType};
+
+  /// Convert a JSON to this DModel.
+  ///
+  /// ```dart
+  /// DModel DModel = DModel.fromJSON(json);
+  /// ```
+  static DModel fromJSON(JSON value) => const DModel();
 
   @override
   List<Object?> get props => toJSON.entries.map((e) => '${e.key}: ${e.value}').toList();
@@ -58,13 +58,13 @@ class ResponseModel extends DModel {
   });
 
   /// Parsing [ResponseModel] from [JSON] value, with additional null safety.
-  @override
-  ResponseModel.fromJSON(JSON value)
-      : this(
-          success: value.of('success'),
-          message: value.of('message'),
-          data: DModel.fromJSON(value.of('data')),
-        );
+  static ResponseModel fromJSON(JSON value) {
+    return ResponseModel(
+      success: value.of('success'),
+      message: value.of('message'),
+      data: DModel.fromJSON(value.of('data')),
+    );
+  }
 
   /// Success status of whether the response is what is expected or not.
   final bool success;
