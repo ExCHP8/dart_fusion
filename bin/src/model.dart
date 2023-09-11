@@ -8,34 +8,8 @@ void insertModel({required ArgResults from}) {
       throw '\x1B[0mAvailable commands :';
     } else {
       String input = from['input']!.toString();
-
       for (var file in Directory(input).listSync(recursive: true).whereType<File>()) {
-        ModelParser.fromFile(file);
-        // for (int index = 0; index < lines.length; index++) {
-        //   if (lines[index].trim().startsWith(RegExp(r'@model|@Model'))) {
-        //     print('index:${lines[index]}');
-        //   }
-        // }
-        // List<VariableParser> objects = [];
-        // for (int x = 0; x < lines.length; x++) {
-        //   if (lines[x].trim().startsWith('@DVariable')) {
-        //     objects.add(VariableParser.fromString(lines[x + 1]));
-        //   }
-        // }
-
-        // Add toJSON
-        // lines.replace('JSON get toJSON ...\t}', replacement: (value) {
-        //   StringBuffer buffer = StringBuffer();
-        //   if (!value) buffer.write('\n  @override\n');
-        //   buffer.write('\tJSON get toJSON => {\n');
-        //   for (var object in objects) {
-        //     buffer.write("\t\t'${object.name}': ${object.name},\n");
-        //   }
-        //   buffer
-        //     ..write('\t\t...super.toJSON,\n')
-        //     ..write('\t};');
-        //   return buffer.toString();
-        // });
+        ModelParser.run(file);
       }
     }
   } catch (e) {
@@ -60,7 +34,7 @@ extension StringListExtension on List<String> {
     final part = source.split('...').map((e) => e.trim());
     int index = indexWhere((e) => e.trim().startsWith(part.first));
     if (index == -1) {
-      index = lastIndexWhere((e) => e.trim().contains(part.last));
+      index = lastIndexWhere((e) => e.contains(RegExp(part.last)));
       insert(index + 1, replacement(false));
     } else {
       List<int> indexes = [index];
@@ -79,7 +53,7 @@ extension StringListExtension on List<String> {
       for (var source in sources) {
         Iterable<String> part = source.split('...').map((e) => e.trim());
         int index = indexWhere((e) => e.trim().startsWith(part.first));
-        if (index == 1) {
+        if (index == -1) {
           existed = false;
         } else {
           List<int> indexes = [index];
@@ -105,26 +79,27 @@ extension StringListExtension on List<String> {
   }
 
   List<int> range(List<String> sources) {
-    try {
-      List<int> ranges = [-1, -1];
-      for (var source in sources) {
+    List<int> result = [-1, -1];
+    for (var source in sources) {
+      try {
         Iterable<String> part = source.split('...').map((e) => e.trim());
         int index = indexWhere((e) => e.trim().startsWith(part.first));
         List<int> indexes = [index];
-        if (index == 1) {
-          throw 'Nothing found';
-        } else {
-          while (!this[index].contains(part.last) || index == length) {
-            index++;
-            indexes.add(index);
-          }
+        while (!this[index].contains(part.last) || index == length) {
+          index++;
+          indexes.add(index);
         }
-        ranges = [indexes.first, indexes.last];
+        result = [indexes.first, indexes.last];
+      } catch (e) {
+        result = [-1, -1];
       }
-      return ranges;
-    } catch (e) {
-      return [-1, -1];
+      if (result.contains(-1)) {
+        continue;
+      } else {
+        break;
+      }
     }
+    return result;
   }
 }
 
@@ -148,7 +123,7 @@ class ModelParser {
   final int begin;
   final int end;
 
-  static void fromFile(File file) {
+  static void run(File file) {
     final data = file.readAsStringSync().split(RegExp(r'(?=@Model)|(?=@model)')).map((e) {
       if (e.trim().startsWith(RegExp(r'(?=@Model)|(?=@model)'))) {
         final value = e.split('\n');
@@ -156,21 +131,54 @@ class ModelParser {
         bool noCopyWith = value.contain('copyWith: false', sources: ['@Model(...)']);
         bool noFromJSON = value.contain('fromJSON: false', sources: ['@Model(...)']);
         bool noImmutable = value.contain('immutable: false', sources: ['@Model(...)']);
+        final range = value.range(['@Model(...)', '@model']);
+        List<VariableParser> variables = VariableParser.fromString(e);
+        StringBuffer buffer = StringBuffer();
         final model = ModelParser(
           end: value.length,
           begin: 0,
-          name: 'name',
+          name: RegExp(r'(?<=class\s).+?\w+').allMatches(value[range.last + 1]).first.group(0)!,
           toJSON: !noToJSON,
           copyWith: !noCopyWith,
           fromJSON: !noFromJSON,
           immutable: !noImmutable,
         );
+        print(model);
+
         if (model.toJSON) {
           value.replace('\tJSON get toJSON...;', replacement: (exist) {
+            buffer.clear();
+            for (var variable in variables) {
+              buffer.write("\t\t'${variable.name}': ${variable.name}${variable.toJSON ? '.toJSON' : ''}, \n");
+            }
             return '${exist ? '' : '\n\t@override\n'}'
                 '\tJSON get toJSON => {\n'
+                '$buffer'
                 '\t\t...super.toJSON, \n'
                 '\t};';
+          });
+        }
+        if (model.fromJSON) {
+          value.replace('static ${model.name} fromJSON...}', replacement: (exist) {
+            buffer.clear();
+            for (var variable in variables) {
+              String content = variable.fromJSON
+                  ? "${variable.type}.fromJSON(value.of<JSON>('${variable.name}'))"
+                  : "value.of<${variable.type}>('${variable.name}')";
+              if (model.immutable) {
+                buffer.write("\n\t\t\t${variable.name}: $content,");
+              } else {
+                buffer.write("\n\t\t\t..${variable.name}= $content");
+              }
+            }
+            String content = model.immutable
+                ? '\t\treturn ${model.name}('
+                    '$buffer'
+                    '\n\t\t)'
+                : '\t\treturn ${model.name}()' '$buffer';
+            return '\tstatic ${model.name} fromJSON(JSON value) {\n'
+                '$content'
+                ';\n\t}';
           });
         }
         return value.join('\n');
@@ -178,31 +186,6 @@ class ModelParser {
       return e;
     }).join('');
     file.writeAsStringSync(data);
-
-    // for (int index = 0; index < lines.length; index++) {
-    //   if (lines[index].trim().startsWith('@Model')) {
-    //     final value = lines.sublist(index);
-    //     bool noToJSON = value.contain('toJSON: false', sources: ['@Model(...)']);
-    //     bool noCopyWith = value.contain('copyWith: false', sources: ['@Model(...)']);
-    //     bool noFromJSON = value.contain('fromJSON: false', sources: ['@Model(...)']);
-    //     bool noImmutable = value.contain('immutable: false', sources: ['@Model(...)']);
-    //     final ranges = value.range(['@Model(...}']);
-    //     if (!ranges.contains(-1)) {
-    //       print(value.sublist(ranges.first, ranges.last + 1).join('\n'));
-    //     }
-    //     final model = ModelParser(
-    //       end: ranges.last,
-    //       begin: ranges.first,
-    //       name: 'name',
-    //       toJSON: !noToJSON,
-    //       copyWith: !noCopyWith,
-    //       fromJSON: !noFromJSON,
-    //       immutable: !noImmutable,
-    //     );
-    //     if (!(model.begin == -1 || model.end == -1)) models.add(model);
-    //   }
-    // }
-    // return models;
   }
 
   @override
@@ -218,15 +201,35 @@ class ModelParser {
 }
 
 class VariableParser {
-  const VariableParser({required this.type, required this.name});
-  final String name, type;
+  const VariableParser({
+    required this.type,
+    required this.name,
+    this.toJSON = false,
+    this.fromJSON = false,
+  });
+  final String name;
+  final String type;
+  final bool toJSON;
+  final bool fromJSON;
 
-  factory VariableParser.fromString(String value) {
-    final content = value.replaceAll(RegExp(r'(final )|;'), '').split('=').first.split(' ').where((e) => e.isNotEmpty);
-    print(content);
-    return VariableParser(type: content.first, name: content.last);
+  static List<VariableParser> fromString(String data) {
+    List<VariableParser> objects = [];
+    final value = data.split(RegExp(r'(?=@Variable)|(?=@variable)'));
+    for (int index = 0; index < value.length; index++) {
+      if (value[index].startsWith(RegExp(r'(?=@Variable)|(?=@variable)'))) {
+        final values = value[index].split('\n');
+        final range = values.range(['@Variable...)', '@variable']);
+        String line = values[range.last + 1];
+        bool toJSON = values.contain('toJSON: true', sources: ['@Variable(...)']);
+        bool fromJSON = values.contain('fromJSON: true', sources: ['@Variable(...)']);
+        List<String> variable = line.replaceAll(RegExp(r'final |const |static |;'), '').trim().split(' ');
+        final model = VariableParser(type: variable[0], name: variable[1], toJSON: toJSON, fromJSON: fromJSON);
+        objects.add(model);
+      }
+    }
+    return objects;
   }
 
   @override
-  String toString() => '$runtimeType(name; $name, type: $type)';
+  String toString() => '$runtimeType(name; $name, type: $type, toJSON: $toJSON, fromJSON: $fromJSON)';
 }

@@ -2,7 +2,6 @@
 
 import 'dart:io';
 import 'package:args/args.dart';
-
 part 'src/asset.dart';
 part 'src/model.dart';
 
