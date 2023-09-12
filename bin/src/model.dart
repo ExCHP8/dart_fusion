@@ -8,8 +8,11 @@ void insertModel({required ArgResults from}) {
       throw '\x1B[0mAvailable commands :';
     } else {
       String input = from['input']!.toString();
-      for (var file in Directory(input).listSync(recursive: true).whereType<File>()) {
-        ModelParser.run(file);
+      for (var file in Directory(input).listSync(recursive: true).where((e) =>
+          e is File &&
+          e.path.split('.').last.trim() == 'dart' &&
+          e.readAsStringSync().contains(RegExp(r'(?=@Model)|(?=@model)')))) {
+        ModelParser.run(file as File);
       }
     }
   } catch (e) {
@@ -18,7 +21,6 @@ void insertModel({required ArgResults from}) {
         '| OPTION\t| DESCRIPTION\t\t\t\t\t|\n'
         '+---------------+-----------------------------------------------+\n'
         '| -i, --input\t| Input directory of the models.\t\t|\n'
-        '| \t\t| \x1B[2mdefault to \x1B[0m\x1B[33m"lib/src/models"\x1B[0m\t\t\t|\n'
         '| -h, --help\t| Print this usage information.\t\t\t|\n'
         '+---------------+-----------------------------------------------+\n'
         '\nUsage : '
@@ -32,18 +34,22 @@ extension StringListExtension on List<String> {
     required String Function(bool exist) replacement,
   }) {
     final part = source.split('...').map((e) => e.trim());
-    int index = indexWhere((e) => e.trim().startsWith(part.first));
-    if (index == -1) {
-      index = lastIndexWhere((e) => e.contains(RegExp(part.last)));
-      insert(index + 1, replacement(false));
-    } else {
-      List<int> indexes = [index];
-      while (!this[index].trim().contains(part.last) || index == length) {
-        index++;
-        indexes.add(index);
+    try {
+      int index = indexWhere((e) => e.trim().startsWith(part.first));
+      if (index == -1) {
+        index = lastIndexWhere((e) => e.startsWith('}'));
+        insert(index, replacement(false));
+      } else {
+        List<int> indexes = [index];
+        while (!this[index].trim().contains(part.last) || index == length) {
+          index++;
+          indexes.add(index);
+        }
+        removeRange(indexes.first, indexes.last + 1);
+        insert(indexes.first, replacement(true));
       }
-      removeRange(indexes.first, indexes.last + 1);
-      insert(indexes.first, replacement(true));
+    } catch (e) {
+      /* do nothing */
     }
   }
 
@@ -124,7 +130,7 @@ class ModelParser {
   final int end;
 
   static void run(File file) {
-    final data = file.readAsStringSync().split(RegExp(r'(?=@Model)|(?=@model)')).map((e) {
+    var data = file.readAsStringSync().split(RegExp(r'(?=@Model)|(?=@model)')).map((e) {
       if (e.trim().startsWith(RegExp(r'(?=@Model)|(?=@model)'))) {
         final value = e.split('\n');
         bool noToJSON = value.contain('toJSON: false', sources: ['@Model(...)']);
@@ -149,7 +155,8 @@ class ModelParser {
           value.replace('\tJSON get toJSON...;', replacement: (exist) {
             buffer.clear();
             for (var variable in variables) {
-              buffer.write("\t\t'${variable.name}': ${variable.name}${variable.toJSON ? '.toJSON' : ''}, \n");
+              buffer.write(
+                  "\t\t'${variable.key ?? variable.name}': ${variable.name}${variable.toJSON ? '.toJSON' : ''}, \n");
             }
             return '${exist ? '' : '\n\t@override\n'}'
                 '\tJSON get toJSON => {\n'
@@ -158,17 +165,18 @@ class ModelParser {
                 '\t};';
           });
         }
+
         if (model.fromJSON) {
           value.replace('static ${model.name} fromJSON...}', replacement: (exist) {
             buffer.clear();
             for (var variable in variables) {
               String content = variable.fromJSON
-                  ? "${variable.type}.fromJSON(value.of<JSON>('${variable.name}'))"
-                  : "value.of<${variable.type}>('${variable.name}')";
+                  ? "${variable.type}.fromJSON(value.of<JSON>('${variable.key ?? variable.name}'))"
+                  : "value.of<${variable.type}>('${variable.key ?? variable.name}')";
               if (model.immutable) {
                 buffer.write("\n\t\t\t${variable.name}: $content,");
               } else {
-                buffer.write("\n\t\t\t..${variable.name}= $content");
+                buffer.write("\n\t\t\t..${variable.name} = $content");
               }
             }
             String content = model.immutable
@@ -176,7 +184,8 @@ class ModelParser {
                     '$buffer'
                     '\n\t\t)'
                 : '\t\treturn ${model.name}()' '$buffer';
-            return '\tstatic ${model.name} fromJSON(JSON value) {\n'
+            return '${exist ? '' : '\n'}'
+                '\tstatic ${model.name} fromJSON(JSON value) {\n'
                 '$content'
                 ';\n\t}';
           });
@@ -185,6 +194,9 @@ class ModelParser {
       }
       return e;
     }).join('');
+    if (data.contains('immutable: false') && !data.contains('must_be_immutable')) {
+      data = '// ignore_for_file: must_be_immutable\n\n$data';
+    }
     file.writeAsStringSync(data);
   }
 
@@ -202,11 +214,13 @@ class ModelParser {
 
 class VariableParser {
   const VariableParser({
+    this.key,
     required this.type,
     required this.name,
     this.toJSON = false,
     this.fromJSON = false,
   });
+  final String? key;
   final String name;
   final String type;
   final bool toJSON;
@@ -220,10 +234,15 @@ class VariableParser {
         final values = value[index].split('\n');
         final range = values.range(['@Variable...)', '@variable']);
         String line = values[range.last + 1];
+        final key = RegExp(r'''(?<=name:).*(?<='|")''')
+            .stringMatch(values[range.last])
+            ?.trim()
+            .replaceAll(RegExp(r'''('|")'''), '');
         bool toJSON = values.contain('toJSON: true', sources: ['@Variable(...)']);
         bool fromJSON = values.contain('fromJSON: true', sources: ['@Variable(...)']);
         List<String> variable = line.replaceAll(RegExp(r'final |const |static |;'), '').trim().split(' ');
-        final model = VariableParser(type: variable[0], name: variable[1], toJSON: toJSON, fromJSON: fromJSON);
+        final model =
+            VariableParser(key: key, type: variable[0], name: variable[1], toJSON: toJSON, fromJSON: fromJSON);
         objects.add(model);
       }
     }
@@ -231,5 +250,12 @@ class VariableParser {
   }
 
   @override
-  String toString() => '$runtimeType(name; $name, type: $type, toJSON: $toJSON, fromJSON: $fromJSON)';
+  String toString() {
+    return '$runtimeType('
+        'key: $key, '
+        'name; $name, '
+        'type: $type, '
+        'toJSON: $toJSON, '
+        'fromJSON: $fromJSON)';
+  }
 }

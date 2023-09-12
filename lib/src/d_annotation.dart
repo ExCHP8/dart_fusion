@@ -17,9 +17,13 @@ class Variable {
   /// the annotated variable or field.
   const Variable({
     this.doc,
+    this.name,
     this.toJSON = false,
     this.fromJSON = false,
   });
+
+  /// Json key value
+  final String? name;
 
   /// Additional documentation for the variable or field.
   final String? doc;

@@ -10,7 +10,7 @@ class MutableModel extends DModel {
   @variable
   int status = 200;
 
-  @override
+	@override
 	JSON get toJSON => {
 		'message': message, 
 		'status': status, 
@@ -19,8 +19,8 @@ class MutableModel extends DModel {
 
 	static MutableModel fromJSON(JSON value) {
 		return MutableModel()
-			..message= value.of<String>('message')
-			..status= value.of<int>('status');
+			..message = value.of<String>('message')
+			..status = value.of<int>('status');
 	}
 }
 
@@ -38,14 +38,14 @@ class ImmutableModel extends DModel {
   @variable
   final int status;
 
-  @Variable(toJSON: true, fromJSON: true)
+  @Variable(name: 'mutable_model', toJSON: false, fromJSON: true)
   final MutableModel mutableModel;
 
-  @override
+	@override
 	JSON get toJSON => {
 		'message': message, 
 		'status': status, 
-		'mutableModel': mutableModel.toJSON, 
+		'mutable_model': mutableModel, 
 		...super.toJSON, 
 	};
 
@@ -53,7 +53,7 @@ class ImmutableModel extends DModel {
 		return ImmutableModel(
 			message: value.of<String>('message'),
 			status: value.of<int>('status'),
-			mutableModel: MutableModel.fromJSON(value.of<JSON>('mutableModel')),
+			mutableModel: MutableModel.fromJSON(value.of<JSON>('mutable_model')),
 		);
 	}
 }
