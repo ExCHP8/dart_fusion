@@ -10,7 +10,17 @@ class MutableModel extends DModel {
   @variable
   int status = 200;
 
-	@override
+  @override
+  MutableModel copyWith({
+    String? message,
+    int? status,
+  }) {
+    return MutableModel()
+      ..message = message ?? this.message
+      ..status = status ?? this.status;
+  }
+
+  @override
 	JSON get toJSON => {
 		'message': message, 
 		'status': status, 
@@ -41,13 +51,26 @@ class ImmutableModel extends DModel {
   @Variable(name: 'mutable_model', toJSON: false, fromJSON: true)
   final MutableModel mutableModel;
 
-	@override
+  @override
 	JSON get toJSON => {
 		'message': message, 
 		'status': status, 
 		'mutable_model': mutableModel, 
 		...super.toJSON, 
 	};
+
+  @override
+  ImmutableModel copyWith({
+    String? message,
+    int? status,
+    MutableModel? mutableModel,
+  }) {
+    return ImmutableModel(
+      message: message ?? this.message,
+      status: status ?? this.status,
+      mutableModel: mutableModel ?? this.mutableModel,
+    );
+  }
 
 	static ImmutableModel fromJSON(JSON value) {
 		return ImmutableModel(

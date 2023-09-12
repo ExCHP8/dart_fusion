@@ -149,7 +149,34 @@ class ModelParser {
           fromJSON: !noFromJSON,
           immutable: !noImmutable,
         );
-        print(model);
+
+        if (model.copyWith) {
+          value.replace('\t${model.name} copyWith...;}', replacement: (exist) {
+            buffer.clear();
+            for (var variable in variables) {
+              buffer.write("\t\t${variable.type}? ${variable.name}, \n");
+            }
+            buffer.write('\t}) {\n');
+            if (model.immutable) {
+              buffer.write('\t\treturn ${model.name}(\n');
+              for (var variable in variables) {
+                buffer.write('\t\t\t${variable.name}: ${variable.name} ?? this.${variable.name},\n');
+              }
+              buffer.write('\t\t);\n');
+            } else {
+              buffer.write('\t\treturn ${model.name}()\n');
+              for (int index = 0; index < variables.length; index++) {
+                buffer.write(
+                    '\t\t\t..${variables[index].name} = ${variables[index].name} ?? this.${variables[index].name}${index == variables.length - 1 ? ';\n' : '\n'}');
+              }
+            }
+
+            return '${exist ? '' : '\n\t@override\n'}'
+                '\t${model.name} copyWith({\n'
+                '$buffer'
+                '\t}';
+          });
+        }
 
         if (model.toJSON) {
           value.replace('\tJSON get toJSON...;', replacement: (exist) {
