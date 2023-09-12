@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 part of '../dart_fusion.dart';
 
 void insertAsset({required ArgResults from}) {
@@ -16,7 +14,7 @@ void insertAsset({required ArgResults from}) {
         ..createSync(recursive: true);
     }
   } catch (e) {
-    print('\n\x1B[31m$e\x1B[0m\n'
+    print('\n\x1B[31m$e\x1B[0m\n\n'
         '+---------------+-----------------------------------------------+\n'
         '| OPTION\t| DESCRIPTION\t\t\t\t\t|\n'
         '+---------------+-----------------------------------------------+\n'

@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 part of '../dart_fusion.dart';
 
 void insertModel({required ArgResults from}) {

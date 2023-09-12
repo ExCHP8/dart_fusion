@@ -1,8 +1,10 @@
-// ignore_for_file: avoid_print
-
+import 'dart:convert';
 import 'dart:io';
 import 'package:args/args.dart';
+import 'package:http/http.dart' as http;
+
 part 'src/asset.dart';
+part 'src/localization.dart';
 part 'src/model.dart';
 
 Future<void> main(List<String> arguments) async {
@@ -11,8 +13,10 @@ Future<void> main(List<String> arguments) async {
     ..addOption('output', abbr: 'o', defaultsTo: 'lib/src/assets.dart', help: 'Output file of generated asset class')
     ..addFlag('help', abbr: 'h', negatable: false, defaultsTo: false, help: 'Print this usage information');
   ArgParser translator = ArgParser()
-    ..addOption('input', abbr: 'i')
-    ..addOption('output', abbr: 'o')
+    ..addOption('input',
+        abbr: 'i',
+        defaultsTo: 'assets/translation/',
+        help: 'Input directory of where the JSON translations took place.')
     ..addFlag('help', abbr: 'h', negatable: false, defaultsTo: false, help: 'Print this usage information');
   ArgParser generator = ArgParser()
     ..addOption('input', abbr: 'i', defaultsTo: '', help: 'Input directory of where the models took place.')
@@ -29,7 +33,7 @@ Future<void> main(List<String> arguments) async {
     } else if (argument?.name == 'model') {
       insertModel(from: argument!);
     } else if (argument?.name == 'localize') {
-      print("\x1B[31mThe feature has not yet been developed 🚧.\x1B[0m");
+      await insertLocalization(from: argument!);
     } else {
       throw '\x1B[0mAvailable commands :';
     }
