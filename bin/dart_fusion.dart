@@ -13,11 +13,14 @@ Future<void> main(List<String> arguments) async {
     ..addOption('output', abbr: 'o', defaultsTo: 'lib/src/assets.dart', help: 'Output file of generated asset class')
     ..addFlag('help', abbr: 'h', negatable: false, defaultsTo: false, help: 'Print this usage information');
   ArgParser translator = ArgParser()
+    ..addOption('api-key', mandatory: true, help: 'Lecto api key')
     ..addOption('input',
         abbr: 'i',
-        defaultsTo: 'assets/translation/',
+        defaultsTo: 'assets/translation/en.json',
         help: 'Input directory of where the JSON translations took place.')
-    ..addFlag('help', abbr: 'h', negatable: false, defaultsTo: false, help: 'Print this usage information');
+    ..addFlag('help', abbr: 'h', negatable: false, defaultsTo: false, help: 'Print this usage information')
+    ..addOption('from', defaultsTo: 'en', allowed: languages, help: 'Base language used to translate')
+    ..addMultiOption('to', defaultsTo: languages, allowed: languages, help: 'Targeted translation languagees');
   ArgParser generator = ArgParser()
     ..addOption('input', abbr: 'i', defaultsTo: '', help: 'Input directory of where the models took place.')
     ..addFlag('help', abbr: 'h', negatable: false, defaultsTo: false, help: 'Print this usage information');

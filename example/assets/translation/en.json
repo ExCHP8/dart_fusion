@@ -5,5 +5,6 @@
     },
     "interpolated": "Have a nice day, {{name}}!",
     "pluralKey_one": "This is a nice example.",
-    "pluralKey_other": "This are nice examples."
+    "pluralKey_other": "This are nice examples.",
+    "testing": "this is a test"
   }
