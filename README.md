@@ -14,12 +14,10 @@ A library that brings together a harmonious blend of essential tools, utilities,
   - [Usage](#dart-fusion-cli-usage)
 - [D Annotation](#d-annotation)
   - [Usage](#d-annotation-usage)
-- [D' Behavior](#dbehavior)
-  - [Key Features](#dbehavior-features)
-  - [Usage](#dbehavior-usage)
-- [D' Builder](#dbuilder)
-  - [Key Features](#dbuilder-features)
-  - [Usage](#dbuilder-usage)
+- [D Behavior](#d-behavior)
+  - [Usage](#d-behavior-usage)
+- [D Builder](#d-builder)
+  - [Usage](#d-builder-usage)
 - [D' Button](#dbutton)
   - [Key Features](#dbutton-features)
   - [Usage](#dbutton-usage)
@@ -167,23 +165,66 @@ D Annotation is a set of class used as an indicator for `Dart Fusion CLI` model 
   This will resulting something like this
   ```dart
   @model
-  class MyClass {
+  class MyClass extends DModel {
+    const MyClass({required this.title, required this.value});
+    
     @Variable(name: 'd_model', toJSON: true, fromJSON: true)
     final DModel value;
 
-    @override
-    MyClass copyWith(DModel? value) {
-      return MyClass(value: value ?? this.value);
-     }
+    @variable
+    final String title;
 
     @override
-    JSON get toJSON => {'d_model': value.toJSON};
+    MyClass copyWith({DModel? value, String? title}) {
+      return MyClass(
+        value: value ?? this.value,
+        title: title ?? this.title,
+      );
+    }
+
+    @override
+    JSON get toJSON => {
+      'd_model': value.toJSON,
+      'title': title,
+    };
 
     static MyClass fromJSON(JSON value){
-       return MyClass(value: DModel.fromJSON(value.of<JSON>('d_model')));
-     }
-   }
+      return MyClass(
+        value: DModel.fromJSON(value.of<JSON>('d_model'),
+        title: value.of<String>('title'))
+      );
+    }
+  }
   ```
+---
+
+# D Behavior
+D Behavior is a custom scroll behavior for controlling the scrolling physics of scrollable widgets.
+
+## <a name="d-behavior-usage"></a> Usage
+```dart
+ScrollConfiguration(
+  behavior: DBehavior(
+    physics: BouncingScrollPhysics()),
+  child: ListView(),
+);
+```
+---
+
+# D Builder
+D Builder is a widget that builds its child using a custom builder function with optional data.
+
+## <a name="d-builder-usage"></a> Usage
+```dart
+DBuilder(
+  data: {"name": "John", "age": 30},
+  builder: (context, data) {
+    final name = value.of<String>("name");
+    final age = data.of<int>("age");
+    return Text("My name is $name and I am $age years old.");
+  },
+)
+```
 ---
 
 The AppStateWidget library offers a solution to simplify the boilerplate code commonly associated with using StatefulWidget. By providing a clean and efficient approach, it enhances the developer experience. Designed with convenience and simplicity in mind, AppStateWidget streamlines the development process, allowing you to focus on building intuitive user interfaces without getting bogged down by repetitive code.
