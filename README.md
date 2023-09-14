@@ -124,17 +124,63 @@ The Dart Fusion CLI is a command-line tool that provides a set of utilities to s
   ```dart
   Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
-    await DartFusion.initialize(asset: true, model: true, localization: true);
+    await DartFusion.initialize(asset: true, model: true, localizationAPI: '4Z5H0ZS-QHZM2Z8-NTYP640-38D9RFF');
     runApp(...);
   }
   ```
 
 ---
 # D Annotation
-D Annotation is a set of class used as an indicator in dart fusion cli model generation
+D Annotation is a set of class used as an indicator for `Dart Fusion CLI` model generation
 
 ## <a name="d-annotation-usage"></a> Usage
+- **Model**: Annotation of class as an indicator to generate a `fromJSON`, `toJSON` and `copyWith` inside the annotated class.
+  ```dart
+  @model
+  class MyClass extends DModel {}
 
+  // or you can annotate it like this
+
+  @Model(immutable: true, copyWith: true, fromJSON: true, toJSON: true)
+  class MyClass extends DModel {}
+  ```
+- **Variable**: Annotation of variable inside a model class with `@Model` annotation.
+  ```dart
+  @variable
+  final DModel value;
+  
+  // or you can annotate it like this
+  
+  @Variable(name: 'd_model', toJSON: true, fromJSON: true)
+  final DModel value;
+  ```
+
+  And when you run
+  ```bash
+  dart run dart_fusion model
+  ```
+
+  This will resulting something like this
+  ```dart
+  @model
+  class MyClass {
+    @Variable(name: 'd_model', toJSON: true, fromJSON: true)
+    final DModel value;
+
+    @override
+    MyClass copyWith(DModel? value) {
+      return MyClass(value: value ?? this.value);
+     }
+
+    @override
+    JSON get toJSON => {'d_model': value.toJSON};
+
+    static MyClass fromJSON(JSON value){
+       return MyClass(value: DModel.fromJSON(value.of<JSON>('d_model')));
+     }
+   }
+  ```
+---
 
 The AppStateWidget library offers a solution to simplify the boilerplate code commonly associated with using StatefulWidget. By providing a clean and efficient approach, it enhances the developer experience. Designed with convenience and simplicity in mind, AppStateWidget streamlines the development process, allowing you to focus on building intuitive user interfaces without getting bogged down by repetitive code.
 
