@@ -12,9 +12,8 @@ A library that brings together a harmonious blend of essential tools, utilities,
   - [Documentation](#documentation)
 - [Dart Fusion CLI](#dart-fusion-cli)
   - [Usage](#dart-fusion-cli-usage)
-- [D' Annotation](#dannotation)
-  - [Key Features](#dannotation-feature)
-  - [Usage](#dannotation-usage)
+- [D Annotation](#d-annotation)
+  - [Usage](#d-annotation-usage)
 - [D' Behavior](#dbehavior)
   - [Key Features](#dbehavior-features)
   - [Usage](#dbehavior-usage)
@@ -120,7 +119,21 @@ The Dart Fusion CLI is a command-line tool that provides a set of utilities to s
   | --to          | Targeted translation languages                                 |
   |               | default to `["af", "sq", "am", "ar", "hy", "az", "be", "bel", "bn", "bs", "bg", "ca", "ceb", "zh-CN", "zh-TW", "hr", "cs", "da", "nl", "en", "et", "tl", "fi", "fr", "fy", "gl", "ka", "de", "el", "gu", "ht", "ha", "he", "hi", "hu", "is", "ig", "id", "ga", "it", "ja", "kn", "kk", "km", "ko", "lo", "lv", "lt", "lb", "mk", "mg", "ms", "ml", "mr", "mn", "my", "ne", "nb", "no", "or", "ps", "fa", "pl", "pt", "pt-BR", "pt-PT", "pa", "ro", "ru", "gd", "sr", "sd", "si", "sk", "sl", "so", "es", "su", "sw", "sv", "ta", "th", "tr", "uk", "ur", "uz", "vi", "cy", "xh", "yi", "yo", "zu"]`
   | -h, --help    | Print this usage information.                                  |
+
+  But this command can also be automatically run by initiating this
+  ```dart
+  Future<void> main() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await DartFusion.initialize(asset: true, model: true, localization: true);
+    runApp(...);
+  }
+  ```
+
 ---
+# D Annotation
+D Annotation is a set of class used as an indicator in dart fusion cli model generation
+
+## <a name="d-annotation-usage"></a> Usage
 
 
 The AppStateWidget library offers a solution to simplify the boilerplate code commonly associated with using StatefulWidget. By providing a clean and efficient approach, it enhances the developer experience. Designed with convenience and simplicity in mind, AppStateWidget streamlines the development process, allowing you to focus on building intuitive user interfaces without getting bogged down by repetitive code.
