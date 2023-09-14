@@ -20,9 +20,9 @@ extension NumberLimiter<Number extends num> on Number {
           : this;
 }
 
-/// Extensioning values used in [AppStateValue].
-extension AppStateExtension on DStateValue {
-  /// A shortcut to call value from [AppStateValue.data].
+/// Extensioning values used in [DStateValue].
+extension DStateExtension on DStateValue {
+  /// A shortcut to call value from [DStateValue.data].
   ///
   /// ```dart
   /// final controller = state.value<TextEditingController>('controller');
@@ -73,7 +73,8 @@ extension AppJson on JSON {
       } else if (T is DateTime) {
         return DateTime.now() as T;
       } else {
-        throw const FormatException('Type is not provided, use <JSON>{}.maybeOf("key") instead.');
+        throw const FormatException(
+            'Type is not provided, use <JSON>{}.maybeOf("key") instead.');
       }
     }
 
@@ -99,7 +100,8 @@ extension OnContext on BuildContext {
   TextTheme get text => theme.textTheme;
 
   /// The [BottomNavigationBarThemeData] defined for the current [ThemeData].
-  BottomNavigationBarThemeData get bottomTheme => theme.bottomNavigationBarTheme;
+  BottomNavigationBarThemeData get bottomTheme =>
+      theme.bottomNavigationBarTheme;
 
   /// The [MediaQueryData] for this [BuildContext].
   MediaQueryData get query => MediaQuery.of(this);
@@ -125,10 +127,10 @@ extension OnContext on BuildContext {
   /// is greater than 600.0 and less than 700.0, indicating it's a tablet-sized device.
   bool get isTablet => !isPhone && !isDesktop;
 
-  /// Getting [AppStateValue] from its descendant.
+  /// Getting [DStateValue] from its descendant.
   DStateValue? get appstate => DStateInherited.of(this)?.value;
 
-  /// A shortcut to get [AppStateValue.data] with [BuildContext].
+  /// A shortcut to get [DStateValue.data] with [BuildContext].
   T? value<T extends Object?>(String key) => appstate?.value<T>(key);
 }
 
@@ -140,8 +142,12 @@ extension ListExtension<OldValue extends Object?> on List<OldValue> {
   /// List<String> texts = ["one", "two", "three"];
   /// List<Widget> widgets = texts.to((index, item) => Text("$index: $item"));
   /// ```
-  List<NewValue> to<NewValue extends Object?>(NewValue Function(int index, OldValue item) value) =>
-      asMap().entries.map<NewValue>((map) => value(map.key, map.value)).toList();
+  List<NewValue> to<NewValue extends Object?>(
+          NewValue Function(int index, OldValue item) value) =>
+      asMap()
+          .entries
+          .map<NewValue>((map) => value(map.key, map.value))
+          .toList();
 
   /// A shortcut of extended sublits with safety.
   List<OldValue> limit(int start, int length) {
@@ -172,7 +178,8 @@ extension GoRouteExtension on GoRoute {
 }
 
 extension StringExtension on String {
-  String add({required Map<String, String> key}) => key.entries.fold(this, (output, entry) {
+  String add({required Map<String, String> key}) =>
+      key.entries.fold(this, (output, entry) {
         return output.replaceAll(entry.key, entry.value);
       });
 

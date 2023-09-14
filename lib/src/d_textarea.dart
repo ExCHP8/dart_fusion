@@ -52,7 +52,8 @@ class DTextArea extends StatelessWidget {
               margin: margin,
               decoration: decoration ??
                   BoxDecoration(
-                    color: backgroundColor ?? context.color.background.withOpacity(0.5),
+                    color: backgroundColor ??
+                        context.color.background.withOpacity(0.5),
                     borderRadius: borderRadius,
                   ),
               child: Column(
@@ -63,7 +64,9 @@ class DTextArea extends StatelessWidget {
                         textAlign: textAlign,
                         controller: controller,
                         cursorColor: cursorColor ?? context.color.onBackground,
-                        style: textStyle ?? context.text.bodyMedium?.copyWith(color: context.color.onBackground),
+                        style: textStyle ??
+                            context.text.bodyMedium
+                                ?.copyWith(color: context.color.onBackground),
                         maxLines: maxLines,
                         minLines: minLines,
                         onSubmitted: onSubmitted,
@@ -76,14 +79,21 @@ class DTextArea extends StatelessWidget {
                             suffixIcon: suffixIcon,
                             prefixIcon: prefixIcon,
                             hintStyle: hintStyle ??
-                                context.text.bodyMedium
-                                    ?.copyWith(color: context.color.onBackground.withOpacity(0.5), height: 0.0),
+                                context.text.bodyMedium?.copyWith(
+                                    color: context.color.onBackground
+                                        .withOpacity(0.5),
+                                    height: 0.0),
                             focusedBorder: OutlineInputBorder(
-                                borderSide: borderSideActive ?? BorderSide(color: context.color.onBackground),
-                                borderRadius: borderRadius ?? BorderRadius.circular(4.0)),
+                                borderSide: borderSideActive ??
+                                    BorderSide(
+                                        color: context.color.onBackground),
+                                borderRadius:
+                                    borderRadius ?? BorderRadius.circular(4.0)),
                             enabledBorder: OutlineInputBorder(
-                                borderSide: borderSideIdle ?? BorderSide(color: context.color.outline),
-                                borderRadius: borderRadius ?? BorderRadius.circular(4.0)))),
+                                borderSide: borderSideIdle ??
+                                    BorderSide(color: context.color.outline),
+                                borderRadius: borderRadius ??
+                                    BorderRadius.circular(4.0)))),
                   ),
                   if (footer != null) footer!
                 ],

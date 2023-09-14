@@ -18,32 +18,32 @@ class ImmutableModel extends DModel {
   @Variable(toJSON: true, fromJSON: true)
   final MutableModel model;
 
-	@override
-	ImmutableModel copyWith({
-		String? message, 
-		int? status, 
-		MutableModel? model, 
-	}) {
-		return ImmutableModel(
-			message: message ?? this.message,
-			status: status ?? this.status,
-			model: model ?? this.model,
-		);
-	}
+  @override
+  ImmutableModel copyWith({
+    String? message,
+    int? status,
+    MutableModel? model,
+  }) {
+    return ImmutableModel(
+      message: message ?? this.message,
+      status: status ?? this.status,
+      model: model ?? this.model,
+    );
+  }
 
-	@override
-	JSON get toJSON => {
-		'message': message, 
-		'status': status, 
-		'model': model.toJSON, 
-		...super.toJSON, 
-	};
+  @override
+  JSON get toJSON => {
+        'message': message,
+        'status': status,
+        'model': model.toJSON,
+        ...super.toJSON,
+      };
 
-	static ImmutableModel fromJSON(JSON value) {
-		return ImmutableModel(
-			message: value.of<String>('message'),
-			status: value.of<int>('status'),
-			model: MutableModel.fromJSON(value.of<JSON>('model')),
-		);
-	}
+  static ImmutableModel fromJSON(JSON value) {
+    return ImmutableModel(
+      message: value.of<String>('message'),
+      status: value.of<int>('status'),
+      model: MutableModel.fromJSON(value.of<JSON>('model')),
+    );
+  }
 }

@@ -2,16 +2,13 @@ part of '../dart_fusion.dart';
 
 /// A widget that builds its child using a custom builder function with optional data.
 ///
-/// The [data] parameter is an optional JSON object that can be used to pass data to the builder function.
-/// The [builder] parameter is a required function that takes a [BuildContext] and [JSON] data, and returns a [Widget].
-///
 /// Example:
 /// ```dart
 /// DBuilder(
 ///   data: {"name": "John", "age": 30},
 ///   builder: (context, data) {
-///     final name = value["name"] as String;
-///     final age = data["age"] as int;
+///     final name = value.of<String>("name");
+///     final age = data.of<int>("age");
 ///     return Text("My name is $name and I am $age years old.");
 ///   },
 /// )
@@ -19,8 +16,22 @@ part of '../dart_fusion.dart';
 class DBuilder extends StatelessWidget {
   /// Creates an [DBuilder] widget with the specified builder function and optional data.
   ///
-  /// The [data] parameter is an optional JSON object that can be used to pass data to the builder function.
-  /// The [builder] parameter is a required function that takes a [BuildContext] and [JSON] data, and returns a [Widget].
+  /// The [data] parameter is an optional JSON object that can be used to pass
+  /// data to the builder function.
+  /// The [builder] parameter is a required function that takes
+  /// a [BuildContext] and [JSON] data, and returns a [Widget].
+  ///
+  /// Example:
+  /// ```dart
+  /// DBuilder(
+  ///   data: {"name": "John", "age": 30},
+  ///   builder: (context, data) {
+  ///     final name = value.of<String>("name");
+  ///     final age = data.of<int>("age");
+  ///     return Text("My name is $name and I am $age years old.");
+  ///   },
+  /// )
+  /// ```
   const DBuilder({
     super.key,
     this.data = const {},

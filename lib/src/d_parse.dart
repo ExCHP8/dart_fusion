@@ -147,7 +147,7 @@ class DParse {
     }
   }
 
-  /// Parsing message error outside of [ResponseException].
+  /// Parsing message error outside of `ResponseException`.
   static String errorMessage(String value) {
     switch (value) {
       case 'FormatException: Unexpected end of input (at character 1)\n\n^\n':

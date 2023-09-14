@@ -95,7 +95,8 @@ class DStateInherited extends InheritedWidget {
   }) : super(child: child);
 
   @override
-  bool updateShouldNotify(covariant InheritedWidget oldWidget) => oldWidget != this;
+  bool updateShouldNotify(covariant InheritedWidget oldWidget) =>
+      oldWidget != this;
 
   /// A shortcut to call [DStateInherited] from [BuildContext].
   static DStateInherited? of(BuildContext context) {

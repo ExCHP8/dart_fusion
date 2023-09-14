@@ -29,20 +29,32 @@ class DartFusion {
   static Future<void> initialize({
     bool asset = true,
     bool model = true,
-    bool localization = true,
+    String? localizationAPI,
   }) async {
     if (kDebugMode) {
       try {
         if (asset) {
-          final process = await Process.run('dart', ['run', 'dart_fusion', 'asset'], runInShell: true);
+          final process = await Process.run(
+              'dart', ['run', 'dart_fusion', 'asset'],
+              runInShell: true);
           print('\x1B[33m[Asset]\x1B[0m ${process.stdout}${process.stderr}');
         }
         if (model) {
-          final process = await Process.run('dart', ['run', 'dart_fusion', 'model'], runInShell: true);
+          final process = await Process.run(
+              'dart', ['run', 'dart_fusion', 'model'],
+              runInShell: true);
           print('\x1B[33m[Model]\x1B[0m ${process.stdout}${process.stderr}');
         }
-        if (localization) {
-          final process = await Process.run('dart', ['run', 'dart_fusion', 'localize'], runInShell: true);
+        if (localizationAPI != null) {
+          final process = await Process.run(
+              'dart',
+              [
+                'run',
+                'dart_fusion',
+                'localize',
+                '--api-key="$localizationAPI"',
+              ],
+              runInShell: true);
           print('\x1B[33m[Localize]\x1B[0m ${process.stdout}${process.stderr}');
         }
       } catch (e) {

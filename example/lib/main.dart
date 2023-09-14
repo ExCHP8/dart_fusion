@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await DartFusion.initialize(localization: false);
+  await DartFusion.initialize(
+      localizationAPI: '4Z5H0ZS-QHZM2Z8-NTYP640-38D9RFF');
   runApp(const MyApp());
 }
 

@@ -33,13 +33,15 @@ class DModel extends Equatable {
   static DModel fromJSON(JSON value) => const DModel();
 
   @override
-  List<Object?> get props => toJSON.entries.map((e) => '${e.key}: ${e.value}').toList();
+  List<Object?> get props =>
+      toJSON.entries.map((e) => '${e.key}: ${e.value}').toList();
 
   @override
-  String toString() => toJSON.entries.map((e) => '${e.key}: ${e.value}').toString();
+  String toString() =>
+      toJSON.entries.map((e) => '${e.key}: ${e.value}').toString();
 }
 
-/// Basic model in root of every [Response], containing [success] status,
+/// Basic model in root of every `Response`, containing [success] status,
 /// [message] and also [data] that extends [DModel] class.
 ///
 /// ```dart

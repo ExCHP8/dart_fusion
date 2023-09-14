@@ -111,12 +111,16 @@ class DImage<Source extends Object> extends StatelessWidget {
               height: size?.height,
               fit: fit,
               alignment: alignment,
-              errorBuilder: errorBuilder, frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+              errorBuilder: errorBuilder,
+              frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
             if (placeholderBuilder != null && frame == null) {
               return placeholderBuilder!(context);
             }
             return child;
-          }, semanticLabel: semanticsLabel, color: color, colorBlendMode: colorBlendMode);
+          },
+              semanticLabel: semanticsLabel,
+              color: color,
+              colorBlendMode: colorBlendMode);
         }
       } else {
         final source = this.source.toString();
@@ -139,12 +143,16 @@ class DImage<Source extends Object> extends StatelessWidget {
                 height: size?.height,
                 fit: fit,
                 alignment: alignment,
-                errorBuilder: errorBuilder, frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                errorBuilder: errorBuilder,
+                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
               if (placeholderBuilder != null && frame == null) {
                 return placeholderBuilder!(context);
               }
               return child;
-            }, semanticLabel: semanticsLabel, color: color, colorBlendMode: colorBlendMode);
+            },
+                semanticLabel: semanticsLabel,
+                color: color,
+                colorBlendMode: colorBlendMode);
           }
         } else {
           final source = this.source.toString();
@@ -167,7 +175,8 @@ class DImage<Source extends Object> extends StatelessWidget {
                 fit: fit,
                 alignment: alignment,
                 errorBuilder: errorBuilder,
-                semanticLabel: semanticsLabel, frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                semanticLabel: semanticsLabel,
+                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
               if (placeholderBuilder != null && frame == null) {
                 return placeholderBuilder!(context);
               }

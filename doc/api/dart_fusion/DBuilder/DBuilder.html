@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the DBuilder constructor from Class DBuilder from the dart_fusion library, for the Dart programming language.">
+  <title>DBuilder constructor - DBuilder - dart_fusion library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">dart_fusion</a></li>
+    <li><a href="../../dart_fusion/dart_fusion-library.html">dart_fusion</a></li>
+    <li><a href="../../dart_fusion/DBuilder-class.html">DBuilder</a></li>
+    <li class="self-crumb">DBuilder const constructor</li>
+  </ol>
+  <div class="self-name">DBuilder</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <div class="toggle" id="theme-button">
+    <label for="theme">
+      <input type="checkbox" id="theme" value="light-theme">
+      <span id="dark-theme-button" class="material-symbols-outlined">
+        brightness_4
+      </span>
+      <span id="light-theme-button" class="material-symbols-outlined">
+        brightness_5
+      </span>
+    </label>
+  </div>
+</header>
+<main>
+
+  <div
+      id="dartdoc-main-content"
+      class="main-content"
+      data-above-sidebar="dart_fusion&#47;DBuilder-class-sidebar.html"
+      data-below-sidebar="">
+      <div>
+<h1><span class="kind-constructor">DBuilder</span> constructor 
+</h1></div>
+
+    <section class="multi-line-signature">
+      const
+      <span class="name ">DBuilder</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="-param-key">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/foundation/Key-class.html">Key</a>?</span> <span class="parameter-name">key</span>, </span></li>
+<li><span class="parameter" id="-param-data"><span class="type-annotation"><a href="../../dart_fusion/JSON.html">JSON</a></span> <span class="parameter-name">data</span> = <span class="default-value">const {}</span>, </span></li>
+<li><span class="parameter" id="-param-builder"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span> <span class="parameter-name">builder</span>(<ol class="parameter-list"><li><span class="parameter" id="param-context"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html">BuildContext</a></span> <span class="parameter-name">context</span>, </span></li>
+<li><span class="parameter" id="param-data"><span class="type-annotation"><a href="../../dart_fusion/JSON.html">JSON</a></span> <span class="parameter-name">data</span></span></li>
+</ol>
+)}</span></li>
+</ol>)
+    </section>
+
+    
+<section class="desc markdown">
+  <p>Creates an <a href="../../dart_fusion/DBuilder-class.html">DBuilder</a> widget with the specified builder function and optional data.</p>
+<p>The <a href="../../dart_fusion/DBuilder/data.html">data</a> parameter is an optional JSON object that can be used to pass
+data to the builder function.
+The <a href="../../dart_fusion/DBuilder/builder.html">builder</a> parameter is a required function that takes
+a <a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html">BuildContext</a> and <a href="../../dart_fusion/JSON.html">JSON</a> data, and returns a <a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a>.</p>
+<p>Example:</p>
+<pre class="language-dart"><code class="language-dart">DBuilder(
+  data: {"name": "John", "age": 30},
+  builder: (context, data) {
+    final name = value.of&lt;String&gt;("name");
+    final age = data.of&lt;int&gt;("age");
+    return Text("My name is $name and I am $age years old.");
+  },
+)
+</code></pre>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">const DBuilder</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">dart_fusion</a></li>
+    <li><a href="../../dart_fusion/dart_fusion-library.html">dart_fusion</a></li>
+    <li><a href="../../dart_fusion/DBuilder-class.html">DBuilder</a></li>
+    <li class="self-crumb">DBuilder const constructor</li>
+</ol>
+
+
+    <h5>DBuilder class</h5>
+  </div><!--/.sidebar-offcanvas-left-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    dart_fusion
+      2.3.0
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+

@@ -2,7 +2,7 @@ part of '../dart_fusion.dart';
 
 /// A simple logging utility for printing log messages with customizable log levels.
 class DLog {
-  /// Creates a new [AppLog] instance with the given [message] and optional [level].
+  /// Creates a new [DLog] instance with the given [message] and optional [level].
   /// By default, the log level is set to [Level.info].
   ///
   /// Example:

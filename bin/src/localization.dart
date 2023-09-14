@@ -11,9 +11,10 @@ Future<void> insertLocalization({required ArgResults from}) async {
       File input = File(from['input']);
       Map<String, dynamic> json = jsonDecode(input.readAsStringSync());
       for (var lang in target..removeWhere((e) => e == base)) {
-        final translation = await json.translate(from: base, to: lang, api: api);
-        File('${input.parent.path}/$lang.json')
-            .writeAsStringSync(const JsonEncoder.withIndent('  ').convert(translation));
+        final translation =
+            await json.translate(from: base, to: lang, api: api);
+        File('${input.parent.path}/$lang.json').writeAsStringSync(
+            const JsonEncoder.withIndent('  ').convert(translation));
       }
     }
   } catch (e) {
@@ -36,23 +37,26 @@ Future<void> insertLocalization({required ArgResults from}) async {
 }
 
 extension JSONExtension on Map<String, dynamic> {
-  Future<Map<String, dynamic>> translate({required String from, required String to, required String api}) async {
+  Future<Map<String, dynamic>> translate(
+      {required String from, required String to, required String api}) async {
     Map<String, dynamic> result = {};
     int index = 0;
 
     for (var item in entries) {
       try {
         if (item.value is Map<String, dynamic>) {
-          result[item.key] =
-              await (item.value as Map<String, dynamic>).translate(from: from, to: to, api: api); // Recursive call
+          result[item.key] = await (item.value as Map<String, dynamic>)
+              .translate(from: from, to: to, api: api); // Recursive call
         } else {
-          List<String> values = item.value.toString().split(RegExp(r'(?={{)|(?<=}})'));
+          List<String> values =
+              item.value.toString().split(RegExp(r'(?={{)|(?<=}})'));
           List<String> newValues = [];
           for (var value in values) {
             if (value.trim().startsWith('{{')) {
               newValues.add(value);
             } else {
-              final translation = await processing(text: item.value, from: from, to: to, api: api);
+              final translation = await processing(
+                  text: item.value, from: from, to: to, api: api);
               newValues.add(translation ?? value);
             }
           }
@@ -63,7 +67,8 @@ extension JSONExtension on Map<String, dynamic> {
         result[item.key] = item.value;
       }
 
-      stdout.write('\rTranslating $to ${(((index + 1) / length) * 100).toInt()}%          ');
+      stdout.write(
+          '\rTranslating $to ${(((index + 1) / length) * 100).toInt()}%          ');
       index++;
     }
 
@@ -72,20 +77,24 @@ extension JSONExtension on Map<String, dynamic> {
 }
 
 Future<String?> processing(
-    {required String text, required String from, required String to, required String api}) async {
+    {required String text,
+    required String from,
+    required String to,
+    required String api}) async {
   Map<String, dynamic> json = {};
   try {
-    final response = await http.post(Uri.parse('https://api.lecto.ai/v1/translate/text'),
-        headers: {
-          'X-API-Key': api,
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: jsonEncode({
-          "texts": [text],
-          "to": [to],
-          "from": from
-        }));
+    final response =
+        await http.post(Uri.parse('https://api.lecto.ai/v1/translate/text'),
+            headers: {
+              'X-API-Key': api,
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: jsonEncode({
+              "texts": [text],
+              "to": [to],
+              "from": from
+            }));
     json = jsonDecode(response.body);
     return json['translations']![0]!['translated']![0];
   } catch (e) {

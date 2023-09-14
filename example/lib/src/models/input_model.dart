@@ -21,17 +21,17 @@ class MutableModel extends DModel {
   }
 
   @override
-	JSON get toJSON => {
-		'message': message, 
-		'status': status, 
-		...super.toJSON, 
-	};
+  JSON get toJSON => {
+        'message': message,
+        'status': status,
+        ...super.toJSON,
+      };
 
-	static MutableModel fromJSON(JSON value) {
-		return MutableModel()
-			..message = value.of<String>('message')
-			..status = value.of<int>('status');
-	}
+  static MutableModel fromJSON(JSON value) {
+    return MutableModel()
+      ..message = value.of<String>('message')
+      ..status = value.of<int>('status');
+  }
 }
 
 @model
@@ -52,12 +52,12 @@ class ImmutableModel extends DModel {
   final MutableModel mutableModel;
 
   @override
-	JSON get toJSON => {
-		'message': message, 
-		'status': status, 
-		'mutable_model': mutableModel, 
-		...super.toJSON, 
-	};
+  JSON get toJSON => {
+        'message': message,
+        'status': status,
+        'mutable_model': mutableModel,
+        ...super.toJSON,
+      };
 
   @override
   ImmutableModel copyWith({
@@ -72,11 +72,11 @@ class ImmutableModel extends DModel {
     );
   }
 
-	static ImmutableModel fromJSON(JSON value) {
-		return ImmutableModel(
-			message: value.of<String>('message'),
-			status: value.of<int>('status'),
-			mutableModel: MutableModel.fromJSON(value.of<JSON>('mutable_model')),
-		);
-	}
+  static ImmutableModel fromJSON(JSON value) {
+    return ImmutableModel(
+      message: value.of<String>('message'),
+      status: value.of<int>('status'),
+      mutableModel: MutableModel.fromJSON(value.of<JSON>('mutable_model')),
+    );
+  }
 }

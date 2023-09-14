@@ -39,7 +39,7 @@ class DOverlayController extends OverlayEntry {
     DOverlayController controller,
   ) child;
 
-  /// Creates an [AppOverlay] with the provided [child].
+  /// Creates an [DOverlay] with the provided [child].
   ///
   /// The [child] widget will be displayed on top of other content when the overlay is shown.
   DOverlayController({

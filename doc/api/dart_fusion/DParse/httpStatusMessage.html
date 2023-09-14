@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the httpStatusMessage method from the DParse class, for the Dart programming language.">
+  <title>httpStatusMessage method - DParse class - dart_fusion library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">dart_fusion</a></li>
+    <li><a href="../../dart_fusion/dart_fusion-library.html">dart_fusion</a></li>
+    <li><a href="../../dart_fusion/DParse-class.html">DParse</a></li>
+    <li class="self-crumb">httpStatusMessage static method</li>
+  </ol>
+  <div class="self-name">httpStatusMessage</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <div class="toggle" id="theme-button">
+    <label for="theme">
+      <input type="checkbox" id="theme" value="light-theme">
+      <span id="dark-theme-button" class="material-symbols-outlined">
+        brightness_4
+      </span>
+      <span id="light-theme-button" class="material-symbols-outlined">
+        brightness_5
+      </span>
+    </label>
+  </div>
+</header>
+<main>
+
+  <div
+      id="dartdoc-main-content"
+      class="main-content"
+      data-above-sidebar="dart_fusion&#47;DParse-class-sidebar.html"
+      data-below-sidebar="">
+      <div>
+<h1><span class="kind-method">httpStatusMessage</span> static method 
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+<span class="name ">httpStatusMessage</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="httpStatusMessage-param-statusCode"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">statusCode</span></span></li>
+</ol>)
+
+      
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Parsing message of <code>statusCode</code> value, usually used when catching
+unsuitable response value.</p>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">static String httpStatusMessage(int statusCode) {
+  switch (statusCode) {
+    case 100:
+      return &#39;Continue: The server has received the request headers and the &#39;
+          &#39;client should proceed to send the request body&#39;;
+    case 101:
+      return &#39;Switching Protocols: The requester has asked the server to &#39;
+          &#39;switch protocols&#39;;
+    case 200:
+      return &#39;OK: The request was successful&#39;;
+    case 201:
+      return &#39;Created: The request was successfully fulfilled and a new &#39;
+          &#39;resource was created&#39;;
+    case 202:
+      return &#39;Accepted: The request has been accepted for processing, but the&#39;
+          &#39; processing has not been completed&#39;;
+    case 203:
+      return &#39;Non-Authoritative Information: The server successfully &#39;
+          &#39;processed the request, but is returning information that may be &#39;
+          &#39;from another source&#39;;
+    case 204:
+      return &#39;No Content: The server successfully processed the request and &#39;
+          &#39;is not returning any content&#39;;
+    case 205:
+      return &#39;Reset Content: The server successfully processed the request, &#39;
+          &#39;but is not returning any content and requires that the requester &#39;
+          &#39;reset the document view&#39;;
+    case 206:
+      return &#39;Partial Content: The server is delivering only part of the &#39;
+          &#39;resource due to a range header sent by the client&#39;;
+    case 300:
+      return &#39;Multiple Choices: Indicates multiple options for the resource &#39;
+          &#39;that the client may follow&#39;;
+    case 301:
+      return &#39;Moved Permanently: The resource has been permanently moved to a&#39;
+          &#39; new location&#39;;
+    case 302:
+      return &#39;Found: The resource has been temporarily moved to a different &#39;
+          &#39;location&#39;;
+    case 303:
+      return &#39;See Other: The response to the request can be found under a &#39;
+          &#39;different URI&#39;;
+    case 304:
+      return &#39;Not Modified: Indicates that the resource has not been modified&#39;
+          &#39; since the version specified by the request headers&#39;;
+    case 307:
+      return &#39;Temporary Redirect: The resource has been temporarily moved to &#39;
+          &#39;another location&#39;;
+    case 400:
+      return &#39;Bad Request: The server cannot process the request due to a &#39;
+          &#39;client error&#39;;
+    case 401:
+      return &#39;Unauthorized: Authentication is required and has failed or has &#39;
+          &#39;not been provided&#39;;
+    case 403:
+      return &#39;Forbidden: The client does not have permission to access the &#39;
+          &#39;requested resource&#39;;
+    case 404:
+      return &#39;Not Found: The requested resource could not be found&#39;;
+    case 405:
+      return &#39;Method Not Allowed: The requested method is not allowed for &#39;
+          &#39;this resource&#39;;
+    case 406:
+      return &#39;Not Acceptable: The requested resource is capable of generating&#39;
+          &#39; only content not acceptable according to the Accept headers sent &#39;
+          &#39;in the request&#39;;
+    case 407:
+      return &#39;Proxy Authentication Required: The client must first &#39;
+          &#39;authenticate itself with the proxy&#39;;
+    case 408:
+      return &#39;Request Timeout: The server timed out waiting for the request&#39;;
+    case 409:
+      return &#39;Conflict: Indicates that the request could not be processed &#39;
+          &#39;because of a conflict in the current state of the resource&#39;;
+    case 410:
+      return &#39;Gone: Indicates that the requested resource is no longer &#39;
+          &#39;available&#39;;
+    case 411:
+      return &#39;Length Required: The request did not specify the length of its &#39;
+          &#39;content&#39;;
+    case 412:
+      return &#39;Precondition Failed: The server does not meet one of the &#39;
+          &#39;preconditions specified by the client&#39;;
+    case 413:
+      return &#39;Payload Too Large: The request is larger than the server is &#39;
+          &#39;willing or able to process&#39;;
+    case 414:
+      return &#39;URI Too Long: The URI provided was too long for the server to &#39;
+          &#39;process&#39;;
+    case 415:
+      return &#39;Unsupported Media Type: The server does not support the media &#39;
+          &#39;type requested by the client&#39;;
+    case 416:
+      return &#39;Range Not Satisfiable: The requested range cannot be fulfilled&#39;;
+    case 417:
+      return &#39;Expectation Failed: The server cannot meet the requirements of &#39;
+          &#39;the Expect request-header field&#39;;
+    case 500:
+      return &#39;Internal Server Error: The server encountered an unexpected &#39;
+          &#39;condition&#39;;
+    case 501:
+      return &#39;Not Implemented: The server does not support the functionality &#39;
+          &#39;required to fulfill the request&#39;;
+    case 502:
+      return &#39;Bad Gateway: The server, while acting as a gateway or proxy, &#39;
+          &#39;received an invalid response from an inbound server&#39;;
+    case 503:
+      return &#39;Service Unavailable: The server is currently unable to handle &#39;
+          &#39;the request due to a temporary overload or maintenance of the &#39;
+          &#39;server&#39;;
+    case 504:
+      return &#39;Gateway Timeout: The server, while acting as a gateway or &#39;
+          &#39;proxy, did not receive a timely response from an upstream server&#39;;
+    case 505:
+      return &#39;HTTP Version Not Supported: The server does not support the &#39;
+          &#39;HTTP protocol version used in the request&#39;;
+    default:
+      return &#39;Unknown Status Code: The server returned an unrecognized status&#39;
+          &#39; code&#39;;
+  }
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">dart_fusion</a></li>
+    <li><a href="../../dart_fusion/dart_fusion-library.html">dart_fusion</a></li>
+    <li><a href="../../dart_fusion/DParse-class.html">DParse</a></li>
+    <li class="self-crumb">httpStatusMessage static method</li>
+</ol>
+
+
+    <h5>DParse class</h5>
+  </div><!--/.sidebar-offcanvas-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    dart_fusion
+      2.3.0
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+

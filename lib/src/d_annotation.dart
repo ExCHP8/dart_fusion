@@ -1,22 +1,43 @@
 part of '../dart_fusion.dart';
 
-/// Annotates a variable or field with additional documentation.
+/// Annotation of variable inside a class with [Model] annotation.
 ///
-/// Use this annotation to provide documentation for variables or fields within
-/// your Dart code.
-///
-/// Example:
 /// ```dart
-/// @Variable(doc: 'This variable stores the user name.')
-/// String userName;
+/// @variable
+/// final DModel value;
+///
+/// // or you can annotate it like this
+///
+/// @Variable(name: 'd_model', toJSON: true, fromJSON: true)
+/// final DModel value;
+/// ```
+///
+/// when you run
+/// ```bash
+/// dart run dart_fusion model
+/// ```
+///
+/// the variable will be used in [Model.fromJSON], [Model.toJSON] and [Model.copyWith].
+/// resulting something like
+///
+/// ```dart
+/// class MyClass {
+///   MyClass copyWith(DModel? value) {
+///     return MyClass(value: value ?? this.value);
+///   }
+///
+///   JSON get toJSON => {'d_model': value};
+///
+///   static MyClass fromJSON(JSON value){
+///     return MyClass(value: DModel.fromJSON(value.of<JSON>('d_model')));
+///   }
+/// }
+///
 /// ```
 class Variable {
-  /// Creates a `Variable` annotation with optional documentation.
-  ///
-  /// The `doc` parameter can be used to provide additional documentation for
-  /// the annotated variable or field.
+  /// Default constructor of [Variable], with [toJSON] defaults to `false`
+  /// [fromJSON] default to `false`.
   const Variable({
-    this.doc,
     this.name,
     this.toJSON = false,
     this.fromJSON = false,
@@ -25,9 +46,6 @@ class Variable {
   /// Json key value
   final String? name;
 
-  /// Additional documentation for the variable or field.
-  final String? doc;
-
   /// Is variable has [toJSON] function or not.
   final bool toJSON;
 
@@ -35,62 +53,68 @@ class Variable {
   final bool fromJSON;
 }
 
-/// Annotates a class with options for code generation.
+/// Annotation of class as an indicator to generate a [fromJSON],
+/// [toJSON] and [copyWith] inside the annotated class.
 ///
-/// Use this annotation to specify code generation options for a class. It is
-/// typically used to indicate whether code for JSON serialization,
-/// deserialization, and copying should be generated.
-///
-/// Example:
 /// ```dart
-/// @Model(
-///   toJSON: true,
-///   copyWith: false,
-///   fromJSON: true,
-///   doc: 'This class represents a data model for user information.'
-/// )
-/// class UserInfo {
-///   // Class implementation...
-/// }
+/// @model
+/// class MyClass extends DModel {}
+///
+/// // or you can annotate it like this
+///
+/// @Model(immutable: false, copyWith: false)
+/// class MyClass extends DModel {}
 /// ```
 class Model {
-  /// Creates a `Model` annotation with optional options and documentation.
-  ///
-  /// The `toJSON`, `copyWith`, `fromJSON`, and `doc` parameters allow you to
-  /// specify code generation options and provide additional documentation for
-  /// the annotated class.
+  /// Default constructor of [Model], with [immutable] defaults to `true`,
+  /// [toJSON] defaults to `true`, [copyWith] defaults to `true`,
+  /// [fromJSON] defaults to `true`.
   const Model({
     this.immutable = true,
     this.toJSON = true,
     this.copyWith = true,
     this.fromJSON = true,
-    this.doc,
   });
 
-  /// Indicates whether code for JSON serialization should be generated.
+  /// Indicates whether code for JSON serialization should be generated or not.
   final bool toJSON;
 
-  /// Indicates whether code for generating copy methods should be generated.
+  /// Indicates whether code for generating copy methods should be generated or not.
   final bool copyWith;
 
-  /// Indicates whether code for JSON deserialization should be generated.
+  /// Indicates whether code for JSON deserialization should be generated or not.
   final bool fromJSON;
-
-  /// Additional documentation for the annotated class.
-  final String? doc;
 
   /// Wether class is immutable or not.
   final bool immutable;
 }
 
-/// An instance of [Variable] to be used as an annotation.
+/// A constant instance of [Variable] to be used as an annotation.
+/// Use this constant as an annotation on variable to specify
+/// wether its part of code generation or not.
 ///
-/// Use this constant as an annotation on variables or fields to provide
-/// additional documentation.
+/// ```dart
+/// @variable
+/// final DModel value;
+///
+/// // or you can annotate it like this
+///
+/// @Variable(name: 'd_model', toJSON: true, fromJSON: true)
+/// final DModel value;
+/// ```
 const Variable variable = Variable();
 
-/// An instance of [Model] to be used as an annotation.
+/// A constant instance of [Model] to be used as an annotation.
+/// Use this constant as an annotation on classes to specify
+/// wether its part of code generation or not.
 ///
-/// Use this constant as an annotation on classes to specify code generation
-/// options.
+/// ```dart
+/// @model
+/// class MyClass extends DModel {}
+///
+/// // or you can annotate it like this
+///
+/// @Model(immutable: false, copyWith: false)
+/// class MyClass extends DModel {}
+/// ```
 const Model model = Model();

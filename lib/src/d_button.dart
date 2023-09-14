@@ -126,7 +126,8 @@ class DButton extends StatelessWidget {
   /// ```
   const DButton.text(
       {super.key,
-      this.padding = const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.00),
+      this.padding =
+          const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.00),
       this.margin,
       this.color,
       this.borderRadius,
@@ -148,7 +149,8 @@ class DButton extends StatelessWidget {
 
   const DButton({
     super.key,
-    this.padding = const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.00),
+    this.padding =
+        const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.00),
     this.margin,
     this.color,
     this.borderRadius,
@@ -255,7 +257,9 @@ class DButton extends StatelessWidget {
                     if (text.isNotEmpty)
                       Text(
                         text,
-                        style: style ?? context.text.bodyMedium?.copyWith(color: context.color.primary),
+                        style: style ??
+                            context.text.bodyMedium
+                                ?.copyWith(color: context.color.primary),
                       ),
                     if (suffix != null)
                       Padding(

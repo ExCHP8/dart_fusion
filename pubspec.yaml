@@ -3,8 +3,17 @@ description: A library that brings together a harmonious blend of essential
   tools, utilities, and components designed to supercharge your Dart projects.
 version: 2.3.0
 homepage: https://github.com/Nialixus/dart_fusion.git
+repository: https://github.com/Nialixus/dart_fusion.git
+issue_tracker: https://github.com/Nialixus/dart_fusion/issues
+documentation: https://raw.githack.com/Nialixus/dart_fusion/main/doc/api/index.html
+publish_to: none
 funding: https://www.buymeacoffee.com/nialixus
-topics: collection
+screenshots:
+  - description: 'Dart Fusion Logo'
+    url: https://user-images.githubusercontent.com/45191605/267848544-e316c985-3369-4609-9aa5-6becfdb9bee8.png
+topics: 
+  - collection
+  - utility
 
 environment:
   sdk: '>=3.0.5 <4.0.0'

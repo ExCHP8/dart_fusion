@@ -83,7 +83,9 @@ extension StringExtension on String {
 
   String get file {
     List<File> files = [];
-    List<Directory> directories = [if (Directory(this).listSync().any((e) => e is File)) Directory(this)];
+    List<Directory> directories = [
+      if (Directory(this).listSync().any((e) => e is File)) Directory(this)
+    ];
     final StringBuffer classes = StringBuffer();
     final StringBuffer variables = StringBuffer();
 
@@ -142,7 +144,8 @@ extension DirectoryListExtension on List<Directory> {
   void toPubspec() {
     File pubspec = File('pubspec.yaml');
     List<String> lines = pubspec.readAsLinesSync();
-    int flutterIndex = lines.lastIndexWhere((line) => line.trim() == 'flutter:');
+    int flutterIndex =
+        lines.lastIndexWhere((line) => line.trim() == 'flutter:');
     int assetsIndex = lines.lastIndexWhere((line) => line.trim() == 'assets:');
     if (flutterIndex == -1) {
       lines.insert(lines.length - 1, 'flutter:\n  assets:');
@@ -153,8 +156,10 @@ extension DirectoryListExtension on List<Directory> {
     }
 
     for (var directory in this) {
-      int assetsIndex = lines.lastIndexWhere((line) => line.trim() == 'assets:');
-      int directoryIndex = lines.lastIndexWhere((line) => line.trim() == '- ${directory.path}/');
+      int assetsIndex =
+          lines.lastIndexWhere((line) => line.trim() == 'assets:');
+      int directoryIndex =
+          lines.lastIndexWhere((line) => line.trim() == '- ${directory.path}/');
       if (directoryIndex == -1) {
         lines.insert(assetsIndex + 1, '    - ${directory.path}/');
       }
