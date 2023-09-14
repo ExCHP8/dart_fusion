@@ -76,8 +76,6 @@ dart pub global activate --source git https://github.com/Nialixus/dart_fusion.gi
 # Dart Fusion CLI
 The Dart Fusion CLI is a command-line tool that provides a set of utilities to simplifies common tasks such as asset generation, model updates, and localization.
 
-- **Localization**: Generate localization classes from JSON files, simplifying the process of managing translations in your Dart applications.
-
 ## <a name="dart-fusion-cli-usage"></a> Usage
 - **Asset Generation** : Easily generate asset classes from asset directories, making it simple to access assets in your Dart project. To scan asset files and generate them into one dart class, run this command
   
@@ -89,17 +87,40 @@ The Dart Fusion CLI is a command-line tool that provides a set of utilities to s
   | OPTION        | DESCRIPTION                                         |
   | ------------- | --------------------------------------------------- |
   | -i, --input   | Input directory of where assets took place.         |
-  |               | default to "assets"                                 |
+  |               | default to `assets`                                 |
   | -o, --output  | Output file of generated asset class.               |
-  |               | default to \"lib/src/assets.dart"                   |
+  |               | default to `lib/src/assets.dart`                    |
   | -h, --help    | Print this usage information.                       |
 
-- **Model Updates**: Update models generate toJSON, fromJSON and copyWith based on given annotation. To update these models, run this command
+- **Model Updates**: Update models by generating toJSON, fromJSON and copyWith based on given annotation. To update these models, run this command
   ```bash
-  dart run dart_fusion 
+  dart run dart_fusion model
   ```
 
+  And this is the available commands.
+  | OPTION         | DESCRIPTION                             |
+  | -------------- | --------------------------------------- |
+  | -i, --input    | Input directory of the models.          |
+  |                | default to `""`                         |
+  | -h, --help     | Print this usage information.           |
 
+- **Localization**: Generate localization classes from JSON files, simplifying the process of managing translations in your Dart applications using Lecto API.
+  ```bash
+  dart run dart_fusion localize --api-key="4Z5H0ZS-QHZM2Z8-NTYP640-38D9RFF"
+  ```
+
+  List of the commands
+  | OPTION        | DESCRIPTION                                                    |
+  | ------------- | -------------------------------------------------------------- |
+  | --api-key     | Lecto API key (required)                                       |
+  | -i, --input   | Input directory of where the JSON base translation took place. |
+  |               | default to `assets/translation/en.json`                        |
+  | --from        | Base language used for translation                             |
+  |               | default to `en`                                                |
+  | --to          | Targeted translation languages                                 |
+  |               | default to `["af", "sq", "am", "ar", "hy", "az", "be", "bel", "bn", "bs", "bg", "ca", "ceb", "zh-CN", "zh-TW", "hr", "cs", "da", "nl", "en", "et", "tl", "fi", "fr", "fy", "gl", "ka", "de", "el", "gu", "ht", "ha", "he", "hi", "hu", "is", "ig", "id", "ga", "it", "ja", "kn", "kk", "km", "ko", "lo", "lv", "lt", "lb", "mk", "mg", "ms", "ml", "mr", "mn", "my", "ne", "nb", "no", "or", "ps", "fa", "pl", "pt", "pt-BR", "pt-PT", "pa", "ro", "ru", "gd", "sr", "sd", "si", "sk", "sl", "so", "es", "su", "sw", "sv", "ta", "th", "tr", "uk", "ur", "uz", "vi", "cy", "xh", "yi", "yo", "zu"]`
+  | -h, --help    | Print this usage information.                                  |
+---
 
 
 The AppStateWidget library offers a solution to simplify the boilerplate code commonly associated with using StatefulWidget. By providing a clean and efficient approach, it enhances the developer experience. Designed with convenience and simplicity in mind, AppStateWidget streamlines the development process, allowing you to focus on building intuitive user interfaces without getting bogged down by repetitive code.
