@@ -130,6 +130,10 @@ The Dart Fusion CLI is a command-line tool that provides a set of utilities to s
   ```
 
 ---
+<p align="center">
+  <img src="https://github.com/Nialixus/dart_fusion/assets/45191605/129bc9a7-3b33-4b03-9926-079f12a28775" alt="Dart Fusion Logo" width="200">
+</p>
+
 # D Annotation
 D Annotation is a set of class used as an indicator for `Dart Fusion CLI` model generation
 
