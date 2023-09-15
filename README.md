@@ -11,8 +11,9 @@ A library that brings together a harmonious blend of essential tools, utilities,
   - [Installation](#installation)
   - [Documentation](#documentation)
 - [Dart Fusion CLI](#dart-fusion-cli)
-  - [Usage](#dart-fusion-cli-usage)
-  - [Asset Generation](#dart-fusion-cli-asset)
+  - [Asset Scanner](#dart-fusion-cli-asset)
+  - [Model Updater](#dart-fusion-cli-model)
+  - [Localization Translator](#dart-fusion-cli-localization)
 - [D Annotation](#d-annotation)
   - [Usage](#d-annotation-usage)
 - [D Behavior](#d-behavior)
@@ -92,7 +93,7 @@ The Dart Fusion CLI is a command-line tool that provides a set of utilities to s
   |               | default to `lib/src/assets.dart`                    |
   | -h, --help    | Print this usage information.                       |
 
-- **Model Updates**: Update models by generating toJSON, fromJSON and copyWith based on given annotation. To update these models, run this command
+- **Model Updates** <a name="dart-fusion-cli-model"></a>: Update models by generating toJSON, fromJSON and copyWith based on given annotation. To update these models, run this command
   ```bash
   dart run dart_fusion model
   ```
@@ -104,7 +105,7 @@ The Dart Fusion CLI is a command-line tool that provides a set of utilities to s
   |                | default to `""`                         |
   | -h, --help     | Print this usage information.           |
 
-- **Localization**: Generate localization classes from JSON files, simplifying the process of managing translations in your Dart applications using Lecto API.
+- **Localization** <a name="dart-fusion-cli-localization"></a>: Generate localization classes from JSON files, simplifying the process of managing translations in your Dart applications using Lecto API.
   ```bash
   dart run dart_fusion localize --api-key="4Z5H0ZS-QHZM2Z8-NTYP640-38D9RFF"
   ```
@@ -235,7 +236,9 @@ DBuilder(
 
 # D Extensions
 An extension collection of mostly used function in flutter project.
-
+## <a name="d-extensions-on-number"></a> OnNumber
+Extension on numeric types (int, double) to add utility methods for limiting values within a specified range.
+Generation** : Easily generate asset classes from asset directories, making it simple to access assets in your Dart project. To scan asset files and generate them into one dart class, run this command
 
 The AppStateWidget library offers a solution to simplify the boilerplate code commonly associated with using StatefulWidget. By providing a clean and efficient approach, it enhances the developer experience. Designed with convenience and simplicity in mind, AppStateWidget streamlines the development process, allowing you to focus on building intuitive user interfaces without getting bogged down by repetitive code.
 
