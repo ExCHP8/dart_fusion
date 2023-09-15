@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/45191605/267848544-e316c985-3369-4609-9aa5-6becfdb9bee8.png" alt="Dart Fusion Logo" width="200">
+  <img src="https://user-images.githubusercontent.com/45191605/267848544-e316c985-3369-4609-9aa5-6becfdb9bee8.png" alt="Dart Fusion Logo" width="150">
 </p>
 
 # Dart Fusion
@@ -12,48 +12,51 @@ A library that brings together a harmonious blend of essential tools, utilities,
   - [Documentation](#documentation)
 - [Dart Fusion CLI](#dart-fusion-cli)
   - [Usage](#dart-fusion-cli-usage)
+  - [Asset Generation](#dart-fusion-cli-asset)
 - [D Annotation](#d-annotation)
   - [Usage](#d-annotation-usage)
 - [D Behavior](#d-behavior)
   - [Usage](#d-behavior-usage)
 - [D Builder](#d-builder)
   - [Usage](#d-builder-usage)
-- [D' Button](#dbutton)
-  - [Key Features](#dbutton-features)
-  - [Usage](#dbutton-usage)
-- [D' Extensions](#dextensions)
-  - [Key Features](#dextensions-features)
-  - [Usage](#dextensions-usage)
-- [D' Image](#dimage)
+- [D Extensions](#d-extensions)
+  - [On Number](#d-extensions-on-number)
+  - [On JSON](#d-extensions-on-json)
+  - [On Context](#d-extensions-on-context)
+  - [On List](#d-extensions-on-list)
+  - [On DModel List](#d-extensions-on-dmodel-list)
+  - [On String](#d-extensions-on-string)
+  - [On Integer](#d-extensions-on-integer)
+- [D Image](#dimage)
   - [Key Features](#dimage-features)
   - [Usage](#dimage-usage)
-- [D' Log](#dlog)
+- [D Log](#dlog)
   - [Key Features](#dlog-features)
   - [Usage](#dlog-usage)
-- [D' Model](#dmodel)
+- [D Model](#dmodel)
   - [Key Features](#dmodel-features)
   - [Usage](#dmodel-usage)
-- [D' Overlay](#doverlay)
+- [D Overlay](#doverlay)
   - [Key Features](#doverlay-features)
   - [Usage](#doverlay-usage)
-- [D' Parse](#dparse)
+- [D Parse](#dparse)
   - [Key Features](#dparse-features)
   - [Usage](#dparse-usage)
-- [D' State Widget](#dstate-widget)
+- [D State Widget](#dstate-widget)
   - [Key Features](#dstate-widget-features)
   - [Usage](#dstate-widget-usage)
-- [D' Text Area](#dtext-area)
+- [D Text Area](#dtext-area)
   - [Key Features](#dtext-area-features)
   - [Usage](#dtext-area-usage)
-- [D' Typedefs](#dtypedefs)
+- [D Typedefs](#d-typedefs)
   - [Key Features](#dtypedefs-features)
-  - [Usage](#dtypedefs-usage)
+  - [Usage](#d-typedefs-usage)
  
 ## Installation
 put this in your pubspec.yaml
 ```yaml
 dependencies:
-  appstate_widget:
+  dart_fusion:
     git:
       url: https://github.com/Nialixus/dart_fusion.git
       ## Optional with version
@@ -67,14 +70,14 @@ dart pub global activate --source git https://github.com/Nialixus/dart_fusion.gi
 ---
 
 <p align="center">
-  <img src="https://github.com/Nialixus/dart_fusion/assets/45191605/88e37aee-5e2d-4589-ae08-59069c936338" alt="Dart Fusion Logo" width="200">
+  <img src="https://github.com/Nialixus/dart_fusion/assets/45191605/88e37aee-5e2d-4589-ae08-59069c936338" alt="Dart Fusion Logo" width="150">
 </p>
 
 # Dart Fusion CLI
 The Dart Fusion CLI is a command-line tool that provides a set of utilities to simplifies common tasks such as asset generation, model updates, and localization.
 
 ## <a name="dart-fusion-cli-usage"></a> Usage
-- **Asset Generation** : Easily generate asset classes from asset directories, making it simple to access assets in your Dart project. To scan asset files and generate them into one dart class, run this command
+- **Asset Generation** <a name="dart-fusion-cli-asset"></a>: Easily generate asset classes from asset directories, making it simple to access assets in your Dart project. To scan asset files and generate them into one dart class, run this command
   
   ```bash
   dart run dart_fusion asset
@@ -129,7 +132,7 @@ The Dart Fusion CLI is a command-line tool that provides a set of utilities to s
 
 ---
 <p align="center">
-  <img src="https://github.com/Nialixus/dart_fusion/assets/45191605/129bc9a7-3b33-4b03-9926-079f12a28775" alt="Dart Fusion Logo" width="200">
+  <img src="https://user-images.githubusercontent.com/45191605/267885292-129bc9a7-3b33-4b03-9926-079f12a28775.png" alt="Dart Fusion Logo" width="150">
 </p>
 
 # D Annotation
@@ -219,13 +222,20 @@ D Builder is a widget that builds its child using a custom builder function with
 DBuilder(
   data: {"name": "John", "age": 30},
   builder: (context, data) {
-    final name = value.of<String>("name");
+    final name = data.of<String>("name");
     final age = data.of<int>("age");
     return Text("My name is $name and I am $age years old.");
   },
 )
 ```
 ---
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/45191605/268232865-208b24c8-141f-437c-bbb6-72168acf3981.png" alt="Dart Fusion Logo" width="250">
+</p>
+
+# D Extensions
+An extension collection of mostly used function in flutter project.
+
 
 The AppStateWidget library offers a solution to simplify the boilerplate code commonly associated with using StatefulWidget. By providing a clean and efficient approach, it enhances the developer experience. Designed with convenience and simplicity in mind, AppStateWidget streamlines the development process, allowing you to focus on building intuitive user interfaces without getting bogged down by repetitive code.
 
