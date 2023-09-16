@@ -47,21 +47,18 @@ A library that brings together a harmonious blend of essential tools, utilities,
   - [On DModel List](#d-extensions-on-dmodel-list)
   - [On String](#d-extensions-on-string)
   - [On Integer](#d-extensions-on-integer)
-- [D Image](#dimage)
-  - [Key Features](#dimage-features)
-  - [Usage](#dimage-usage)
-- [D Log](#dlog)
-  - [Key Features](#dlog-features)
-  - [Usage](#dlog-usage)
-- [D Model](#dmodel)
-  - [Key Features](#dmodel-features)
-  - [Usage](#dmodel-usage)
-- [D Overlay](#doverlay)
-  - [Key Features](#doverlay-features)
-  - [Usage](#doverlay-usage)
-- [D Parse](#dparse)
-  - [Key Features](#dparse-features)
-  - [Usage](#dparse-usage)
+- [D Image](#d-image)
+  - [Usage](#d-image-usage)
+- [D Log](#d-log)
+  - [Usage](#d-log-usage)
+- [D Model](#d-model)
+  - [Usage](#d-model-usage)
+- [D Overlay](#d-overlay)
+  - [Usage](#d-overlay-usage)
+- [D Parse](#d-parse)
+  - [HTTP Method Message](#d-parse-http-method-message)
+  - [HTTP Status Message](#d-parse-http-status-message)
+  - [Exception Message](#d-parse-exception-message)
 - [D State Widget](#dstate-widget)
   - [Key Features](#dstate-widget-features)
   - [Usage](#dstate-widget-usage)
@@ -374,6 +371,92 @@ print(parse); // "1048.57 KB"
 ```
 ---
 
+# D Image
+A widget for displaying vector or bitmap images from different sources.
+
+## <a name="d-image-usage"></a> Usage
+```dart
+// Vector / Bitmap image from file
+DImage(source: File('path/to/images.svg'))
+
+// Vector / Bitmap image from asset
+DImage(source: 'assets/image/image.png');
+
+// Vector / Bitmap image from Uint8List
+DImage(source: Uint8List());
+
+// Vector / Bitmap image from network
+DImage(source: 'http://image.dom/asset.svg');
+```
+---
+
+# D Log
+A simple logging utility for printing log messages with customizable log levels.
+
+## <a name="d-log-usage"></a> Usage
+```dart
+Exception e = Exception('something');
+DLog(e); // Exception: something
+```
+---
+
+# D Model
+Base dart model which consist `copyWith`, `toJSON`, `fromJSON` and `toString` value;
+
+## <a name="d-model-usage"></a> Usage
+```dart
+class MyModel extends DModel {
+  @override
+  MyModel copyWith() {
+    return MyModel();
+  }
+
+  static MyModel fromJSON(JSON value) {
+    return MyModel();
+  }
+
+  @override
+  JSON get toJSON {
+    return {};
+  }
+}
+```
+
+# D Overlay
+A builder widget that displays an overlay.
+
+## <a name="d-overlay-usage"></a> Usage
+```dart
+final overlay = DOverlay(builder: (context, progress, controller) => YourWidget());
+
+GestureDetector(
+  onTap: () {
+    overlay.controller.display(context);
+  }
+);
+```
+
+# D Parse
+A utility class for parsing mostly related to http request.
+- <a name="d-parse-http-method-message"></a> **HTTP Method Message** : Parsing message of http method value like `DELETE`, `GET`, `HEAD`, `OPTIONS`, `PATCH`, `POST` or `PUT`.
+  ```dart
+  HttpMethod method = HttpMethod.get;
+  final message = DParse.httpMethodMessage(method.name);
+  print(message); // 'Data successfully loaded'
+  ```
+- <a name="d-parse-http-status-message"></a> **HTTP Status Message** : Parsing message of `statusCode` value in [Response].
+  ```dart
+  Response response = Response(...);
+  final message = DParse.httpStatusMessage(response.statusCode);
+  print(message); // 'Not Found: The requested resource could not be found'
+  ```
+- <a name="d-parse-exception-message"></a> **Exception Message** : Parsing error message from [Exception].
+  ```dart
+  FormatException exception = FormatException('Unexpected end of input (at character 1)');
+  final message = DParse.exceptionMessage(exception);
+  print(message); // 'Data is not exist'
+  ```
+---
 Generation** : Easily generate asset classes from asset directories, making it simple to access assets in your Dart project. To scan asset files and generate them into one dart class, run this command
 
 The AppStateWidget library offers a solution to simplify the boilerplate code commonly associated with using StatefulWidget. By providing a clean and efficient approach, it enhances the developer experience. Designed with convenience and simplicity in mind, AppStateWidget streamlines the development process, allowing you to focus on building intuitive user interfaces without getting bogged down by repetitive code.
