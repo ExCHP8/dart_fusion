@@ -23,9 +23,26 @@ A library that brings together a harmonious blend of essential tools, utilities,
   - [Usage](#d-builder-usage)
 - [D Extensions](#d-extensions-logo)
   - [On Number](#d-extensions-on-number)
+    - [Min](#d-extensions-on-number-min)
+    - [Max](#d-extensions-on-number-max)
+    - [Limit](#d-extensions-on-number-limit)
   - [On JSON](#d-extensions-on-json)
+    - [Merge](#d-extensions-on-json-merge)
+    - [Of](#d-extensions-on-json-of)
+    - [Maybe of](#d-extensions-on-json-maybe-of)
   - [On Context](#d-extensions-on-context)
+    - [Theme](#d-extensions-on-context-theme)
+    - [Color](#d-extensions-on-context-color)
+    - [Text](#d-extensions-on-context-text)
+    - [Query](#d-extensions-on-context-query)
+    - [Height](#d-extensions-on-context-height)
+    - [Width](#d-extensions-on-context-width)
+    - [Is Phone](#d-extensions-on-context-isphone)
+    - [Is Desktop](#d-extensions-on-context-isdesktop)
+    - [Is Tablet](#d-extensions-on-context-istablet)
   - [On List](#d-extensions-on-list)
+    - [To](#d-extensions-on-list-to)
+    - [Limit](#d-extensions-on-list-limit)
   - [On DModel List](#d-extensions-on-dmodel-list)
   - [On String](#d-extensions-on-string)
   - [On Integer](#d-extensions-on-integer)
@@ -241,6 +258,45 @@ DBuilder(
 An extension collection of mostly used function in flutter project.
 ## <a name="d-extensions-on-number"></a> OnNumber
 Extension on numeric types (int, double) to add utility methods for limiting values within a specified range.
+  - <a name="d-extensions-on-number-min"></a> **Min** : Limit the minimum number of the extended value.
+    ```dart
+    int min = 5.min(10);
+    print(min); // 10
+    ```
+  - <a name="d-extensions-on-number-max"></a> **Max** : Limit the maximum number of the extended value.
+    ```dart
+    double max = 100.0.max(10.0);
+    print(max); // 10.0
+    ```
+  - <a name="d-extensions-on-number-limit"></a> **Limit** : Limit number of the extended value in a certain range.
+    ```dart
+    int number = 75.limit(0, 100);
+    print(number); // 75
+    ```
+## <a name="d-extensions-on-json"></a> OnJSON
+Extension on the Map<String, dynamic> value.
+  - <a name="d-extensions-on-json-merge"></a> **Merge** : Merging one `JSON` to another.
+    ```dart
+    JSON json = {"primary": "1", "secondary": "2"};
+    JSON anotherJSON = {"primary": "10", "tertiary": "3"};
+    print(json.merge(anotherJSON)); // {"primary": "10", "secondary": "2", "tertiary": "3"}
+    ```
+  - <a name="d-extensions-on-json-of"></a> **Of** : Parse `dynamic` value in `JSON` to given [T] with an optional [onError] fallback.
+    ```dart
+    JSON value = {"primary": "1"};
+    String primary = value.of<String>("primary");
+    print(primary); // "1"
+    String secondary = value.of<String>("secondary", "No Data");
+    print(secondary); // "No Data"
+    ```
+  - <a name="d-extensions-on-json-maybe-of"></a> **Maybe of** : Parse `dynamic` value in `JSON` to given nullable [T].
+    ```dart
+    JSON value = {"primary": "1"};
+    String? primary = value.maybeOf<String>("primary");
+    print(primary); // "1"
+    String? secondary = value.maybeOf<String>("secondary");
+    print(secondary); // null
+    ```
 Generation** : Easily generate asset classes from asset directories, making it simple to access assets in your Dart project. To scan asset files and generate them into one dart class, run this command
 
 The AppStateWidget library offers a solution to simplify the boilerplate code commonly associated with using StatefulWidget. By providing a clean and efficient approach, it enhances the developer experience. Designed with convenience and simplicity in mind, AppStateWidget streamlines the development process, allowing you to focus on building intuitive user interfaces without getting bogged down by repetitive code.
