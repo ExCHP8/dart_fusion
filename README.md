@@ -1,4 +1,4 @@
-<a name="dart-fusion"></a>
+<a name="dart-fusion-logo"></a>
 <p align="center">
   <img src="https://user-images.githubusercontent.com/45191605/267848544-e316c985-3369-4609-9aa5-6becfdb9bee8.png" alt="Dart Fusion Logo" width="150">
 </p>
@@ -7,7 +7,7 @@
 A library that brings together a harmonious blend of essential tools, utilities, and components designed to supercharge my Dart projects.
 
 ## Table of Contents
-- [Dart Fusion](#dart-fusion)
+- [Dart Fusion](#dart-fusion-logo)
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
   - [Documentation](#documentation)
