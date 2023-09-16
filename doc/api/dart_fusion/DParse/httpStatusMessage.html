@@ -74,6 +74,10 @@
 <section class="desc markdown">
   <p>Parsing message of <code>statusCode</code> value, usually used when catching
 unsuitable response value.</p>
+<pre class="language-dart"><code class="language-dart">Response response = Response(...);
+final message = DParse.httpStatusMessage(response.statusCode);
+print(message); // 'Not Found: The requested resource could not be found'
+</code></pre>
 </section>
 
 

@@ -73,6 +73,10 @@
     
 <section class="desc markdown">
   <p>Parsing message of http method value like <code>DELETE</code>, <code>GET</code>, <code>HEAD</code>, <code>OPTIONS</code>, <code>PATCH</code>, <code>POST</code> or <code>PUT</code>.</p>
+<pre class="language-dart"><code class="language-dart">HttpMethod method = HttpMethod.get;
+final message = DParse.httpMethodMessage(method.name);
+print(message); // 'Data successfully loaded'
+</code></pre>
 </section>
 
 
@@ -80,7 +84,7 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">static String httpMethodMessage(String value) {
-  switch (value) {
+  switch (value.toUpperCase()) {
     case &#39;DELETE&#39;:
       return &#39;Data successfully deleted&#39;;
     case &#39;GET&#39;:

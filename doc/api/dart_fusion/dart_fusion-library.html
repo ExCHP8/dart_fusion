@@ -75,7 +75,7 @@
 
 </dt>
 <dd>
-  
+  A class for initializing DartFusion auto generation.
 </dd>
 
         <dt id="DBehavior">
@@ -108,7 +108,7 @@ tap interactions with various customization options.
 
 </dt>
 <dd>
-  A custom widget for displaying images with optional parameters for size, fit, and color.
+  A widget for displaying vector or bitmap images from different sources.
 </dd>
 
         <dt id="DLog">
@@ -124,7 +124,7 @@ tap interactions with various customization options.
 
 </dt>
 <dd>
-  Root DModel that will be used in this entire system.
+  Base dart model which consist <code>copyWith</code>, <code>toJSON</code>, <code>fromJSON</code> and <code>toString</code> value;
 </dd>
 
         <dt id="DOverlay">
@@ -132,7 +132,7 @@ tap interactions with various customization options.
 
 </dt>
 <dd>
-  
+  A builder widget that displays an overlay.
 </dd>
 
         <dt id="DOverlayController">
@@ -148,7 +148,7 @@ tap interactions with various customization options.
 
 </dt>
 <dd>
-  
+  A utility class for parsing mostly related to http request.
 </dd>
 
         <dt id="DStateInherited">
@@ -180,7 +180,7 @@ tap interactions with various customization options.
 
 </dt>
 <dd>
-  
+  A custom text area widget.
 </dd>
 
         <dt id="InkMaterial">
@@ -226,53 +226,17 @@ ink splash effects on taps.
       <h2>Extensions</h2>
 
       <dl>
-        <dt id="AppJson">
-    <span class="name "><a href="../dart_fusion/AppJson.html">AppJson</a></span> 
+        <dt id="OnContext">
+    <span class="name "><a href="../dart_fusion/OnContext.html">OnContext</a></span> 
 
 </dt>
 <dd>
-    Extension on the Map&lt;String, dynamic&gt; value.
+    A set of extension collection on <a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html">BuildContext</a>.
 </dd>
 
 
-        <dt id="DStateExtension">
-    <span class="name "><a href="../dart_fusion/DStateExtension.html">DStateExtension</a></span> 
-
-</dt>
-<dd>
-    Extensioning values used in <a href="../dart_fusion/DStateValue-class.html">DStateValue</a>.
-</dd>
-
-
-        <dt id="GoRouteExtension">
-    <span class="name "><a href="../dart_fusion/GoRouteExtension.html">GoRouteExtension</a></span> 
-
-</dt>
-<dd>
-    
-</dd>
-
-
-        <dt id="IntExtension">
-    <span class="name "><a href="../dart_fusion/IntExtension.html">IntExtension</a></span> 
-
-</dt>
-<dd>
-    
-</dd>
-
-
-        <dt id="ListExtension">
-    <span class="name "><a href="../dart_fusion/ListExtension.html">ListExtension</a></span> 
-
-</dt>
-<dd>
-    Extensioning generic <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a> value.
-</dd>
-
-
-        <dt id="ListModelExtension">
-    <span class="name "><a href="../dart_fusion/ListModelExtension.html">ListModelExtension</a></span> 
+        <dt id="OnDModelList">
+    <span class="name "><a href="../dart_fusion/OnDModelList.html">OnDModelList</a></span> 
 
 </dt>
 <dd>
@@ -280,8 +244,53 @@ ink splash effects on taps.
 </dd>
 
 
-        <dt id="NumberLimiter">
-    <span class="name "><a href="../dart_fusion/NumberLimiter.html">NumberLimiter</a></span> 
+        <dt id="OnDStateValue">
+    <span class="name "><a href="../dart_fusion/OnDStateValue.html">OnDStateValue</a></span> 
+
+</dt>
+<dd>
+    Extensioning values used in <a href="../dart_fusion/DStateValue-class.html">DStateValue</a>.
+</dd>
+
+
+        <dt id="OnGoRoute">
+    <span class="name "><a href="../dart_fusion/OnGoRoute.html">OnGoRoute</a></span> 
+
+</dt>
+<dd>
+    Extension on <a href="https://pub.dev/documentation/go_router/9.1.1/go_router/GoRoute-class.html">GoRoute</a> to provide additional functionality.
+</dd>
+
+
+        <dt id="OnInteger">
+    <span class="name "><a href="../dart_fusion/OnInteger.html">OnInteger</a></span> 
+
+</dt>
+<dd>
+    Extension on <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a> to provide additional functionality.
+</dd>
+
+
+        <dt id="OnJSON">
+    <span class="name "><a href="../dart_fusion/OnJSON.html">OnJSON</a></span> 
+
+</dt>
+<dd>
+    Extension on the Map&lt;String, dynamic&gt; value.
+</dd>
+
+
+        <dt id="OnList">
+    <span class="name "><a href="../dart_fusion/OnList.html">OnList</a></span> 
+
+</dt>
+<dd>
+    Extensioning generic <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a> value.
+</dd>
+
+
+        <dt id="OnNumber">
+    <span class="name "><a href="../dart_fusion/OnNumber.html">OnNumber</a></span> 
 
 </dt>
 <dd>
@@ -289,22 +298,12 @@ ink splash effects on taps.
 </dd>
 
 
-        <dt id="OnContext">
-    <span class="name "><a href="../dart_fusion/OnContext.html">OnContext</a></span> 
+        <dt id="OnString">
+    <span class="name "><a href="../dart_fusion/OnString.html">OnString</a></span> 
 
 </dt>
 <dd>
-    Extension on <a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html">BuildContext</a> to provide easy access to common theming and
-media query properties.
-</dd>
-
-
-        <dt id="StringExtension">
-    <span class="name "><a href="../dart_fusion/StringExtension.html">StringExtension</a></span> 
-
-</dt>
-<dd>
-    
+    Extension on <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a> to provide additional functionality.
 </dd>
 
 
@@ -354,6 +353,20 @@ wether its part of code generation or not.
 
 
 
+    <section class="summary offset-anchor" id="enums">
+      <h2>Enums</h2>
+
+      <dl>
+        <dt id="DLevel">
+  <span class="name "><a href="../dart_fusion/DLevel.html">DLevel</a></span> 
+
+</dt>
+<dd>
+  Enumeration representing different log levels for debugging and logging purposes.
+</dd>
+
+      </dl>
+    </section>
 
     <section class="summary offset-anchor" id="typedefs">
       <h2>Typedefs</h2>

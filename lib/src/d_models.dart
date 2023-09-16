@@ -1,6 +1,6 @@
 part of '../dart_fusion.dart';
 
-/// Root DModel that will be used in this entire system.
+/// Base dart model which consist `copyWith`, `toJSON`, `fromJSON` and `toString` value;
 ///
 /// ```dart
 /// class NewDModel extends DModel {}
@@ -71,7 +71,7 @@ class ResponseModel extends DModel {
   /// Success status of whether the response is what is expected or not.
   final bool success;
 
-  /// A short description of [Response] [success] status.
+  /// A short description of Response [success] status.
   final String message;
 
   /// Child data of [ResponseModel], must be a class that extends

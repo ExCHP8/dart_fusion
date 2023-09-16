@@ -1,11 +1,21 @@
 part of '../dart_fusion.dart';
 
 /// Extension on numeric types (int, double) to add utility methods for limiting values within a specified range.
-extension NumberLimiter<Number extends num> on Number {
+extension OnNumber<Number extends num> on Number {
   /// Returns the greater of this number and [min]. If this number is less than [min], [min] will be returned.
+  ///
+  /// ```dart
+  /// int min = 5.min(10);
+  /// print(min); // 10
+  /// ```
   Number min(Number min) => this < min ? min : this;
 
   /// Returns the lesser of this number and [max]. If this number is greater than [max], [max] will be returned.
+  ///
+  /// ```dart
+  /// double max = 100.0.max(10.0);
+  /// print(max); // 10.0
+  /// ```
   Number max(Number max) => this > max ? max : this;
 
   /// Returns this number, clamped to the range of [min] to [max].
@@ -13,6 +23,11 @@ extension NumberLimiter<Number extends num> on Number {
   /// If this number is less than [min], [min] will be returned.
   /// If this number is greater than [max], [max] will be returned.
   /// Otherwise, this number will be returned unchanged.
+  ///
+  /// ```dart
+  /// int number = 75.limit(0, 100);
+  /// print(number); // 75
+  /// ```
   Number limit(Number min, Number max) => this < min
       ? min
       : this > max
@@ -21,7 +36,7 @@ extension NumberLimiter<Number extends num> on Number {
 }
 
 /// Extensioning values used in [DStateValue].
-extension DStateExtension on DStateValue {
+extension OnDStateValue on DStateValue {
   /// A shortcut to call value from [DStateValue.data].
   ///
   /// ```dart
@@ -32,9 +47,15 @@ extension DStateExtension on DStateValue {
 }
 
 /// Extension on the Map<String, dynamic> value.
-extension AppJson on JSON {
+extension OnJSON on JSON {
   /// Merge between one [JSON] to another, usefull for values with same key in
   /// a [JSON] structure.
+  ///
+  /// ```dart
+  /// JSON json = {"primary": "1", "secondary": "2"};
+  /// JSON anotherJSON = {"primary": "10", "tertiary": "3"};
+  /// print(json.merge(anotherJSON)); // {"primary": "10", "secondary": "2", "tertiary": "3"}
+  /// ```
   JSON merge(JSON other) {
     final result = <String, dynamic>{};
 
@@ -56,6 +77,14 @@ extension AppJson on JSON {
   }
 
   /// Parse `dynamic` value to given [T] with an optional [onError] fallback.
+  ///
+  ///  ```dart
+  /// JSON value = {"primary": "1"};
+  /// String primary = value.of<String>("primary");
+  /// print(primary); // "1"
+  /// String secondary = value.of<String>("secondary", "No Data");
+  /// print(secondary); // "No Data"
+  /// ```
   T of<T extends Object>(String key, [T? onError]) {
     T onElse() {
       if (T is int) {
@@ -81,22 +110,41 @@ extension AppJson on JSON {
     return this[key] as T? ?? onError ?? onElse();
   }
 
-  /// Parse `dynamic` value as a nullable [Type].
+  /// Parse `dynamic` value in [JSON] to given nullable [T].
+  ///
+  /// ```dart
+  /// JSON value = {"primary": "1"};
+  /// String? primary = value.maybeOf<String>("primary");
+  /// print(primary); // "1"
+  /// String? secondary = value.maybeOf<String>("secondary");
+  /// print(secondary); // null
+  /// ```
   T? maybeOf<T extends Object>(String key) {
     return this[key] as T?;
   }
 }
 
-/// Extension on [BuildContext] to provide easy access to common theming and
-/// media query properties.
+/// A set of extension collection on [BuildContext].
 extension OnContext on BuildContext {
   /// The [ThemeData] defined for this [BuildContext].
+  ///
+  /// ```dart
+  /// ThemeData theme = context.theme;
+  /// ```
   ThemeData get theme => Theme.of(this);
 
   /// The [ColorScheme] defined for the current [ThemeData].
+  ///
+  /// ```dart
+  /// ColorScheme color = context.color;
+  /// ```
   ColorScheme get color => theme.colorScheme;
 
   /// The [TextTheme] defined for the current [ThemeData].
+  ///
+  /// ```dart
+  /// TextTheme text = context.text;
+  /// ```
   TextTheme get text => theme.textTheme;
 
   /// The [BottomNavigationBarThemeData] defined for the current [ThemeData].
@@ -104,27 +152,55 @@ extension OnContext on BuildContext {
       theme.bottomNavigationBarTheme;
 
   /// The [MediaQueryData] for this [BuildContext].
+  ///
+  ///  ```dart
+  /// MediaQuery query = context.query;
+  /// ```
   MediaQueryData get query => MediaQuery.of(this);
 
   /// The size of the media query for this [BuildContext].
+  ///
+  /// ```dart
+  /// Size suze = context.querySize;
+  /// ```
   Size get querySize => MediaQuery.sizeOf(this);
 
   /// The height of the media query for this [BuildContext].
+  ///
+  /// ```dart
+  /// double height = context.height;
+  /// ```
   double get height => querySize.height;
 
   /// The width of the media query for this [BuildContext].
+  ///
+  /// ```dart
+  /// double width = context.width;
+  /// ```
   double get width => querySize.width;
 
   /// Returns `true` if the width of the media query for this [BuildContext]
-  /// is less than 600.0, indicating it's a phone-sized device.
+  /// is less than 400.0, indicating it's a phone-sized device.
+  ///
+  /// ```dart
+  /// bool isPhone = context.isPhone;
+  /// ```
   bool get isPhone => width < 400.0;
 
   /// Returns `true` if the width of the media query for this [BuildContext]
   /// is greater than 700.0, indicating it's a desktop-sized device.
+  ///
+  /// ```dart
+  /// bool isDesktop = context.isDesktop;
+  /// ```
   bool get isDesktop => width > 700.0;
 
   /// Returns `true` if the width of the media query for this [BuildContext]
-  /// is greater than 600.0 and less than 700.0, indicating it's a tablet-sized device.
+  /// is greater than 400.0 and less than 700.0, indicating it's a tablet-sized device.
+  ///
+  /// ```dart
+  /// bool isTablet = context.isTablet;
+  /// ```
   bool get isTablet => !isPhone && !isDesktop;
 
   /// Getting [DStateValue] from its descendant.
@@ -135,7 +211,7 @@ extension OnContext on BuildContext {
 }
 
 /// Extensioning generic [List] value.
-extension ListExtension<OldValue extends Object?> on List<OldValue> {
+extension OnList<OldValue extends Object?> on List<OldValue> {
   /// Generate index and item of a [List].
   ///
   /// ```dart
@@ -149,7 +225,7 @@ extension ListExtension<OldValue extends Object?> on List<OldValue> {
           .map<NewValue>((map) => value(map.key, map.value))
           .toList();
 
-  /// A shortcut of extended sublits with safety.
+  /// A shortcut of extended sublist with safety.
   List<OldValue> limit(int start, int length) {
     final end = start + length;
     return start > this.length
@@ -161,15 +237,23 @@ extension ListExtension<OldValue extends Object?> on List<OldValue> {
 }
 
 /// An extension of [DModel] list.
-extension ListModelExtension on List<DModel> {
+extension OnDModelList on List<DModel> {
   /// A shortcut to call [toJSON] from [DModel].
+  ///
+  /// ```dart
+  /// List<DModel> dmodels = [DModel(), DModel()];
+  /// List<JSON> jsons = dmodels.toJSON;
+  /// ```
   List<JSON> get toJSON => map((e) => e.toJSON).toList();
-
-  /// A shortcut to add new [DModel] into list of [DModel].
-  List<DModel> add(DModel value) => [...this, value];
 }
 
-extension GoRouteExtension on GoRoute {
+/// Extension on [GoRoute] to provide additional functionality.
+extension OnGoRoute on GoRoute {
+  /// Adds key-value pairs to the path and returns a new [GoRoute] instance.
+  ///
+  /// [key] is a map of string keys and their corresponding values to replace in the path.
+  ///
+  /// Returns a new [GoRoute] with the updated path.
   GoRoute add({required Map<String, String> key}) => GoRoute(
       path: key.entries.fold(path, (output, entry) {
         return output.replaceAll(entry.key, entry.value);
@@ -177,12 +261,26 @@ extension GoRouteExtension on GoRoute {
       builder: builder);
 }
 
-extension StringExtension on String {
+/// Extension on [String] to provide additional functionality.
+extension OnString on String {
+  /// Replaces occurrences of keys with their respective values from the provided map.
+  ///
+  /// [key] is a map of string keys and their corresponding values to replace in the string.
+  ///
+  /// Returns a new string with replaced values.
   String add({required Map<String, String> key}) =>
       key.entries.fold(this, (output, entry) {
         return output.replaceAll(entry.key, entry.value);
       });
 
+  /// Capitalizes the first letter of the string.
+  ///
+  /// Returns the string with the first letter capitalized.
+  ///
+  /// ```dart
+  /// String word = 'magnificent'.capitalize;
+  /// print(word); // Magnificent
+  /// ```
   String get capitalize {
     try {
       return this[0].toUpperCase() + substring(1, length);
@@ -192,8 +290,18 @@ extension StringExtension on String {
   }
 }
 
-extension IntExtension on int {
-  String get toBytes {
+/// Extension on [int] to provide additional functionality.
+extension OnInteger on int {
+  /// Converts the integer to a human-readable string representing bytes, KB, MB, or GB.
+  ///
+  /// Returns a string representation of the size in bytes, KB, MB, or GB.
+  ///
+  /// ```dart
+  /// int bytes = 1048576;
+  /// String parse = bytes.toReadableBytes;
+  /// print(parse); // "1048.57 KB"
+  /// ```
+  String get toReadableBytes {
     if (this < 1024) {
       return '$this B';
     } else if (this < 1024 * 1024) {

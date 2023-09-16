@@ -67,7 +67,7 @@
 <pre class="language-dart"><code class="language-dart">DBuilder(
   data: {"name": "John", "age": 30},
   builder: (context, data) {
-    final name = value.of&lt;String&gt;("name");
+    final name = data.of&lt;String&gt;("name");
     final age = data.of&lt;int&gt;("age");
     return Text("My name is $name and I am $age years old.");
   },

@@ -1,6 +1,31 @@
 part of '../dart_fusion.dart';
 
+/// A custom text area widget.
 class DTextArea extends StatelessWidget {
+  /// Creates a [DTextArea].
+  ///
+  /// [key] is a unique identifier for the widget.
+  /// [placeholder] is a widget displayed as a placeholder within the text area.
+  /// [borderRadius] is the border radius of the text area.
+  /// [hintText] is the text to display as a hint.
+  /// [labelText] is the text to display as a label.
+  /// [hintStyle] is the style for the hint text.
+  /// [textStyle] is the style for the text.
+  /// [backgroundColor] is the background color of the text area.
+  /// [cursorColor] is the color of the cursor.
+  /// [controller] is the text controller.
+  /// [borderSideActive] is the border side when the text area is active.
+  /// [borderSideIdle] is the border side when the text area is idle.
+  /// [textAlign] is the alignment of the text.
+  /// [maxLines] is the maximum number of lines.
+  /// [minLines] is the minimum number of lines.
+  /// [onSubmitted] is a callback function when submitted.
+  /// [decoration] is the decoration for the text field.
+  /// [prefixIcon] is the icon displayed before the text.
+  /// [suffixIcon] is the icon displayed after the text.
+  /// [contentPadding] is the padding for the content.
+  /// [margin] is the margin for the text area.
+  /// [footer] is the footer widget.
   const DTextArea({
     super.key,
     this.placeholder,
@@ -27,21 +52,70 @@ class DTextArea extends StatelessWidget {
     this.suffixIcon,
   });
 
-  /// If [placeholder] is not null, the textarea will follows [placeholder]
-  /// size
+  /// Placeholder widget to be displayed within the text area when it's empty.
   final Widget? placeholder;
+
+  /// The border radius of the text area.
   final BorderRadius? borderRadius;
-  final String? hintText, labelText;
-  final EdgeInsets? contentPadding, margin;
-  final Widget? prefixIcon, suffixIcon, footer;
-  final TextStyle? hintStyle, textStyle, labelStyle;
-  final Color? backgroundColor, cursorColor;
+
+  /// Hint text to be displayed when the text area is empty.
+  final String? hintText;
+
+  /// Label text to be displayed in the text area.
+  final String? labelText;
+
+  /// Padding for the content inside the text area.
+  final EdgeInsets? contentPadding;
+
+  /// Margin for the text area.
+  final EdgeInsets? margin;
+
+  /// Icon to be displayed at the beginning of the text area.
+  final Widget? prefixIcon;
+
+  /// Icon to be displayed at the end of the text area.
+  final Widget? suffixIcon;
+
+  /// Footer widget to be displayed in the text area.
+  final Widget? footer;
+
+  /// Style for the hint text.
+  final TextStyle? hintStyle;
+
+  /// Style for the text in the text area.
+  final TextStyle? textStyle;
+
+  /// Style for the label text.
+  final TextStyle? labelStyle;
+
+  /// Background color of the text area.
+  final Color? backgroundColor;
+
+  /// Color of the cursor in the text area.
+  final Color? cursorColor;
+
+  /// Controller for the text area.
   final TextEditingController? controller;
-  final BorderSide? borderSideActive, borderSideIdle;
+
+  /// Border side when the text area is active.
+  final BorderSide? borderSideActive;
+
+  /// Border side when the text area is idle.
+  final BorderSide? borderSideIdle;
+
+  /// Alignment of the text within the text area.
   final TextAlign textAlign;
+
+  /// Maximum number of lines for the text area.
   final int? maxLines;
+
+  /// Minimum number of lines for the text area.
   final int? minLines;
+
+  /// Callback function when the text is submitted.
   final void Function(String)? onSubmitted;
+
+  /// Decoration for the text field.
   final BoxDecoration? decoration;
 
   @override

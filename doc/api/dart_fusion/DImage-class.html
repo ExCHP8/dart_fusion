@@ -62,7 +62,18 @@
 
     
 <section class="desc markdown">
-  <p>A custom widget for displaying images with optional parameters for size, fit, and color.</p>
+  <p>A widget for displaying vector or bitmap images from different sources.</p>
+<pre class="language-dart"><code class="language-dart">DImage(source: File('path/to/images.svg'))
+
+// Vector / Bitmap image from asset
+DImage(source: 'assets/image/image.png');
+
+// Vector / Bitmap image from Uint8List
+DImage(source: Uint8List());
+
+// Vector / Bitmap image from network
+DImage(source: 'http://image.dom/asset.svg');
+</code></pre>
 </section>
 
 

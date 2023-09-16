@@ -1,10 +1,26 @@
 part of '../dart_fusion.dart';
 
+/// A builder widget that displays an overlay.
+///
+/// ```dart
+/// final overlay = DOverlay(builder: (context, progress, controller) => YourWidget());
+///
+/// GestureDetector(
+///   onTap: () {
+///     overlay.controller.display(context);
+///   }
+/// );
+/// ```
 class DOverlay extends DStateWidget {
+  /// Creates an instance of [DOverlay].
+  ///
+  /// [key] is a unique identifier for the widget.
+  /// [duration] is the duration for the overlay animation (default is 200 milliseconds).
+  /// [builder] is the widget to be displayed within the overlay.
   DOverlay({
     super.key,
     this.duration = const Duration(milliseconds: 200),
-    required this.child,
+    required this.builder,
   });
 
   /// Duration for how much long does the value changes taking.
@@ -15,12 +31,12 @@ class DOverlay extends DStateWidget {
     BuildContext context,
     double progress,
     DOverlayController controller,
-  ) child;
+  ) builder;
 
   /// Controller of [OverlayEntry].
   late final controller = DOverlayController(
     duration: duration,
-    child: child,
+    child: builder,
   );
 
   @override

@@ -7,7 +7,7 @@ part of '../dart_fusion.dart';
 /// DBuilder(
 ///   data: {"name": "John", "age": 30},
 ///   builder: (context, data) {
-///     final name = value.of<String>("name");
+///     final name = data.of<String>("name");
 ///     final age = data.of<int>("age");
 ///     return Text("My name is $name and I am $age years old.");
 ///   },
@@ -26,7 +26,7 @@ class DBuilder extends StatelessWidget {
   /// DBuilder(
   ///   data: {"name": "John", "age": 30},
   ///   builder: (context, data) {
-  ///     final name = value.of<String>("name");
+  ///     final name = data.of<String>("name");
   ///     final age = data.of<int>("age");
   ///     return Text("My name is $name and I am $age years old.");
   ///   },

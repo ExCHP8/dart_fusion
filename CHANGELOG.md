@@ -43,3 +43,4 @@
 * Update `typedefs`, `state widget`, `models`, `image`, `log` `extensions`, `button`, `builder` and `behavior`.
 * Add `textarea`, `parse`, `overlay` and `cli`.
 * Remove `route`.
+* Update documentation

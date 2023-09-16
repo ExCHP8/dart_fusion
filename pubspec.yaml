@@ -11,7 +11,7 @@ funding: https://www.buymeacoffee.com/nialixus
 screenshots:
   - description: 'Dart Fusion Logo'
     url: https://user-images.githubusercontent.com/45191605/267848544-e316c985-3369-4609-9aa5-6becfdb9bee8.png
-topics: 
+topics:
   - collection
   - utility
 
@@ -28,6 +28,7 @@ dependencies:
   go_router: ^9.0.3
   http: ^1.1.0
   logger: ^1.4.0
+  universal_file: ^1.0.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0

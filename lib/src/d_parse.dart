@@ -1,9 +1,16 @@
 part of '../dart_fusion.dart';
 
+/// A utility class for parsing mostly related to http request.
 class DParse {
   /// Parsing message of http method value like `DELETE`, `GET`, `HEAD`, `OPTIONS`, `PATCH`, `POST` or `PUT`.
+  ///
+  /// ```dart
+  /// HttpMethod method = HttpMethod.get;
+  /// final message = DParse.httpMethodMessage(method.name);
+  /// print(message); // 'Data successfully loaded'
+  /// ```
   static String httpMethodMessage(String value) {
-    switch (value) {
+    switch (value.toUpperCase()) {
       case 'DELETE':
         return 'Data successfully deleted';
       case 'GET':
@@ -25,6 +32,12 @@ class DParse {
 
   /// Parsing message of [statusCode] value, usually used when catching
   /// unsuitable response value.
+  ///
+  /// ```dart
+  /// Response response = Response(...);
+  /// final message = DParse.httpStatusMessage(response.statusCode);
+  /// print(message); // 'Not Found: The requested resource could not be found'
+  /// ```
   static String httpStatusMessage(int statusCode) {
     switch (statusCode) {
       case 100:
@@ -147,9 +160,15 @@ class DParse {
     }
   }
 
-  /// Parsing message error outside of `ResponseException`.
-  static String errorMessage(String value) {
-    switch (value) {
+  /// Parsing message error of [Exception].
+  ///
+  ///  ```dart
+  /// FormatException exception = FormatException('Unexpected end of input (at character 1)');
+  /// final message = DParse.exceptionMessage(exception);
+  /// print(message); // 'Data is not exist'
+  /// ```
+  static String exceptionMessage(dynamic value) {
+    switch (value.toString()) {
       case 'FormatException: Unexpected end of input (at character 1)\n\n^\n':
         return 'Data is not exist';
       case 'Null check operator used on a null value':
@@ -157,7 +176,7 @@ class DParse {
       case 'Bad state: No element':
         return 'Data is not exist';
       default:
-        return value;
+        return value.toString();
     }
   }
 }
