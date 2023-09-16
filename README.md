@@ -35,6 +35,7 @@ A library that brings together a harmonious blend of essential tools, utilities,
     - [Color](#d-extensions-on-context-color)
     - [Text](#d-extensions-on-context-text)
     - [Query](#d-extensions-on-context-query)
+    - [Size](#d-extensions-on-context-size)
     - [Height](#d-extensions-on-context-height)
     - [Width](#d-extensions-on-context-width)
     - [Is Phone](#d-extensions-on-context-isphone)
@@ -297,6 +298,82 @@ Extension on the Map<String, dynamic> value.
     String? secondary = value.maybeOf<String>("secondary");
     print(secondary); // null
     ```
+## <a name="d-extensions-on-context"></a> OnContext
+A set of extension collection on [BuildContext].
+  - <a name="d-extensions-on-context-theme"></a> **Theme** : A shortcut for calling `Theme.of(context)`.
+    ```dart
+    ThemeData theme = context.theme;
+    ```
+  - <a name="d-extensions-on-context-color"></a> **Color** : A shortcut for calling `Theme.of(context).colorScheme`.
+    ```dart
+    ColorScheme color = context.color;
+    ```
+  - <a name="d-extensions-on-context-text"></a> **Text** : A shortcut for calling `Theme.of(context).textTheme`.
+    ```dart
+    TextTheme text = context.text;
+    ```
+  - <a name="d-extensions-on-context-query"></a> **Query** : A shortcut for calling `MediaQuery.of(context)`.
+    ```dart
+    MediaQuery query = context.query;
+    ```
+  - <a name="d-extensions-on-context-size"></a> **Size** : A shortcut for calling `MediaQuery.sizeOf(context)`.
+    ```dart
+    Size suze = context.querySize;
+    ```
+  - <a name="d-extensions-on-context-width"></a> **Width** : A shortcut for calling `MediaQuery.sizeOf(context).width`.
+    ```dart
+    double width = context.width;
+    ```
+  - <a name="d-extensions-on-context-height"></a> **Height** : A shortcut for calling `MediaQuery.sizeOf(context).height`.
+    ```dart
+    double height = context.height;
+    ```
+  - <a name="d-extensions-on-context-isphone"></a> **Is Phone** : To check wether the screen width less than `400 px` or not.
+    ```dart
+    bool isPhone = context.isPhone;
+    ```
+  - <a name="d-extensions-on-context-isdesktop"></a> **Is Desktop** : To check wether the screen width more than `700 px` or not.
+    ```dart
+    bool isDesktop = context.isDesktop;
+    ```
+  - <a name="d-extensions-on-context-istablet"></a> **Is Tablet** : To check wether the screen width less than `400 px` and more than `700 px` or not.
+    ```dart
+    bool isTablet = context.isTablet;
+    ```
+## <a name="d-extensions-on-list"></a> OnList
+A set of extension collection on [BuildContext].
+  - <a name="d-extensions-on-list-to"></a> **To** : Generate key index and value of its items.
+    ```dart
+    List<String> texts = ["one", "two", "three"];
+    List<Widget> widgets = texts.to((index, item) => Text("$index: $item"));
+    ```
+  - <a name="d-extensions-on-list-limit"></a> **Limit** : Safely limitting list on certain length.
+    ```dart
+    List<int> integers = [1, 2, 3];
+    List<int> sublist = integers.limit(1, 100);
+    print(sublist); // [2, 3]
+    ```
+## <a name="d-extensions-on-dmodel-list"></a> OnDModelList
+Extending list of [DModel] to get its toJSON values.
+```dart
+List<DModel> dmodels = [DModel(), DModel()];
+List<JSON> jsons = dmodels.toJSON;
+```
+## <a name="d-extensions-on-string"></a> OnString
+Capitalizing the first letter of [String].
+```dart
+String word = 'magnificent'.capitalize;
+print(word); // Magnificent
+```
+## <a name="d-extensions-on-integer"></a> OnInteger
+Converts integer to a human-readable string representing bytes.
+```dart
+int bytes = 1048576;
+String parse = bytes.toReadableBytes;
+print(parse); // "1048.57 KB"
+```
+---
+
 Generation** : Easily generate asset classes from asset directories, making it simple to access assets in your Dart project. To scan asset files and generate them into one dart class, run this command
 
 The AppStateWidget library offers a solution to simplify the boilerplate code commonly associated with using StatefulWidget. By providing a clean and efficient approach, it enhances the developer experience. Designed with convenience and simplicity in mind, AppStateWidget streamlines the development process, allowing you to focus on building intuitive user interfaces without getting bogged down by repetitive code.
