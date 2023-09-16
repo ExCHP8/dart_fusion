@@ -11,17 +11,17 @@ A library that brings together a harmonious blend of essential tools, utilities,
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
   - [Documentation](#documentation)
-- [Dart Fusion CLI](#dart-fusion-cli)
+- [Dart Fusion CLI](#dart-fusion-cli-logo)
   - [Asset Scanner](#dart-fusion-cli-asset)
   - [Model Updater](#dart-fusion-cli-model)
   - [Localization Translator](#dart-fusion-cli-localization)
-- [D Annotation](#d-annotation)
+- [D Annotation](#d-annotation-logo)
   - [Usage](#d-annotation-usage)
 - [D Behavior](#d-behavior)
   - [Usage](#d-behavior-usage)
 - [D Builder](#d-builder)
   - [Usage](#d-builder-usage)
-- [D Extensions](#d-extensions)
+- [D Extensions](#d-extensions-logo)
   - [On Number](#d-extensions-on-number)
   - [On JSON](#d-extensions-on-json)
   - [On Context](#d-extensions-on-context)
@@ -70,9 +70,9 @@ also run this command in terminal
 dart pub global activate --source git https://github.com/Nialixus/dart_fusion.git
 ```
 ---
-
+<a name="dart-fusion-cli-logo"></a>
 <p align="center">
-  <img src="https://github.com/Nialixus/dart_fusion/assets/45191605/88e37aee-5e2d-4589-ae08-59069c936338" alt="Dart Fusion Logo" width="150">
+  <img src="https://github.com/Nialixus/dart_fusion/assets/45191605/88e37aee-5e2d-4589-ae08-59069c936338" alt="Dart Fusion CLI Logo" width="150">
 </p>
 
 # Dart Fusion CLI
@@ -133,8 +133,9 @@ The Dart Fusion CLI is a command-line tool that provides a set of utilities to s
   ```
 
 ---
+<a name="d-annotation-logo"></a>
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/45191605/267885292-129bc9a7-3b33-4b03-9926-079f12a28775.png" alt="Dart Fusion Logo" width="150">
+  <img src="https://user-images.githubusercontent.com/45191605/267885292-129bc9a7-3b33-4b03-9926-079f12a28775.png" alt="D Annotation Logo" width="150">
 </p>
 
 # D Annotation
@@ -231,8 +232,9 @@ DBuilder(
 )
 ```
 ---
+<a name="d-extensions-logo"></a>
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/45191605/268232865-208b24c8-141f-437c-bbb6-72168acf3981.png" alt="Dart Fusion Logo" width="250">
+  <img src="https://user-images.githubusercontent.com/45191605/268232865-208b24c8-141f-437c-bbb6-72168acf3981.png" alt="D Extensions Logo" width="250">
 </p>
 
 # D Extensions
