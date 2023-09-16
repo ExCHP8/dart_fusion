@@ -16,11 +16,8 @@ A library that brings together a harmonious blend of essential tools, utilities,
   - [Model Updater](#dart-fusion-cli-model)
   - [Localization Translator](#dart-fusion-cli-localization)
 - [D Annotation](#d-annotation-logo)
-  - [Usage](#d-annotation-usage)
 - [D Behavior](#d-behavior)
-  - [Usage](#d-behavior-usage)
 - [D Builder](#d-builder)
-  - [Usage](#d-builder-usage)
 - [D Extensions](#d-extensions-logo)
   - [On Number](#d-extensions-on-number)
     - [Min](#d-extensions-on-number-min)
@@ -48,26 +45,17 @@ A library that brings together a harmonious blend of essential tools, utilities,
   - [On String](#d-extensions-on-string)
   - [On Integer](#d-extensions-on-integer)
 - [D Image](#d-image)
-  - [Usage](#d-image-usage)
 - [D Log](#d-log)
-  - [Usage](#d-log-usage)
 - [D Model](#d-model)
-  - [Usage](#d-model-usage)
 - [D Overlay](#d-overlay)
-  - [Usage](#d-overlay-usage)
 - [D Parse](#d-parse)
   - [HTTP Method Message](#d-parse-http-method-message)
   - [HTTP Status Message](#d-parse-http-status-message)
   - [Exception Message](#d-parse-exception-message)
-- [D State Widget](#dstate-widget)
-  - [Key Features](#dstate-widget-features)
-  - [Usage](#dstate-widget-usage)
-- [D Text Area](#dtext-area)
-  - [Key Features](#dtext-area-features)
-  - [Usage](#dtext-area-usage)
+- [D State Widget](#d-state-widget-logo)
+  - [Key Features](#d-state-widget-key-features)
+  - [Usage](#d-state-widget-usage)
 - [D Typedefs](#d-typedefs)
-  - [Key Features](#dtypedefs-features)
-  - [Usage](#d-typedefs-usage)
  
 ## Installation
 put this in your pubspec.yaml
@@ -457,60 +445,64 @@ A utility class for parsing mostly related to http request.
   print(message); // 'Data is not exist'
   ```
 ---
-Generation** : Easily generate asset classes from asset directories, making it simple to access assets in your Dart project. To scan asset files and generate them into one dart class, run this command
+<a name="d-state-widget-logo"></a>
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/45191605/268439850-08b6133c-1585-4853-8e99-c3fc7abef447.png" alt="D State Widget Logo" width="150">
+</p>
 
-The AppStateWidget library offers a solution to simplify the boilerplate code commonly associated with using StatefulWidget. By providing a clean and efficient approach, it enhances the developer experience. Designed with convenience and simplicity in mind, AppStateWidget streamlines the development process, allowing you to focus on building intuitive user interfaces without getting bogged down by repetitive code.
+# D State Widget
+Offers a solution to simplify the boilerplate code commonly associated with using StatefulWidget. By providing a clean and efficient approach, it enhances the developer experience. Designed with convenience and simplicity in mind, AppStateWidget streamlines the development process, allowing you to focus on building intuitive user interfaces without getting bogged down by repetitive code.
 
-## Key Features
+## <a name="d-state-widget-key-features"></a> Key Features
 * Reduce Boilerplate
-  With AppStateWidget, you can significantly reduce boilerplate code when working with StatefulWidget. Say goodbye to excessive code blocks and welcome concise, elegant declarations.
+  With DStateWidget, you can significantly reduce boilerplate code when working with StatefulWidget. Say goodbye to excessive code blocks and welcome concise, elegant declarations.
 * Improved Readability
   By abstracting away common patterns, the library ensures cleaner and more readable code, making it easier to comprehend and maintain your project.
 * Easy to Use
-  Implementing AppStateWidget is straightforward. Just extend the class, override specific methods like onStart, onPreparation, onFinish, and let the magic happen.
+  Implementing DStateWidget is straightforward. Just extend the class, override specific methods like onStart, onPreparation, onFinish, and let the magic happen.
 * Data Passing Made Simple
   With a convenient data method, you can easily declare and pass data between the widget and its state, ensuring your data management is both efficient and organized.
 
-## Usage
+## <a name="d-state-widget-usage"></a> Usage
 To use it, you're going to need extending this class like this
 
 ```dart
-class MyClass extends AppStateWidget {
+class MyClass extends DStateWidget {
   const MyClass({super.key});
 
   @override
-  Map<String, dynamic> data(AppStateValue state){
+  Map<String, dynamic> data(DStateValue state){
     return {'controller': TextEditingController()};
   }
 
   @override
-  void onPreparation(AppStateValue state){
+  void onPreparation(DStateValue state){
     state.value<TextEditingController>('controller').text = 'Loading';
   }
 
   @override
-  Widget onStart(AppStateValue state){
+  Widget onStart(DStateValue state){
     return TextField(controller: state.value<TextEditingController>('controller'));
   }
 
-  void onReady(AppStateValue state){
+  void onReady(DStateValue state){
     state.value<TextEditingController>('controller').text = 'Data Loaded';
   }
 
   @override
-  void onFinish(AppStateValue state){
+  void onFinish(DStateValue state){
     state.value<TextEditingController>('controller').dispose();
   }
 }
 ```
 
-and you can also get [AppStateValue] in its child, by calling this
+and you can also get [DStateValue] in its child, by calling this
 
 ```dart
-AppStateInherited.of(context);
+DStateInherited.of(context);
 ```
 
-or get the data in [AppStateValue] with this
+or get the data in [DStateValue] with this
 
 ```dart
 context.value<TextEditingController>("controller");
@@ -520,6 +512,16 @@ also to cell setState we change it to
 ```dart
 state.update();
 ```
+---
+
+# D Typedefs
+A set of mostly used typedefs in dart.
+
+| Typedef | Original             | 
+| ------- | -------------------- |
+| JSON    | Map<String, dynamic> | 
+
+---
 
 ## Documentation
 For dart doc generated document, you can see it in this
