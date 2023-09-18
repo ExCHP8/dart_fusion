@@ -1,10 +1,10 @@
 {
-  "key": "This is a wonderful day!",
+  "key": "Dit is 'n wonderlike dag!",
   "nested": {
-    "key": "How are you?"
+    "key": "Hoe gaan dit?"
   },
-  "interpolated": "Have a nice day, {{name}}!",
-  "pluralKey_one": "This is a nice example.",
-  "pluralKey_other": "This are nice examples.",
-  "testing": "this is a test"
+  "interpolated": "Geniet die dag, {{name}}!",
+  "pluralKey_one": "Dit is 'n mooi voorbeeld.",
+  "pluralKey_other": "Dit is mooi voorbeelde.",
+  "testing": "hierdie is 'n toets"
 }

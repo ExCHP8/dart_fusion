@@ -1,10 +1,10 @@
 {
-  "key": "This is a wonderful day!",
+  "key": "هذا يوم رائع!",
   "nested": {
-    "key": "How are you?"
+    "key": "كيف حالك؟"
   },
-  "interpolated": "Have a nice day, {{name}}!",
-  "pluralKey_one": "This is a nice example.",
-  "pluralKey_other": "This are nice examples.",
-  "testing": "this is a test"
+  "interpolated": "طاب يومك، {{name}}!",
+  "pluralKey_one": "هذا مثال جميل.",
+  "pluralKey_other": "هذه أمثلة جميلة.",
+  "testing": "هذا اختبار"
 }

@@ -65,7 +65,7 @@ dependencies:
     git:
       url: https://github.com/Nialixus/dart_fusion.git
       ## Optional with version
-      ref: v2.3.0
+      ref: v2.4.0
 ```
 
 also run this command in terminal
@@ -109,28 +109,27 @@ The Dart Fusion CLI is a command-line tool that provides a set of utilities to s
   |                | default to `""`                         |
   | -h, --help     | Print this usage information.           |
 
-- **Localization** <a name="dart-fusion-cli-localization"></a>: Generate localization classes from JSON files, simplifying the process of managing translations in your Dart applications using Lecto API.
+- **Localization** <a name="dart-fusion-cli-localization"></a>: Generate localization classes from JSON files, simplifying the process of managing free translations in your Dart applications.
   ```bash
-  dart run dart_fusion localize --api-key="4Z5H0ZS-QHZM2Z8-NTYP640-38D9RFF"
+  dart run dart_fusion localize
   ```
 
   List of the commands
   | OPTION        | DESCRIPTION                                                    |
   | ------------- | -------------------------------------------------------------- |
-  | --api-key     | Lecto API key (required)                                       |
   | -i, --input   | Input directory of where the JSON base translation took place. |
   |               | default to `assets/translation/en.json`                        |
   | --from        | Base language used for translation                             |
   |               | default to `en`                                                |
   | --to          | Targeted translation languages                                 |
-  |               | default to `["af", "sq", "am", "ar", "hy", "az", "be", "bel", "bn", "bs", "bg", "ca", "ceb", "zh-CN", "zh-TW", "hr", "cs", "da", "nl", "en", "et", "tl", "fi", "fr", "fy", "gl", "ka", "de", "el", "gu", "ht", "ha", "he", "hi", "hu", "is", "ig", "id", "ga", "it", "ja", "kn", "kk", "km", "ko", "lo", "lv", "lt", "lb", "mk", "mg", "ms", "ml", "mr", "mn", "my", "ne", "nb", "no", "or", "ps", "fa", "pl", "pt", "pt-BR", "pt-PT", "pa", "ro", "ru", "gd", "sr", "sd", "si", "sk", "sl", "so", "es", "su", "sw", "sv", "ta", "th", "tr", "uk", "ur", "uz", "vi", "cy", "xh", "yi", "yo", "zu"]`
+  |               | default to `["af", "sq", "am", "ar", "hy", "az", "be", "bn", "bs", "bg", "ca", "ceb", "zh-CN", "zh-TW", "hr", "cs", "da", "nl", "en", "et", "tl", "fi", "fr", "fy", "gl", "ka", "de", "el", "gu", "ht", "ha", "he", "hi", "hu", "is", "ig", "id", "ga", "it", "ja", "kn", "kk", "km", "ko", "lo", "lv", "lt", "lb", "mk", "mg", "ms", "ml", "mr", "mn", "my", "ne", "nb", "no", "or", "ps", "fa", "pl", "pt", "pt-BR", "pt-PT", "pa", "ro", "ru", "gd", "sr", "sd", "si", "sk", "sl", "so", "es", "su", "sw", "sv", "ta", "th", "tr", "uk", "ur", "uz", "vi", "cy", "xh", "yi", "yo", "zu"]`
   | -h, --help    | Print this usage information.                                  |
 
   But this command can also be automatically run by initiating this
   ```dart
   Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
-    await DartFusion.initialize(asset: true, model: true, localizationAPI: '4Z5H0ZS-QHZM2Z8-NTYP640-38D9RFF');
+    await DartFusion.initialize(asset: true, model: true, localization: true);
     runApp(...);
   }
   ```

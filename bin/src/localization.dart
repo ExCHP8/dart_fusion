@@ -6,15 +6,13 @@ Future<void> insertLocalization({required ArgResults from}) async {
       throw '\x1B[0mAvailable commands :';
     } else {
       String base = from['from'];
-      String api = from['api-key']!;
       List<String> target = from['to'];
       File input = File(from['input']);
       Map<String, dynamic> json = jsonDecode(input.readAsStringSync());
       for (var lang in target..removeWhere((e) => e == base)) {
-        final translation =
-            await json.translate(from: base, to: lang, api: api);
-        File('${input.parent.path}/$lang.json').writeAsStringSync(
-            const JsonEncoder.withIndent('  ').convert(translation));
+        final translation = await json.translate(from: base, to: lang);
+        File('${input.parent.path}/$lang.json')
+            .writeAsStringSync(const JsonEncoder.withIndent('  ').convert(translation));
       }
     }
   } catch (e) {
@@ -22,7 +20,6 @@ Future<void> insertLocalization({required ArgResults from}) async {
         '+---------------+-----------------------------------------------------------------------+\n'
         '| OPTION\t| DESCRIPTION\t\t\t\t\t\t\t\t|\n'
         '+---------------+-----------------------------------------------------------------------+\n'
-        '| --api-key\t| Lecto api key \x1B[33m(required)\x1B[0m\t\t\t\t\t\t|\n'
         '| -i, --input\t| Input directory of where the JSON base translation took place.\t|\n'
         '| \t\t| \x1B[2mdefault to \x1B[0m\x1B[33m"assets/translation/en.json"\x1B[0m\t\t\t\t|\n'
         '| --from\t| Base language used for translation\t\t\t\t\t|\n'
@@ -32,34 +29,38 @@ Future<void> insertLocalization({required ArgResults from}) async {
         '| -h, --help\t| Print this usage information.\t\t\t\t\t\t|\n'
         '+---------------+-----------------------------------------------------------------------+\n'
         '\nUsage : '
-        '\n- \x1B[32mdart\x1B[0m run \x1B[34mdart_fusion\x1B[0m localize --api-key=\x1B[33m"4Z5H0ZS-QHZM2Z8-NTYP640-38D9RFF"\x1B[0m');
+        '\n- \x1B[32mdart\x1B[0m run \x1B[34mdart_fusion\x1B[0m localize');
   }
 }
 
 extension JSONExtension on Map<String, dynamic> {
-  Future<Map<String, dynamic>> translate(
-      {required String from, required String to, required String api}) async {
+  Future<Map<String, dynamic>> translate({required String from, required String to}) async {
     Map<String, dynamic> result = {};
     int index = 0;
 
     for (var item in entries) {
       try {
         if (item.value is Map<String, dynamic>) {
-          result[item.key] = await (item.value as Map<String, dynamic>)
-              .translate(from: from, to: to, api: api); // Recursive call
+          result[item.key] = await (item.value as Map<String, dynamic>).translate(from: from, to: to); // Recursive call
         } else {
-          List<String> values =
-              item.value.toString().split(RegExp(r'(?={{)|(?<=}})'));
+          Iterable<String> values = item.value.toString().trim().split(RegExp(r'(?={{)|(?<=}})'));
           List<String> newValues = [];
           for (var value in values) {
-            if (value.trim().startsWith('{{')) {
+            if (value.trim().startsWith('{{') || RegExp(r'^\W+$').hasMatch(value)) {
               newValues.add(value);
             } else {
-              final translation = await processing(
-                  text: item.value, from: from, to: to, api: api);
-              newValues.add(translation ?? value);
+              final translation = await processing(text: value, from: from, to: to);
+              print("VALUE: $value has SPACE: ${value.endsWith(" ")}");
+              // ignore: unnecessary_string_escapes
+              newValues.add(translation != null
+                  ? value.endsWith(' ')
+                      ? '$translation '
+                      : translation
+                  : value);
             }
           }
+
+          // ignore: unnecessary_string_escapes
           result[item.key] = newValues.join();
         }
       } catch (e) {
@@ -67,8 +68,7 @@ extension JSONExtension on Map<String, dynamic> {
         result[item.key] = item.value;
       }
 
-      stdout.write(
-          '\rTranslating $to ${(((index + 1) / length) * 100).toInt()}%          ');
+      stdout.write('\rTranslating $to ${(((index + 1) / length) * 100).toInt()}%          ');
       index++;
     }
 
@@ -76,27 +76,12 @@ extension JSONExtension on Map<String, dynamic> {
   }
 }
 
-Future<String?> processing(
-    {required String text,
-    required String from,
-    required String to,
-    required String api}) async {
+Future<String?> processing({required String text, required String from, required String to}) async {
   Map<String, dynamic> json = {};
   try {
-    final response =
-        await http.post(Uri.parse('https://api.lecto.ai/v1/translate/text'),
-            headers: {
-              'X-API-Key': api,
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-            },
-            body: jsonEncode({
-              "texts": [text],
-              "to": [to],
-              "from": from
-            }));
+    final response = await http.get(Uri.parse('https://t.song.work/api?text=$text&from=$from&to=$to'));
     json = jsonDecode(response.body);
-    return json['translations']![0]!['translated']![0];
+    return json['result']!;
   } catch (e) {
     if (json.isNotEmpty) {
       print('\n\x1B[31m$json\x1B[0m');
@@ -115,7 +100,6 @@ List<String> languages = [
   "hy",
   "az",
   "be",
-  "bel",
   "bn",
   "bs",
   "bg",

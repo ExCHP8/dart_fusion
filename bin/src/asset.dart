@@ -10,7 +10,10 @@ void insertAsset({required ArgResults from}) {
 
       Directory(output.directory).createSync(recursive: true);
       File(output)
-        ..writeAsStringSync(input.file)
+        ..writeAsStringSync(input.file((dir, file) {
+          print(
+              '\x1B[32mScanning ${dir.length} directories and ${file.length} files ✔️\x1B[0m \ninto \x1B[33m$output 🚀\x1B[0m');
+        }))
         ..createSync(recursive: true);
     }
   } catch (e) {
@@ -41,7 +44,18 @@ extension DirectoryExtension on Directory {
 
 extension FileExtension on File {
   String get name {
-    return path.split("/").last.split(".").first.toLowerCase();
+    String result = path
+        .split("/")
+        .last
+        .split(".")
+        .first
+        .split(RegExp(r'\W+'))
+        .asMap()
+        .entries
+        .map((e) => e.key == 0 ? e.value.toLowerCase() : e.value.capitalize)
+        .join();
+
+    return result.trim() == 'is' ? 'iss' : result;
   }
 }
 
@@ -81,11 +95,9 @@ extension StringExtension on String {
     }
   }
 
-  String get file {
+  String file(void Function(List<Directory> directories, List<File> files) value) {
     List<File> files = [];
-    List<Directory> directories = [
-      if (Directory(this).listSync().any((e) => e is File)) Directory(this)
-    ];
+    List<Directory> directories = [if (Directory(this).listSync().any((e) => e is File)) Directory(this)];
     final StringBuffer classes = StringBuffer();
     final StringBuffer variables = StringBuffer();
 
@@ -129,6 +141,8 @@ class ${dir.name} {$variables
 ''');
     }
 
+    value(directories, files);
+
     return '''
 // Dart Fusion Auto-Generated Asset Scanner
 // Created at ${DateTime.now()}
@@ -144,8 +158,7 @@ extension DirectoryListExtension on List<Directory> {
   void toPubspec() {
     File pubspec = File('pubspec.yaml');
     List<String> lines = pubspec.readAsLinesSync();
-    int flutterIndex =
-        lines.lastIndexWhere((line) => line.trim() == 'flutter:');
+    int flutterIndex = lines.lastIndexWhere((line) => line.trim() == 'flutter:');
     int assetsIndex = lines.lastIndexWhere((line) => line.trim() == 'assets:');
     if (flutterIndex == -1) {
       lines.insert(lines.length - 1, 'flutter:\n  assets:');
@@ -156,10 +169,8 @@ extension DirectoryListExtension on List<Directory> {
     }
 
     for (var directory in this) {
-      int assetsIndex =
-          lines.lastIndexWhere((line) => line.trim() == 'assets:');
-      int directoryIndex =
-          lines.lastIndexWhere((line) => line.trim() == '- ${directory.path}/');
+      int assetsIndex = lines.lastIndexWhere((line) => line.trim() == 'assets:');
+      int directoryIndex = lines.lastIndexWhere((line) => line.trim() == '- ${directory.path}/');
       if (directoryIndex == -1) {
         lines.insert(assetsIndex + 1, '    - ${directory.path}/');
       }

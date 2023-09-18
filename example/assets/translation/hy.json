@@ -1,10 +1,10 @@
 {
-  "key": "This is a wonderful day!",
+  "key": "Սա հրաշալի օր է:",
   "nested": {
-    "key": "How are you?"
+    "key": "Ինչպես ես?"
   },
-  "interpolated": "Have a nice day, {{name}}!",
-  "pluralKey_one": "This is a nice example.",
-  "pluralKey_other": "This are nice examples.",
-  "testing": "this is a test"
+  "interpolated": "Հաճելի օր, {{name}}!",
+  "pluralKey_one": "Սա գեղեցիկ օրինակ է։",
+  "pluralKey_other": "Սա գեղեցիկ օրինակներ են:",
+  "testing": "Սա թեստ է"
 }

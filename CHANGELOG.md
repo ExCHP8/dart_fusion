@@ -44,3 +44,6 @@
 * Add `textarea`, `parse`, `overlay` and `cli`.
 * Remove `route`.
 * Update documentation
+## 2.4.0
+* Remove api key from localization translator
+* Add List fromJSON in model generation

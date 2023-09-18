@@ -29,36 +29,24 @@ class DartFusion {
   ///
   /// [asset] specifies whether to run the asset scanner,
   /// [model] specifies whether to run the model updater,
-  /// [localizationAPI] API key for localization, if needed.
+  /// [localization] API key for localization, if needed.
   static Future<void> initialize({
     bool asset = true,
     bool model = true,
-    String? localizationAPI,
+    bool localization = true,
   }) async {
     if (kDebugMode) {
       try {
         if (asset) {
-          final process = await Process.run(
-              'dart', ['run', 'dart_fusion', 'asset'],
-              runInShell: true);
+          final process = await Process.run('dart', ['run', 'dart_fusion', 'asset'], runInShell: true);
           print('\x1B[33m[Asset]\x1B[0m ${process.stdout}${process.stderr}');
         }
         if (model) {
-          final process = await Process.run(
-              'dart', ['run', 'dart_fusion', 'model'],
-              runInShell: true);
+          final process = await Process.run('dart', ['run', 'dart_fusion', 'model'], runInShell: true);
           print('\x1B[33m[Model]\x1B[0m ${process.stdout}${process.stderr}');
         }
-        if (localizationAPI != null) {
-          final process = await Process.run(
-              'dart',
-              [
-                'run',
-                'dart_fusion',
-                'localize',
-                '--api-key="$localizationAPI"',
-              ],
-              runInShell: true);
+        if (localization) {
+          final process = await Process.run('dart', ['run', 'dart_fusion', 'localize'], runInShell: true);
           print('\x1B[33m[Localize]\x1B[0m ${process.stdout}${process.stderr}');
         }
       } catch (e) {
