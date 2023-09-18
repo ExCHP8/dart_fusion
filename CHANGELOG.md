@@ -47,3 +47,4 @@
 ## 2.4.0
 * Remove api key from localization translator
 * Add List fromJSON in model generation
+* Update language list
