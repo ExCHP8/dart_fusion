@@ -48,3 +48,11 @@
 * Remove api key from localization translator
 * Add List fromJSON in model generation
 * Update language list
+## 2.5.0
+* Add `D Exceptions`
+* Add parse `FormData` toJSON
+* Update `ResponseModel`.
+* Update `D Extensions`
+* Add `D Service`
+* Avoid dart keywrod in asset scanner name
+* Add generated model of localization to integrate with easy localization

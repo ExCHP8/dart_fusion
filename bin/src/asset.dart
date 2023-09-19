@@ -55,7 +55,55 @@ extension FileExtension on File {
         .map((e) => e.key == 0 ? e.value.toLowerCase() : e.value.capitalize)
         .join();
 
-    return result.trim() == 'is' ? 'iss' : result;
+    if (result.trim().isEmpty) {
+      return path.split('/').last.replaceAll('.', '');
+    } else {
+      switch (result.trim()) {
+        case 'is':
+        case 'do':
+        case 'while':
+        case 'break':
+        case 'continue':
+        case 'return':
+        case 'case':
+        case 'default':
+        case 'if':
+        case 'else':
+        case 'for':
+        case 'switch':
+        case 'assert':
+        case 'try':
+        case 'catch':
+        case 'finally':
+        case 'rethrow':
+        case 'throw':
+        case 'on':
+        case 'typedef':
+        case 'async':
+        case 'await':
+        case 'yield':
+        case 'yield*':
+        case 'sync':
+        case 'external':
+        case 'covariant':
+        case 'deferred':
+        case 'get':
+        case 'hide':
+        case 'implements':
+        case 'import':
+        case 'library':
+        case 'operator':
+        case 'part':
+        case 'set':
+        case 'show':
+        case 'source':
+        case 'static':
+        case 'with':
+          return '${result}_entity';
+        default:
+          return result;
+      }
+    }
   }
 }
 

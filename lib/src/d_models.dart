@@ -33,12 +33,10 @@ class DModel extends Equatable {
   static DModel fromJSON(JSON value) => const DModel();
 
   @override
-  List<Object?> get props =>
-      toJSON.entries.map((e) => '${e.key}: ${e.value}').toList();
+  List<Object?> get props => toJSON.entries.map((e) => '${e.key}: ${e.value}').toList();
 
   @override
-  String toString() =>
-      toJSON.entries.map((e) => '${e.key}: ${e.value}').toString();
+  String toString() => toJSON.entries.map((e) => '${e.key}: ${e.value}').toString();
 }
 
 /// Basic model in root of every `Response`, containing [success] status,
@@ -50,21 +48,21 @@ class DModel extends Equatable {
 ///   message: 'Successfully Fetching Data!',
 ///   data: const ResponseDataModel());
 /// ```
-class ResponseModel extends DModel {
+class ResponseModel<T extends DModel> extends DModel {
   /// Default constructor of [ResponseModel] with value [success] is `false`,
   /// [message] is `No Message`, and [data] is [DModel].
   const ResponseModel({
     this.success = false,
     this.message = 'No Message',
-    required this.data,
+    this.data,
   });
 
   /// Parsing [ResponseModel] from [JSON] value, with additional null safety.
-  static ResponseModel fromJSON(JSON value) {
+  static ResponseModel fromJSON<T extends DModel>(JSON value, {T Function(JSON value)? data}) {
     return ResponseModel(
       success: value.of('success'),
       message: value.of('message'),
-      data: DModel.fromJSON(value.of('data')),
+      data: data != null ? data(value) : null,
     );
   }
 
@@ -76,13 +74,13 @@ class ResponseModel extends DModel {
 
   /// Child data of [ResponseModel], must be a class that extends
   /// [DModel].
-  final DModel data;
+  final T? data;
 
   @override
   ResponseModel copyWith({
     bool? success,
     String? message,
-    DModel? data,
+    T? data,
   }) {
     return ResponseModel(
       success: success ?? this.success,
@@ -95,7 +93,7 @@ class ResponseModel extends DModel {
   JSON get toJSON => {
         'success': success,
         'message': message,
-        'data': data.toJSON,
+        'data': data?.toJSON,
         ...super.toJSON,
       };
 }

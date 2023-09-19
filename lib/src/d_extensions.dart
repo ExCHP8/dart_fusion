@@ -102,8 +102,7 @@ extension OnJSON on JSON {
       } else if (T is DateTime) {
         return DateTime.now() as T;
       } else {
-        throw const FormatException(
-            'Type is not provided, use <JSON>{}.maybeOf("key") instead.');
+        throw const TypeException(message: 'Type is not provided, use <JSON>{}.maybeOf("key") instead.');
       }
     }
 
@@ -121,6 +120,23 @@ extension OnJSON on JSON {
   /// ```
   T? maybeOf<T extends Object>(String key) {
     return this[key] as T?;
+  }
+
+  /// Parse [FormData] fields to [JSON].
+  JSON get toJSON {
+    var data = <String, dynamic>{};
+    for (final entry in entries) {
+      if (entry.key.contains('.')) {
+        final prefix = entry.key.split('.').map((e) => '"$e":').join('{');
+        final suffix = [for (int x = 0; x < entry.key.split('.').length; x++) '}'].join();
+        final complete = '${'{$prefix"'}${entry.value}"$suffix';
+        data = data.merge(jsonDecode(complete) as JSON? ?? {});
+      } else {
+        data.addAll({entry.key: entry.value});
+      }
+    }
+
+    return data;
   }
 }
 
@@ -148,8 +164,7 @@ extension OnContext on BuildContext {
   TextTheme get text => theme.textTheme;
 
   /// The [BottomNavigationBarThemeData] defined for the current [ThemeData].
-  BottomNavigationBarThemeData get bottomTheme =>
-      theme.bottomNavigationBarTheme;
+  BottomNavigationBarThemeData get bottomTheme => theme.bottomNavigationBarTheme;
 
   /// The [MediaQueryData] for this [BuildContext].
   ///
@@ -218,12 +233,8 @@ extension OnList<OldValue extends Object?> on List<OldValue> {
   /// List<String> texts = ["one", "two", "three"];
   /// List<Widget> widgets = texts.to((index, item) => Text("$index: $item"));
   /// ```
-  List<NewValue> to<NewValue extends Object?>(
-          NewValue Function(int index, OldValue item) value) =>
-      asMap()
-          .entries
-          .map<NewValue>((map) => value(map.key, map.value))
-          .toList();
+  List<NewValue> to<NewValue extends Object?>(NewValue Function(int index, OldValue item) value) =>
+      asMap().entries.map<NewValue>((map) => value(map.key, map.value)).toList();
 
   /// A shortcut of extended sublist with safety.
   List<OldValue> limit(int start, int length) {
@@ -268,8 +279,7 @@ extension OnString on String {
   /// [key] is a map of string keys and their corresponding values to replace in the string.
   ///
   /// Returns a new string with replaced values.
-  String add({required Map<String, String> key}) =>
-      key.entries.fold(this, (output, entry) {
+  String add({required Map<String, String> key}) => key.entries.fold(this, (output, entry) {
         return output.replaceAll(entry.key, entry.value);
       });
 
@@ -313,6 +323,48 @@ extension OnInteger on int {
     } else {
       double sizeInGB = this / (1024 * 1024 * 1024);
       return '${sizeInGB.toStringAsFixed(2)} GB';
+    }
+  }
+}
+
+/// An extension of [RequestContext].
+extension RequestContextExtension on RequestContext {
+  /// A shortcut to get [HttpMethod] out of [RequestContext].
+  HttpMethod get method => request.method;
+
+  /// Check whether request method is [HttpMethod.get] or not.
+  bool get isGET => method == HttpMethod.get;
+
+  /// Check whether request method is [HttpMethod.post] or not.
+  bool get isPOST => method == HttpMethod.post;
+
+  /// Check whether request method is [HttpMethod.delete] or not.
+  bool get isDELETE => method == HttpMethod.delete;
+
+  /// Check whether request method is [HttpMethod.put] or not.
+  bool get isPUT => method == HttpMethod.put;
+
+  /// Check whether request is a http request or websocket request.
+  bool get isWebSocket => request.url.toString().startsWith('ws');
+
+  /// A shortcut to get parameter from [RequestContext].
+  JSON get parameter => request.uri.queryParameters;
+
+  /// A function to verifiy `Bearer Token`.
+  Future<JWT> verify(String Function(String key) certificate) async {
+    try {
+      final token = request.headers['authorization']!.split(' ').last;
+      final key = JWT.decode(token).header!['kid'].toString();
+      return JWT.verify(token, RSAPublicKey.cert(certificate(key)));
+    } catch (e) {
+      throw ResponseException(
+        response: Response.json(
+          statusCode: 401,
+          body: ResponseModel(
+            message: DParse.httpStatusMessage(401),
+          ).toJSON,
+        ),
+      );
     }
   }
 }

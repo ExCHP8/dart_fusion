@@ -1,7 +1,7 @@
 name: dart_fusion
 description: A library that brings together a harmonious blend of essential
   tools, utilities, and components designed to supercharge your Dart projects.
-version: 2.4.0
+version: 2.5.0
 homepage: https://github.com/Nialixus/dart_fusion.git
 repository: https://github.com/Nialixus/dart_fusion.git
 issue_tracker: https://github.com/Nialixus/dart_fusion/issues
@@ -21,6 +21,9 @@ environment:
 
 dependencies:
   args: ^2.4.2
+  dart_frog: ^1.0.1
+  dart_frog_web_socket: ^1.0.0
+  dart_jsonwebtoken: ^2.11.0
   equatable: ^2.0.5
   flutter:
     sdk: flutter

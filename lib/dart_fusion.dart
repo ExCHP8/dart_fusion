@@ -1,6 +1,11 @@
 /// A library that brings together a harmonious blend of essential tools, utilities, and components designed to supercharge your Dart projects.
 library dart_fusion;
 
+import 'dart:convert';
+import 'dart:math';
+
+import 'package:dart_frog/dart_frog.dart';
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +15,7 @@ import 'package:logger/logger.dart';
 import 'package:universal_file/universal_file.dart';
 
 part 'src/d_behavior.dart';
+part 'src/d_exceptions.dart';
 part 'src/d_image.dart';
 part 'src/d_log.dart';
 part 'src/d_state_widget.dart';
@@ -22,6 +28,7 @@ part 'src/d_typedefs.dart';
 part 'src/d_parse.dart';
 part 'src/d_textarea.dart';
 part 'src/d_annotation.dart';
+part 'src/d_service.dart';
 
 /// A class for initializing DartFusion auto generation.
 class DartFusion {
@@ -29,7 +36,7 @@ class DartFusion {
   ///
   /// [asset] specifies whether to run the asset scanner,
   /// [model] specifies whether to run the model updater,
-  /// [localization] API key for localization, if needed.
+  /// [localization] specifies whether to run the localization translator or not.
   static Future<void> initialize({
     bool asset = true,
     bool model = true,
