@@ -11,7 +11,7 @@ part of '../dart_fusion.dart';
 ///   }
 /// );
 /// ```
-class DOverlay extends DStateWidget {
+class DOverlay extends DWidget {
   /// Creates an instance of [DOverlay].
   ///
   /// [key] is a unique identifier for the widget.
@@ -40,10 +40,10 @@ class DOverlay extends DStateWidget {
   );
 
   @override
-  Widget onStart(DStateValue state) => const SizedBox();
+  Widget onStart(DState state) => const SizedBox();
 
   @override
-  void onFinish(DStateValue state) => controller.dispose();
+  void onFinish(DState state) => controller.dispose();
 }
 
 /// A custom overlay that displays a widget on top of other content.

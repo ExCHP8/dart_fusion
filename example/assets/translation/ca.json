@@ -1,10 +1,10 @@
 {
-  "key": "Aque t é un dia meravelló !",
+  "key": "This is a wonderful day!",
   "nested": {
-    "key": "Com e tà ?"
+    "key": "How are you?"
   },
-  "interpolated": "Bon dia, {{name}}!",
-  "pluralKey_one": "Aque t é un bon exemple.",
-  "pluralKey_other": "Aque t ón bon exemple .",
-  "testing": "aque ta prova"
+  "interpolated": "Have a nice day, {name}!",
+  "pluralKey_one": "This is a nice example.",
+  "pluralKey_other": "This are nice examples.",
+  "testing": "this is a test"
 }

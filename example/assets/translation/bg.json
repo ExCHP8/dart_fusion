@@ -1,10 +1,10 @@
 {
-  "key": "Това е прекрасен ден!",
+  "key": "This is a wonderful day!",
   "nested": {
-    "key": "как си"
+    "key": "How are you?"
   },
-  "interpolated": "Have a nice day, {{name}}!",
-  "pluralKey_one": "Това е хубав пример.",
-  "pluralKey_other": "Това са хубави примери.",
-  "testing": "това е най-доброто"
+  "interpolated": "Have a nice day, {name}!",
+  "pluralKey_one": "This is a nice example.",
+  "pluralKey_other": "This are nice examples.",
+  "testing": "this is a test"
 }

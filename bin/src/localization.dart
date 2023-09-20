@@ -8,12 +8,19 @@ Future<void> insertLocalization({required ArgResults from}) async {
       String base = from['from'];
       List<String> target = from['to'];
       File input = File(from['input']);
+      String? model = from['model'];
       Map<String, dynamic> json = jsonDecode(input.readAsStringSync());
-      for (var lang in target..removeWhere((e) => e == base)) {
-        final translation = await json.translate(from: base, to: lang);
-        File('${input.parent.path}/$lang.json')
-            .writeAsStringSync(const JsonEncoder.withIndent('  ').convert(translation));
+      if (model != null) {
+        File(model)
+          ..parent.createSync(recursive: true)
+          ..writeAsStringSync(json.model(name: File(model).name.capitalize, isRoot: true));
       }
+      // for (var lang in target..removeWhere((e) => e == base)) {
+      //   final translation = await json.translate(from: base, to: lang);
+      //   File('${input.parent.path}/$lang.json')
+      //       .writeAsStringSync(const JsonEncoder.withIndent('  ').convert(translation));
+      //   stdout.writeln();
+      // }
     }
   } catch (e) {
     print('\n\x1B[31m$e\x1B[0m\n\n'
@@ -34,6 +41,55 @@ Future<void> insertLocalization({required ArgResults from}) async {
 }
 
 extension JSONExtension on Map<String, dynamic> {
+  String generateDartClasses(String className, Map<String, dynamic> jsonMap, bool isRoot) {
+    StringBuffer buffer = StringBuffer();
+
+    if (isRoot) {
+      buffer.write('class $className {\n');
+    } else {
+      buffer.write('class $className {\n  const $className();\n');
+    }
+
+    // Generate properties or getters based on the root level
+    for (var key in jsonMap.keys) {
+      if (jsonMap[key] is Map<String, dynamic>) {
+        buffer.write('  ${key.capitalize} get $key => const ${key.capitalize}();\n');
+        buffer.write(generateDartClasses(key.capitalize, jsonMap[key], false));
+      } else {
+        buffer.write(isRoot ? '  static String $key = \'$key\'.tr();\n' : '  String get $key => \'$key\'.tr();\n');
+      }
+    }
+
+    buffer.write('}\n');
+
+    return buffer.toString();
+  }
+
+  String model({
+    required String name,
+    bool isRoot = false,
+  }) {
+    StringBuffer buffer = StringBuffer();
+    for (var value in entries) {
+      if (value.value is Map<String, dynamic>) {
+        print(value.value);
+        buffer.write('class ${value.key} {');
+      } else {
+        buffer.write(isRoot ?'static String ${value.value} = ' 'class ${value.key} {');
+      }
+    }
+
+    return '''
+// Dart Fusion Auto-Generated Easy Localization
+// Created at ${DateTime.now()}
+// 🍔 [Buy me a coffee](https://www.buymeacoffee.com/nialixus) 🚀
+// ignore_for_file: constant_identifier_names
+import 'package:easy_localization/easy_localization.dart';
+
+$buffer
+''';
+  }
+
   Future<Map<String, dynamic>> translate({required String from, required String to}) async {
     Map<String, dynamic> result = {};
     int index = 0;
@@ -43,15 +99,13 @@ extension JSONExtension on Map<String, dynamic> {
         if (item.value is Map<String, dynamic>) {
           result[item.key] = await (item.value as Map<String, dynamic>).translate(from: from, to: to); // Recursive call
         } else {
-          Iterable<String> values = item.value.toString().trim().split(RegExp(r'(?={{)|(?<=}})'));
+          Iterable<String> values = item.value.toString().trim().split(RegExp(r'(?={.*?})|(?<=\w})'));
           List<String> newValues = [];
           for (var value in values) {
-            if (value.trim().startsWith('{{') || RegExp(r'^\W+$').hasMatch(value)) {
+            if (value.trim().startsWith('{') || RegExp(r'^\W+$').hasMatch(value)) {
               newValues.add(value);
             } else {
               final translation = await processing(text: value, from: from, to: to);
-              print("VALUE: $value has SPACE: ${value.endsWith(" ")}");
-              // ignore: unnecessary_string_escapes
               newValues.add(translation != null
                   ? value.endsWith(' ')
                       ? '$translation '
@@ -59,16 +113,15 @@ extension JSONExtension on Map<String, dynamic> {
                   : value);
             }
           }
-
-          // ignore: unnecessary_string_escapes
           result[item.key] = newValues.join();
         }
       } catch (e) {
         stderr.writeln('ERROR: $e');
         result[item.key] = item.value;
       }
-
-      stdout.write('\rTranslating $to ${(((index + 1) / length) * 100).toInt()}%          ');
+      var percentage = '${(((index + 1) / length) * 100).toInt()}%';
+      stdout.write(
+          '\rTranslating \x1B[33m$from\x1B[0m to \x1B[33m$to\x1B[0m [$percentage] ${percentage == '100%' ? '\x1B[32m✓\x1B[0m' : ''}          ');
       index++;
     }
 

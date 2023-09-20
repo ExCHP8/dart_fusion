@@ -127,9 +127,9 @@ extension IntExtension on int {
 extension StringExtension on String {
   String get capitalize {
     try {
-      return this[0].toUpperCase() + substring(1, length);
+      return this[0].toUpperCase() + substring(1).toLowerCase();
     } catch (e) {
-      return toString().toUpperCase();
+      return toUpperCase();
     }
   }
 

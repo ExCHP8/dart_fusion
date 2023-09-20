@@ -1,10 +1,10 @@
 {
-  "key": "ይህ አስደናቂ ቀን ነው!",
+  "key": "This is a wonderful day!",
   "nested": {
-    "key": "ስላም?"
+    "key": "How are you?"
   },
-  "interpolated": "መልካም ቀን ይሁንልህ, {{name}}!",
-  "pluralKey_one": "ይህ ጥሩ ምሳሌ ነው።",
-  "pluralKey_other": "እነዚህ ጥሩ ምሳሌዎች ናቸው.",
-  "testing": "ይህ ፈተና ነው።"
+  "interpolated": "Have a nice day, {name}!",
+  "pluralKey_one": "This is a nice example.",
+  "pluralKey_other": "This are nice examples.",
+  "testing": "this is a test"
 }

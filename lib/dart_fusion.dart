@@ -18,7 +18,7 @@ part 'src/d_behavior.dart';
 part 'src/d_exceptions.dart';
 part 'src/d_image.dart';
 part 'src/d_log.dart';
-part 'src/d_state_widget.dart';
+part 'src/d_widget.dart';
 part 'src/d_builder.dart';
 part 'src/d_extensions.dart';
 part 'src/d_button.dart';
@@ -40,7 +40,7 @@ class DartFusion {
   static Future<void> initialize({
     bool asset = true,
     bool model = true,
-    bool localization = true,
+    bool localization = false,
   }) async {
     if (kDebugMode) {
       try {

@@ -35,9 +35,9 @@ extension OnNumber<Number extends num> on Number {
           : this;
 }
 
-/// Extensioning values used in [DStateValue].
-extension OnDStateValue on DStateValue {
-  /// A shortcut to call value from [DStateValue.data].
+/// Extensioning values used in [DState].
+extension OnDState on DState {
+  /// A shortcut to call value from [DState.data].
   ///
   /// ```dart
   /// final controller = state.value<TextEditingController>('controller');
@@ -218,10 +218,10 @@ extension OnContext on BuildContext {
   /// ```
   bool get isTablet => !isPhone && !isDesktop;
 
-  /// Getting [DStateValue] from its descendant.
-  DStateValue? get appstate => DStateInherited.of(this)?.value;
+  /// Getting [DState] from its descendant.
+  DState? get appstate => DInherited.of(this)?.value;
 
-  /// A shortcut to get [DStateValue.data] with [BuildContext].
+  /// A shortcut to get [DState.data] with [BuildContext].
   T? value<T extends Object?>(String key) => appstate?.value<T>(key);
 }
 

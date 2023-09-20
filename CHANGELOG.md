@@ -56,3 +56,4 @@
 * Add `D Service`
 * Avoid dart keywrod in asset scanner name
 * Add generated model of localization to integrate with easy localization
+* Add Dart Fussion Runner

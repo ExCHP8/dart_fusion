@@ -1,10 +1,10 @@
 {
-  "key": "এটি একটি বিস্ময়কর দিন!",
+  "key": "This is a wonderful day!",
   "nested": {
-    "key": "আপনি কেমন আছেন?"
+    "key": "How are you?"
   },
-  "interpolated": "আপনার দিনটি শুভ হোক, {{name}}!",
-  "pluralKey_one": "এটি একটি চমৎকার উদাহরণ.",
-  "pluralKey_other": "এই চমৎকার উদাহরণ.",
-  "testing": "এটা একটা পরীক্ষা"
+  "interpolated": "Have a nice day, {name}!",
+  "pluralKey_one": "This is a nice example.",
+  "pluralKey_other": "This are nice examples.",
+  "testing": "this is a test"
 }

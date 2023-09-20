@@ -1,10 +1,10 @@
 {
-  "key": "Bu gözəl gündür!",
+  "key": "This is a wonderful day!",
   "nested": {
-    "key": "Necəsən?"
+    "key": "How are you?"
   },
-  "interpolated": "Gözəl gün arzu edirəm, {{name}}!",
-  "pluralKey_one": "Bu gözəl nümunədir.",
-  "pluralKey_other": "Bunlar gözəl nümunələrdir.",
-  "testing": "bu testdir"
+  "interpolated": "Have a nice day, {name}!",
+  "pluralKey_one": "This is a nice example.",
+  "pluralKey_other": "This are nice examples.",
+  "testing": "this is a test"
 }
