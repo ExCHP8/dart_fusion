@@ -29,6 +29,7 @@ part 'src/d_parse.dart';
 part 'src/d_textarea.dart';
 part 'src/d_annotation.dart';
 part 'src/d_service.dart';
+part 'src/d_runner.dart';
 
 /// A class for initializing DartFusion auto generation.
 class DartFusion {
@@ -37,28 +38,154 @@ class DartFusion {
   /// [asset] specifies whether to run the asset scanner,
   /// [model] specifies whether to run the model updater,
   /// [localization] specifies whether to run the localization translator or not.
-  static Future<void> initialize({
-    bool asset = true,
-    bool model = true,
-    bool localization = false,
-  }) async {
+  static Future<void> initialize(List<DRunner> runner) async {
     if (kDebugMode) {
       try {
-        if (asset) {
-          final process = await Process.run('dart', ['run', 'dart_fusion', 'asset'], runInShell: true);
-          print('\x1B[33m[Asset]\x1B[0m ${process.stdout}${process.stderr}');
-        }
-        if (model) {
-          final process = await Process.run('dart', ['run', 'dart_fusion', 'model'], runInShell: true);
-          print('\x1B[33m[Model]\x1B[0m ${process.stdout}${process.stderr}');
-        }
-        if (localization) {
-          final process = await Process.run('dart', ['run', 'dart_fusion', 'localize'], runInShell: true);
-          print('\x1B[33m[Localize]\x1B[0m ${process.stdout}${process.stderr}');
+        for (var value in runner) {
+          value.run();
         }
       } catch (e) {
         print(e);
       }
     }
   }
+
+  /// List of available [Locale] to be translated in [LocalizeRunner].
+  static const List<Locale> locales = [
+    Locale('af'),
+    Locale('sq'),
+    Locale('am'),
+    Locale('ar'),
+    Locale('hy'),
+    Locale('as'),
+    Locale('ay'),
+    Locale('az'),
+    Locale('bm'),
+    Locale('eu'),
+    Locale('be'),
+    Locale('bn'),
+    Locale('bho'),
+    Locale('bs'),
+    Locale('bg'),
+    Locale('ca'),
+    Locale('ceb'),
+    Locale('zh-CN'),
+    Locale('zh'),
+    Locale('zh-TW'),
+    Locale('co'),
+    Locale('hr'),
+    Locale('cs'),
+    Locale('da'),
+    Locale('dv'),
+    Locale('doi'),
+    Locale('nl'),
+    Locale('en'),
+    Locale('eo'),
+    Locale('et'),
+    Locale('ee'),
+    Locale('fil'),
+    Locale('fi'),
+    Locale('fr'),
+    Locale('fy'),
+    Locale('gl'),
+    Locale('ka'),
+    Locale('de'),
+    Locale('el'),
+    Locale('gn'),
+    Locale('gu'),
+    Locale('ht'),
+    Locale('ha'),
+    Locale('haw'),
+    Locale('he'),
+    Locale('hi'),
+    Locale('hmn'),
+    Locale('hu'),
+    Locale('is'),
+    Locale('ig'),
+    Locale('ilo'),
+    Locale('id'),
+    Locale('ga'),
+    Locale('it'),
+    Locale('ja'),
+    Locale('jv'),
+    Locale('kn'),
+    Locale('kk'),
+    Locale('km'),
+    Locale('rw'),
+    Locale('gom'),
+    Locale('ko'),
+    Locale('kri'),
+    Locale('ku'),
+    Locale('ckb'),
+    Locale('ky'),
+    Locale('lo'),
+    Locale('la'),
+    Locale('lv'),
+    Locale('ln'),
+    Locale('lt'),
+    Locale('lg'),
+    Locale('lb'),
+    Locale('mk'),
+    Locale('mai'),
+    Locale('mg'),
+    Locale('ms'),
+    Locale('ml'),
+    Locale('mt'),
+    Locale('mi'),
+    Locale('mr'),
+    Locale('mni-Mtei'),
+    Locale('lus'),
+    Locale('mn'),
+    Locale('my'),
+    Locale('ne'),
+    Locale('no'),
+    Locale('ny'),
+    Locale('or'),
+    Locale('om'),
+    Locale('ps'),
+    Locale('fa'),
+    Locale('pl'),
+    Locale('pt'),
+    Locale('pa'),
+    Locale('qu'),
+    Locale('ro'),
+    Locale('ru'),
+    Locale('sm'),
+    Locale('sa'),
+    Locale('gd'),
+    Locale('nso'),
+    Locale('sr'),
+    Locale('st'),
+    Locale('sn'),
+    Locale('sd'),
+    Locale('si'),
+    Locale('sk'),
+    Locale('sl'),
+    Locale('so'),
+    Locale('es'),
+    Locale('su'),
+    Locale('sw'),
+    Locale('sv'),
+    Locale('tl'),
+    Locale('tg'),
+    Locale('ta'),
+    Locale('tt'),
+    Locale('te'),
+    Locale('th'),
+    Locale('ti'),
+    Locale('ts'),
+    Locale('tr'),
+    Locale('tk'),
+    Locale('ak'),
+    Locale('uk'),
+    Locale('ur'),
+    Locale('ug'),
+    Locale('uz'),
+    Locale('vi'),
+    Locale('cy'),
+    Locale('xh'),
+    Locale('yi'),
+    Locale('yo'),
+    Locale('zu')
+  ];
 }

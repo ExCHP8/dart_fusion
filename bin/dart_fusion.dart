@@ -17,7 +17,7 @@ Future<void> main(List<String> arguments) async {
         abbr: 'i',
         defaultsTo: 'assets/translation/en.json',
         help: 'Input directory of where the JSON translations took place.')
-    ..addOption('model', help: 'Generate easy localization model from input file')
+    ..addOption('output', abbr: 'o', help: 'Generate easy localization model from input file')
     ..addFlag('help', abbr: 'h', negatable: false, defaultsTo: false, help: 'Print this usage information')
     ..addOption('from', defaultsTo: 'en', allowed: languages, help: 'Base language used to translate')
     ..addMultiOption('to', defaultsTo: languages, allowed: languages, help: 'Targeted translation languagees');
