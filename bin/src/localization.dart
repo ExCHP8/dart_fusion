@@ -11,16 +11,17 @@ Future<void> insertLocalization({required ArgResults from}) async {
       String? model = from['model'];
       Map<String, dynamic> json = jsonDecode(input.readAsStringSync());
       if (model != null) {
-        File(model)
+        final file = File(model)
           ..parent.createSync(recursive: true)
-          ..writeAsStringSync(json.model(name: File(model).name.capitalize, isRoot: true));
+          ..writeAsStringSync(json.model(className: File(model).name.capitalize, isRoot: true));
+        print('Generating \x1B[33m${input.path}\x1B[0m to \x1B[33m${file.path}\x1B[0m \x1B[32m✔︎\x1B[0m');
       }
-      // for (var lang in target..removeWhere((e) => e == base)) {
-      //   final translation = await json.translate(from: base, to: lang);
-      //   File('${input.parent.path}/$lang.json')
-      //       .writeAsStringSync(const JsonEncoder.withIndent('  ').convert(translation));
-      //   stdout.writeln();
-      // }
+      for (var lang in target..removeWhere((e) => e == base)) {
+        final translation = await json.translate(from: base, to: lang);
+        File('${input.parent.path}/$lang.json')
+            .writeAsStringSync(const JsonEncoder.withIndent('  ').convert(translation));
+        stdout.writeln();
+      }
     }
   } catch (e) {
     print('\n\x1B[31m$e\x1B[0m\n\n'
@@ -29,10 +30,11 @@ Future<void> insertLocalization({required ArgResults from}) async {
         '+---------------+-----------------------------------------------------------------------+\n'
         '| -i, --input\t| Input directory of where the JSON base translation took place.\t|\n'
         '| \t\t| \x1B[2mdefault to \x1B[0m\x1B[33m"assets/translation/en.json"\x1B[0m\t\t\t\t|\n'
+        '| --to\t\t| Targeted translation languages\t\t\t\t\t|\n'
+        '| \t\t| \x1B[2mdefault to \x1B[0m\x1B[33m$languages\x1B[0m\t\t\t\t\t\t\t\t\t\t\t|\n'
         '| --from\t| Base language used for translation\t\t\t\t\t|\n'
         '| \t\t| \x1B[2mdefault to \x1B[0m\x1B[33m"en"\x1B[0m\t\t\t\t\t\t\t|\n'
-        '| --to\t\t| Targeted translation languages\t\t\t\t\t|\n'
-        '| \t\t| \x1B[2mdefault to \x1B[0m\x1B[33m$languages\x1B[0m\t\t\t\t\t\t|\n'
+        '| --model\t| Generating json to \x1B[33measy_localization\x1B[0m model\t\t\t\t|\n'
         '| -h, --help\t| Print this usage information.\t\t\t\t\t\t|\n'
         '+---------------+-----------------------------------------------------------------------+\n'
         '\nUsage : '
@@ -66,27 +68,111 @@ extension JSONExtension on Map<String, dynamic> {
   }
 
   String model({
-    required String name,
+    required String className,
     bool isRoot = false,
   }) {
-    StringBuffer buffer = StringBuffer();
-    for (var value in entries) {
-      if (value.value is Map<String, dynamic>) {
-        print(value.value);
-        buffer.write('class ${value.key} {');
-      } else {
-        buffer.write(isRoot ?'static String ${value.value} = ' 'class ${value.key} {');
+    List<String> result = [];
+    void classes({
+      required String name,
+      required bool isRoot,
+      required Map<String, dynamic> json,
+      required String parent,
+    }) {
+      StringBuffer buffer = StringBuffer()
+        ..write(''
+            '\n/// ${isRoot ? 'Root' : 'Branch'} class of generated localization. This consist of ${json.entries.length} value'
+            '\n///'
+            '\n/// ```dart'
+            '\n/// String value = ${parent.isEmpty ? '$className.value' : '$className.$parent.value'};'
+            '\n/// ```'
+            '\nclass $name {'
+            '\n\t/// Default constant constructor of [$name]'
+            '\n\t///'
+            '\n\t/// ```dart'
+            '\n\t/// $name ${name.toLowerCase()} = const $name();'
+            '\n\t/// ```'
+            '\n\tconst $name();');
+      for (var value in json.entries) {
+        final name = value.key.split('_').map((e) => e.capitalize).join();
+        final parentKey = parent.isNotEmpty ? '$parent.${value.key}' : value.key;
+        if (value.value is Map<String, dynamic>) {
+          classes(
+            name: name,
+            isRoot: false,
+            json: value.value,
+            parent: parentKey,
+          );
+          buffer
+            ..write('\n'
+                '\n\t/// Branch value of [$name]'
+                '\n\t///'
+                '\n\t/// ```dart'
+                '\n\t/// $name ${value.key.toLowerCase()} = $className.$parentKey'
+                '\n\t/// ```')
+            ..write(isRoot
+                ? '\n\tstatic $name ${value.key.toLowerCase()} = const $name();'
+                : '\n\t$name get ${value.key.toLowerCase()} => const $name();');
+        } else {
+          buffer.write('\n'
+              '\n\t/// String value of `${value.key}`.'
+              '\n\t///');
+
+          if (value.value.toString().contains(RegExp(r'{.*?}'))) {
+            List<String> arguments = RegExp(r'{.*?}')
+                .allMatches(value.value)
+                .map((e) => (e.group(0) ?? "").replaceAll(RegExp(r'{|}'), ''))
+                .where((e) => e.isNotEmpty)
+                .toSet()
+                .toList();
+            buffer.write(""
+                "\n\t/// ```dart"
+                "\n\t/// String ${value.key.toLowerCase()} = $className.$parentKey(");
+            for (var args in arguments) {
+              buffer.write(" $args: '$args',");
+            }
+            buffer.write(");"
+                "\n\t/// print(${value.key.toLowerCase()}); // ${value.value}"
+                "\n\t/// ```"
+                "\n\t${isRoot ? 'static ' : ''}String ${value.key.toLowerCase()}({");
+            for (var args in arguments) {
+              buffer.write('\n\t\trequired String $args,');
+            }
+            buffer.write("\n\t}) => '$parentKey'.tr(namedArgs: {");
+            for (var args in arguments) {
+              buffer.write(" '$args': $args,");
+            }
+            buffer.write("});");
+          } else {
+            buffer
+              ..write(""
+                  "\n\t/// ```dart"
+                  "\n\t/// String ${value.key.toLowerCase()} = $className.$parentKey"
+                  "\n\t/// print(${value.key.toLowerCase()}); // ${value.value}"
+                  "\n\t/// ```")
+              ..write(isRoot
+                  ? "\n\tstatic String ${value.key.toLowerCase()} = '$parentKey'.tr();"
+                  : "\n\tString get ${value.key.toLowerCase()} => '$parentKey'.tr();");
+          }
+        }
       }
+      buffer.write('\n}');
+      result.add(buffer.toString());
     }
+
+    classes(
+      name: className,
+      isRoot: isRoot,
+      json: this,
+      parent: '',
+    );
 
     return '''
 // Dart Fusion Auto-Generated Easy Localization
 // Created at ${DateTime.now()}
 // 🍔 [Buy me a coffee](https://www.buymeacoffee.com/nialixus) 🚀
-// ignore_for_file: constant_identifier_names
+// ignore_for_file: constant_identifier_names, non_constant_identifier_names
 import 'package:easy_localization/easy_localization.dart';
-
-$buffer
+${result.reversed.join('\n')}
 ''';
   }
 

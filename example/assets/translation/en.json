@@ -1,7 +1,11 @@
 {
   "key": "This is a wonderful day!",
   "nested": {
-    "key": "How are you?"
+    "key": "How are you?",
+    "another_nested": {
+      "key": "Just testing",
+      "test": "{test} testing {test} jack {day}"
+    }
   },
   "interpolated": "Have a nice day, {name}!",
   "pluralKey_one": "This is a nice example.",
