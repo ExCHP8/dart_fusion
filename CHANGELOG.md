@@ -54,6 +54,7 @@
 * Update `ResponseModel`.
 * Update `D Extensions`
 * Add `D Service`
-* Avoid dart keywrod in asset scanner name
+* Avoid dart keyword in asset scanner name
 * Add generated model of localization to integrate with easy localization
 * Add Dart Fussion Runner
+* Change DartFusion.initialize to DartFusion.runner

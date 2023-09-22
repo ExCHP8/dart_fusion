@@ -33,20 +33,23 @@ part 'src/d_runner.dart';
 
 /// A class for initializing DartFusion auto generation.
 class DartFusion {
-  /// Initializes DartFusion with specified options.
+  /// A function to run auto generation used in `Dart Fusion CLI`.
   ///
-  /// [asset] specifies whether to run the asset scanner,
-  /// [model] specifies whether to run the model updater,
-  /// [localization] specifies whether to run the localization translator or not.
-  static Future<void> initialize(List<DRunner> runner) async {
-    if (kDebugMode) {
-      try {
-        for (var value in runner) {
-          value.run();
-        }
-      } catch (e) {
-        print(e);
+  /// ```dart
+  /// DartFusion.runner([
+  ///   AssetRunner(),
+  ///   ModelRunner(),
+  ///   LocalizeRunner()
+  /// ]);
+  /// ```
+  static Future<void> runner(List<DRunner> runner,
+      {bool onDebug = true}) async {
+    try {
+      for (var value in runner) {
+        await value.run(onDebug: onDebug);
       }
+    } catch (e) {
+      print(e);
     }
   }
 

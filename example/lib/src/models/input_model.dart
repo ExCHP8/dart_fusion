@@ -14,31 +14,34 @@ class MutableModel extends DModel {
   List<ImmutableModel> immutables = [];
 
   @override
-	MutableModel copyWith({
-		String? message, 
-		int? status, 
-		List<ImmutableModel>? immutables, 
-	}) {
-		return MutableModel()
-			..message = message ?? this.message
-			..status = status ?? this.status
-			..immutables = immutables ?? this.immutables;
-	}
+  MutableModel copyWith({
+    String? message,
+    int? status,
+    List<ImmutableModel>? immutables,
+  }) {
+    return MutableModel()
+      ..message = message ?? this.message
+      ..status = status ?? this.status
+      ..immutables = immutables ?? this.immutables;
+  }
 
   @override
-	JSON get toJSON => {
-		'message': message, 
-		'status': status, 
-		'immutables': immutables.toJSON, 
-		...super.toJSON, 
-	};
+  JSON get toJSON => {
+        'message': message,
+        'status': status,
+        'immutables': immutables.toJSON,
+        ...super.toJSON,
+      };
 
-	static MutableModel fromJSON(JSON value) {
-		return MutableModel()
-			..message = value.of<String>('message')
-			..status = value.of<int>('status')
-			..immutables = value.of<List<JSON>>('immutables').map(ImmutableModel.fromJSON).toList();
-	}
+  static MutableModel fromJSON(JSON value) {
+    return MutableModel()
+      ..message = value.of<String>('message')
+      ..status = value.of<int>('status')
+      ..immutables = value
+          .of<List<JSON>>('immutables')
+          .map(ImmutableModel.fromJSON)
+          .toList();
+  }
 }
 
 @model
@@ -63,35 +66,36 @@ class ImmutableModel extends DModel {
   final MutableModel mutableModel;
 
   @override
-	ImmutableModel copyWith({
-		String? message, 
-		int? status, 
-		List<MutableModel>? mutable, 
-		MutableModel? mutableModel, 
-	}) {
-		return ImmutableModel(
-			message: message ?? this.message,
-			status: status ?? this.status,
-			mutable: mutable ?? this.mutable,
-			mutableModel: mutableModel ?? this.mutableModel,
-		);
-	}
+  ImmutableModel copyWith({
+    String? message,
+    int? status,
+    List<MutableModel>? mutable,
+    MutableModel? mutableModel,
+  }) {
+    return ImmutableModel(
+      message: message ?? this.message,
+      status: status ?? this.status,
+      mutable: mutable ?? this.mutable,
+      mutableModel: mutableModel ?? this.mutableModel,
+    );
+  }
 
   @override
-	JSON get toJSON => {
-		'message': message, 
-		'status': status, 
-		'mutable': mutable.toJSON, 
-		'mutable_model': mutableModel.toJSON, 
-		...super.toJSON, 
-	};
+  JSON get toJSON => {
+        'message': message,
+        'status': status,
+        'mutable': mutable.toJSON,
+        'mutable_model': mutableModel.toJSON,
+        ...super.toJSON,
+      };
 
-	static ImmutableModel fromJSON(JSON value) {
-		return ImmutableModel(
-			message: value.of<String>('message'),
-			status: value.of<int>('status'),
-			mutable: value.of<List<JSON>>('mutable').map(MutableModel.fromJSON).toList(),
-			mutableModel: MutableModel.fromJSON(value.of<JSON>('mutable_model')),
-		);
-	}
+  static ImmutableModel fromJSON(JSON value) {
+    return ImmutableModel(
+      message: value.of<String>('message'),
+      status: value.of<int>('status'),
+      mutable:
+          value.of<List<JSON>>('mutable').map(MutableModel.fromJSON).toList(),
+      mutableModel: MutableModel.fromJSON(value.of<JSON>('mutable_model')),
+    );
+  }
 }

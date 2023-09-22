@@ -33,10 +33,12 @@ class DModel extends Equatable {
   static DModel fromJSON(JSON value) => const DModel();
 
   @override
-  List<Object?> get props => toJSON.entries.map((e) => '${e.key}: ${e.value}').toList();
+  List<Object?> get props =>
+      toJSON.entries.map((e) => '${e.key}: ${e.value}').toList();
 
   @override
-  String toString() => toJSON.entries.map((e) => '${e.key}: ${e.value}').toString();
+  String toString() =>
+      toJSON.entries.map((e) => '${e.key}: ${e.value}').toString();
 }
 
 /// Basic model in root of every `Response`, containing [success] status,
@@ -58,7 +60,8 @@ class ResponseModel<T extends DModel> extends DModel {
   });
 
   /// Parsing [ResponseModel] from [JSON] value, with additional null safety.
-  static ResponseModel fromJSON<T extends DModel>(JSON value, {T Function(JSON value)? data}) {
+  static ResponseModel fromJSON<T extends DModel>(JSON value,
+      {T Function(JSON value)? data}) {
     return ResponseModel(
       success: value.of('success'),
       message: value.of('message'),

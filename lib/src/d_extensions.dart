@@ -102,7 +102,9 @@ extension OnJSON on JSON {
       } else if (T is DateTime) {
         return DateTime.now() as T;
       } else {
-        throw const TypeException(message: 'Type is not provided, use <JSON>{}.maybeOf("key") instead.');
+        throw const TypeException(
+            message:
+                'Type is not provided, use <JSON>{}.maybeOf("key") instead.');
       }
     }
 
@@ -128,7 +130,8 @@ extension OnJSON on JSON {
     for (final entry in entries) {
       if (entry.key.contains('.')) {
         final prefix = entry.key.split('.').map((e) => '"$e":').join('{');
-        final suffix = [for (int x = 0; x < entry.key.split('.').length; x++) '}'].join();
+        final suffix =
+            [for (int x = 0; x < entry.key.split('.').length; x++) '}'].join();
         final complete = '${'{$prefix"'}${entry.value}"$suffix';
         data = data.merge(jsonDecode(complete) as JSON? ?? {});
       } else {
@@ -164,7 +167,8 @@ extension OnContext on BuildContext {
   TextTheme get text => theme.textTheme;
 
   /// The [BottomNavigationBarThemeData] defined for the current [ThemeData].
-  BottomNavigationBarThemeData get bottomTheme => theme.bottomNavigationBarTheme;
+  BottomNavigationBarThemeData get bottomTheme =>
+      theme.bottomNavigationBarTheme;
 
   /// The [MediaQueryData] for this [BuildContext].
   ///
@@ -233,8 +237,12 @@ extension OnList<OldValue extends Object?> on List<OldValue> {
   /// List<String> texts = ["one", "two", "three"];
   /// List<Widget> widgets = texts.to((index, item) => Text("$index: $item"));
   /// ```
-  List<NewValue> to<NewValue extends Object?>(NewValue Function(int index, OldValue item) value) =>
-      asMap().entries.map<NewValue>((map) => value(map.key, map.value)).toList();
+  List<NewValue> to<NewValue extends Object?>(
+          NewValue Function(int index, OldValue item) value) =>
+      asMap()
+          .entries
+          .map<NewValue>((map) => value(map.key, map.value))
+          .toList();
 
   /// A shortcut of extended sublist with safety.
   List<OldValue> limit(int start, int length) {
@@ -279,7 +287,8 @@ extension OnString on String {
   /// [key] is a map of string keys and their corresponding values to replace in the string.
   ///
   /// Returns a new string with replaced values.
-  String add({required Map<String, String> key}) => key.entries.fold(this, (output, entry) {
+  String add({required Map<String, String> key}) =>
+      key.entries.fold(this, (output, entry) {
         return output.replaceAll(entry.key, entry.value);
       });
 

@@ -95,7 +95,8 @@ class DInherited extends InheritedWidget {
   }) : super(child: child);
 
   @override
-  bool updateShouldNotify(covariant InheritedWidget oldWidget) => oldWidget != this;
+  bool updateShouldNotify(covariant InheritedWidget oldWidget) =>
+      oldWidget != this;
 
   /// A shortcut to call [DInherited] from [BuildContext].
   static DInherited? of(BuildContext context) {
