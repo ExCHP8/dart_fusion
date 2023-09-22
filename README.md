@@ -38,7 +38,7 @@ A library that brings together a harmonious blend of essential tools, utilities,
     - [Is Phone](#d-extensions-on-context-isphone)
     - [Is Desktop](#d-extensions-on-context-isdesktop)
     - [Is Tablet](#d-extensions-on-context-istablet)
-  - [On Request Context](#d-extension-on-request-context)
+  - [On Request Context](#d-extensions-on-request-context)
     - [Method](#d-extensions-on-request-context-method)
     - [Is Get](#d-extensions-on-request-context-isget)
     - [Is Post](#d-extensions-on-request-context-ispost)
@@ -139,7 +139,10 @@ The Dart Fusion CLI is a command-line tool that provides a set of utilities to s
   |               | default to `["af","sq","am","ar","hy","as","ay","az","bm","eu","be","bn","bho","bs","bg","ca","ceb","zh-CN","zh","zh-TW","co","hr","cs","da","dv","doi","nl","en","eo","et","ee","fil","fi","fr","fy","gl","ka","de","el","gn","gu","ht","ha","haw","he","hi","hmn","hu","is","ig","ilo","id","ga","it","ja","jv","kn","kk","km","rw","gom","ko","kri","ku","ckb","ky","lo","la","lv","ln","lt","lg","lb","mk","mai","mg","ms","ml","mt","mi","mr","mni-Mtei","lus","mn","my","ne","no","ny","or","om","ps","fa","pl","pt","pa","qu","ro","ru","sm","sa","gd","nso","sr","st","sn","sd","si","sk","sl","so","es","su","sw","sv","tl","tg","ta","tt","te","th","ti","ts","tr","tk","ak","uk","ur","ug","uz","vi","cy","xh","yi","yo","zu"]`
   | -h, --help    | Print this usage information.                                  |
 
+  > [!Note] This also can be achieved using [DRunner](#d-runner)
+
 ---
+
 <a name="d-annotation-logo"></a>
 <p align="center">
   <img src="https://user-images.githubusercontent.com/45191605/267885292-129bc9a7-3b33-4b03-9926-079f12a28775.png" alt="D Annotation Logo" width="150">
@@ -329,6 +332,40 @@ A set of extension collection on [BuildContext].
     ```dart
     bool isTablet = context.isTablet;
     ```
+## <a name="d-extensions-on-request-context"></a> OnRequestContext
+A set of extension collection on [RequestContext].
+  - <a name="d-extensions-on-request-context-method"></a> **Method** : A shortcut to get [HttpMethod] out of [RequestContext].
+    ```dart
+    HttpMethod method = context.method;
+    ```
+  - <a name="d-extensions-on-request-context-isget"></a> **Is Get** : Check whether request method is [HttpMethod.get] or not.
+    ```dart
+    bool isGET = context.isGET;
+    ```
+  - <a name="d-extensions-on-request-context-ispost"></a> **Is Post** : Check whether request method is [HttpMethod.post] or not.
+    ```dart
+    bool isPOST = context.isPOST;
+    ```
+  - <a name="d-extensions-on-request-context-isput"></a> **Is Put** : Check whether request method is [HttpMethod.put] or not.
+    ```dart
+    bool isPUT = context.isPUT;
+    ```
+  - <a name="d-extensions-on-request-context-isdelete"></a> **Is Delete** : Check whether request method is [HttpMethod.delete] or not.
+    ```dart
+    bool isDELETE = context.isDELETE;
+    ```
+  - <a name="d-extensions-on-request-context-iswebsocket"></a> **Is Web Socket** : Check whether request method is a http request or websocket request.
+    ```dart
+    bool isWS = context.isWebSocket;
+    ```
+ - <a name="d-extensions-on-request-context-parameter"></a> **Parameter** : A shortcut to get parameter from [RequestContext].
+    ```dart
+    JSON parameter = context.parameter;
+    ```
+ - <a name="d-extensions-on-request-context-verify"></a> **JWT Verify** : A function to verify `JWT` Bearer Token.
+    ```dart
+    JWT jwt = await context.verify((key) => Env.read<String>(key));
+    ```
 ## <a name="d-extensions-on-list"></a> OnList
 A set of extension collection on [BuildContext].
   - <a name="d-extensions-on-list-to"></a> **To** : Generate key index and value of its items.
@@ -458,12 +495,39 @@ Runner class for `Dart Fusion CLI'.
 
 ## <a name="d-runner-usage"></a> Usage
 Set this in your root main.dart
+> **File:** `main.dart`
+> 
+> ```dart
+> void main() {
+>   WidgetsFlutterBinding.ensureInitialized();
+>   DartFusion.runner(const [AssetRunner(), ModelRunner(), LocalizeRunner()]);
+>   runApp(...);
+> }
+> ```
+
+---
+
+# D Service
+A set of service collection mosty used in dart backend.
+
+## <a name="d-service-middleware"></a> MiddleWare
+Middleware for handling requests and responses in `Dart Frog`. This middleware supports both regular HTTP requests and websockets.
+> **File:** `_middleware.dart`
+> 
+> ```dart
+> Handler middleware(Handler handler) {
+>   return DService.middleware(
+>     handler: handler,
+>     certificate: (key) => Env.read(key)!,
+>     data: ResponseDataModel.fromJSON,
+>   );
+> }
+> ```
+
+## <a name="d-service-random-id"></a> Random ID
+Generate simple random key identifier
 ```dart
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  DartFusion.runner(const [AssetRunner(), ModelRunner(), LocalizeRunner()]);
-  runApp(...);
-}
+String id = DService.randomID();
 ```
 
 ---
