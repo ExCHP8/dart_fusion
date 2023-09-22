@@ -52,6 +52,7 @@ A library that brings together a harmonious blend of essential tools, utilities,
   - [HTTP Method Message](#d-parse-http-method-message)
   - [HTTP Status Message](#d-parse-http-status-message)
   - [Exception Message](#d-parse-exception-message)
+- [D Runner](#d-runner)
 - [D State Widget](#d-state-widget-logo)
   - [Key Features](#d-state-widget-key-features)
   - [Usage](#d-state-widget-usage)
@@ -124,15 +125,6 @@ The Dart Fusion CLI is a command-line tool that provides a set of utilities to s
   | --to          | Targeted translation languages                                 |
   |               | default to `["af","sq","am","ar","hy","as","ay","az","bm","eu","be","bn","bho","bs","bg","ca","ceb","zh-CN","zh","zh-TW","co","hr","cs","da","dv","doi","nl","en","eo","et","ee","fil","fi","fr","fy","gl","ka","de","el","gn","gu","ht","ha","haw","he","hi","hmn","hu","is","ig","ilo","id","ga","it","ja","jv","kn","kk","km","rw","gom","ko","kri","ku","ckb","ky","lo","la","lv","ln","lt","lg","lb","mk","mai","mg","ms","ml","mt","mi","mr","mni-Mtei","lus","mn","my","ne","no","ny","or","om","ps","fa","pl","pt","pa","qu","ro","ru","sm","sa","gd","nso","sr","st","sn","sd","si","sk","sl","so","es","su","sw","sv","tl","tg","ta","tt","te","th","ti","ts","tr","tk","ak","uk","ur","ug","uz","vi","cy","xh","yi","yo","zu"]`
   | -h, --help    | Print this usage information.                                  |
-
-  But this command can also be automatically run by initiating this
-  ```dart
-  Future<void> main() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    await DartFusion.initialize(asset: true, model: true, localization: true);
-    runApp(...);
-  }
-  ```
 
 ---
 <a name="d-annotation-logo"></a>
@@ -444,6 +436,25 @@ A utility class for parsing mostly related to http request.
   print(message); // 'Data is not exist'
   ```
 ---
+
+# D Runner
+Runner class for `Dart Fusion CLI'.
+- <a name="d-runner-asset"></a> **Asset Runner** : Runner to scan asset and turn it into one model class.
+- <a name="d-runner-model"></a> **Model Runner** : Runner to completing `DModel`, like `copyWith`, `fromJSON` and `toJSON`.
+- <a name="d-runner-localization"></a> **Localization Runner** : Runner to translate `Locale` and generate a model to be integrated with `easy_localization`.
+
+## <a name="d-runner-usage"></a> Usage
+Set this in your root main.dart
+```dart
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  DartFusion.runner(const [AssetRunner(), ModelRunner(), LocalizeRunner()]);
+  runApp(...);
+}
+```
+
+---
+
 <a name="d-state-widget-logo"></a>
 <p align="center">
   <img src="https://user-images.githubusercontent.com/45191605/268439850-08b6133c-1585-4853-8e99-c3fc7abef447.png" alt="D State Widget Logo" width="150">
