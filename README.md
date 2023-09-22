@@ -94,6 +94,9 @@ dart pub global activate --source git https://github.com/Nialixus/dart_fusion.gi
 # Dart Fusion CLI
 The Dart Fusion CLI is a command-line tool that provides a set of utilities to simplifies common tasks such as asset generation, model updates, and localization.
 
+> [!NOTE]
+> This also can be achieved using [DRunner](#d-runner)
+
 ## <a name="dart-fusion-cli-usage"></a> Usage
 - **Asset Generation** <a name="dart-fusion-cli-asset"></a>: Easily generate asset classes from asset directories, making it simple to access assets in your Dart project. To scan asset files and generate them into one dart class, run this command
   
@@ -138,9 +141,6 @@ The Dart Fusion CLI is a command-line tool that provides a set of utilities to s
   | --to          | Targeted translation languages                                 |
   |               | default to `["af","sq","am","ar","hy","as","ay","az","bm","eu","be","bn","bho","bs","bg","ca","ceb","zh-CN","zh","zh-TW","co","hr","cs","da","dv","doi","nl","en","eo","et","ee","fil","fi","fr","fy","gl","ka","de","el","gn","gu","ht","ha","haw","he","hi","hmn","hu","is","ig","ilo","id","ga","it","ja","jv","kn","kk","km","rw","gom","ko","kri","ku","ckb","ky","lo","la","lv","ln","lt","lg","lb","mk","mai","mg","ms","ml","mt","mi","mr","mni-Mtei","lus","mn","my","ne","no","ny","or","om","ps","fa","pl","pt","pa","qu","ro","ru","sm","sa","gd","nso","sr","st","sn","sd","si","sk","sl","so","es","su","sw","sv","tl","tg","ta","tt","te","th","ti","ts","tr","tk","ak","uk","ur","ug","uz","vi","cy","xh","yi","yo","zu"]`
   | -h, --help    | Print this usage information.                                  |
-
-  > [!NOTE]
-  > This also can be achieved using [DRunner](#d-runner)
 
 ---
 
