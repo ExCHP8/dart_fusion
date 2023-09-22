@@ -38,6 +38,15 @@ A library that brings together a harmonious blend of essential tools, utilities,
     - [Is Phone](#d-extensions-on-context-isphone)
     - [Is Desktop](#d-extensions-on-context-isdesktop)
     - [Is Tablet](#d-extensions-on-context-istablet)
+  - [On Request Context](#d-extension-on-request-context)
+    - [Method](#d-extensions-on-request-context-method)
+    - [Is Get](#d-extensions-on-request-context-isget)
+    - [Is Post](#d-extensions-on-request-context-ispost)
+    - [Is Put](#d-extensions-on-request-context-isput)
+    - [Is Delete](#d-extensions-on-request-context-isdelete)
+    - [Is WebSocket](#d-extensions-on-request-context-iswebsocket)
+    - [Parameter](#d-extensions-on-request-context-parameter)
+    - [JWT Verify](#d-extensions-on-request-context-verify)
   - [On List](#d-extensions-on-list)
     - [To](#d-extensions-on-list-to)
     - [Limit](#d-extensions-on-list-limit)
@@ -53,6 +62,9 @@ A library that brings together a harmonious blend of essential tools, utilities,
   - [HTTP Status Message](#d-parse-http-status-message)
   - [Exception Message](#d-parse-exception-message)
 - [D Runner](#d-runner)
+- [D Service](#d-service)
+  - [Middleware](#d-service-middleware)
+  - [Random ID](#d-service-random-id)
 - [D State Widget](#d-state-widget-logo)
   - [Key Features](#d-state-widget-key-features)
   - [Usage](#d-state-widget-usage)
@@ -120,6 +132,7 @@ The Dart Fusion CLI is a command-line tool that provides a set of utilities to s
   | ------------- | -------------------------------------------------------------- |
   | -i, --input   | Input directory of where the JSON base translation took place. |
   |               | default to `assets/translation/en.json`                        |
+  | -o, --output  | Generating `JSON` to easy_localization model                   |
   | --from        | Base language used for translation                             |
   |               | default to `en`                                                |
   | --to          | Targeted translation languages                                 |
