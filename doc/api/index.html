@@ -107,6 +107,18 @@
 <li><a href="#d-extensions-on-context-istablet">Is Tablet</a></li>
 </ul>
 </li>
+<li><a href="#d-extensions-on-request-context">On Request Context</a>
+<ul>
+<li><a href="#d-extensions-on-request-context-method">Method</a></li>
+<li><a href="#d-extensions-on-request-context-isget">Is Get</a></li>
+<li><a href="#d-extensions-on-request-context-ispost">Is Post</a></li>
+<li><a href="#d-extensions-on-request-context-isput">Is Put</a></li>
+<li><a href="#d-extensions-on-request-context-isdelete">Is Delete</a></li>
+<li><a href="#d-extensions-on-request-context-iswebsocket">Is WebSocket</a></li>
+<li><a href="#d-extensions-on-request-context-parameter">Parameter</a></li>
+<li><a href="#d-extensions-on-request-context-verify">JWT Verify</a></li>
+</ul>
+</li>
 <li><a href="#d-extensions-on-list">On List</a>
 <ul>
 <li><a href="#d-extensions-on-list-to">To</a></li>
@@ -129,6 +141,13 @@
 <li><a href="#d-parse-exception-message">Exception Message</a></li>
 </ul>
 </li>
+<li><a href="#d-runner">D Runner</a></li>
+<li><a href="#d-service">D Service</a>
+<ul>
+<li><a href="#d-service-middleware">Middleware</a></li>
+<li><a href="#d-service-random-id">Random ID</a></li>
+</ul>
+</li>
 <li><a href="#d-state-widget-logo">D State Widget</a>
 <ul>
 <li><a href="#d-state-widget-key-features">Key Features</a></li>
@@ -144,7 +163,7 @@
     git:
       url: https://github.com/Nialixus/dart_fusion.git
       ## Optional with version
-      ref: v2.3.0
+      ref: v2.5.0
 </code></pre>
 <p>also run this command in terminal</p>
 <pre class="language-bash"><code class="language-bash">dart pub global activate --source git https://github.com/Nialixus/dart_fusion.git
@@ -223,8 +242,8 @@
 </table>
 </li>
 <li>
-<p><strong>Localization</strong> <a name="dart-fusion-cli-localization"></a>: Generate localization classes from JSON files, simplifying the process of managing translations in your Dart applications using Lecto API.</p>
-<pre class="language-bash"><code class="language-bash">dart run dart_fusion localize --api-key="4Z5H0ZS-QHZM2Z8-NTYP640-38D9RFF"
+<p><strong>Localization</strong> <a name="dart-fusion-cli-localization"></a>: Generate localization classes from JSON files, simplifying the process of managing free translations in your Dart applications.</p>
+<pre class="language-bash"><code class="language-bash">dart run dart_fusion localize
 </code></pre>
 <p>List of the commands</p>
 <table>
@@ -236,16 +255,16 @@
 </thead>
 <tbody>
 <tr>
-<td>--api-key</td>
-<td>Lecto API key (required)</td>
-</tr>
-<tr>
 <td>-i, --input</td>
 <td>Input directory of where the JSON base translation took place.</td>
 </tr>
 <tr>
 <td></td>
 <td>default to <code>assets/translation/en.json</code></td>
+</tr>
+<tr>
+<td>-o, --output</td>
+<td>Generating <code>JSON</code> to easy_localization model</td>
 </tr>
 <tr>
 <td>--from</td>
@@ -261,7 +280,7 @@
 </tr>
 <tr>
 <td></td>
-<td>default to <code>["af", "sq", "am", "ar", "hy", "az", "be", "bel", "bn", "bs", "bg", "ca", "ceb", "zh-CN", "zh-TW", "hr", "cs", "da", "nl", "en", "et", "tl", "fi", "fr", "fy", "gl", "ka", "de", "el", "gu", "ht", "ha", "he", "hi", "hu", "is", "ig", "id", "ga", "it", "ja", "kn", "kk", "km", "ko", "lo", "lv", "lt", "lb", "mk", "mg", "ms", "ml", "mr", "mn", "my", "ne", "nb", "no", "or", "ps", "fa", "pl", "pt", "pt-BR", "pt-PT", "pa", "ro", "ru", "gd", "sr", "sd", "si", "sk", "sl", "so", "es", "su", "sw", "sv", "ta", "th", "tr", "uk", "ur", "uz", "vi", "cy", "xh", "yi", "yo", "zu"]</code></td>
+<td>default to <code>["af","sq","am","ar","hy","as","ay","az","bm","eu","be","bn","bho","bs","bg","ca","ceb","zh-CN","zh","zh-TW","co","hr","cs","da","dv","doi","nl","en","eo","et","ee","fil","fi","fr","fy","gl","ka","de","el","gn","gu","ht","ha","haw","he","hi","hmn","hu","is","ig","ilo","id","ga","it","ja","jv","kn","kk","km","rw","gom","ko","kri","ku","ckb","ky","lo","la","lv","ln","lt","lg","lb","mk","mai","mg","ms","ml","mt","mi","mr","mni-Mtei","lus","mn","my","ne","no","ny","or","om","ps","fa","pl","pt","pa","qu","ro","ru","sm","sa","gd","nso","sr","st","sn","sd","si","sk","sl","so","es","su","sw","sv","tl","tg","ta","tt","te","th","ti","ts","tr","tk","ak","uk","ur","ug","uz","vi","cy","xh","yi","yo","zu"]</code></td>
 </tr>
 <tr>
 <td>-h, --help</td>
@@ -269,13 +288,9 @@
 </tr>
 </tbody>
 </table>
-<p>But this command can also be automatically run by initiating this</p>
-<pre class="language-dart"><code class="language-dart">Future&lt;void&gt; main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await DartFusion.initialize(asset: true, model: true, localizationAPI: '4Z5H0ZS-QHZM2Z8-NTYP640-38D9RFF');
-  runApp(...);
-}
-</code></pre>
+<blockquote>
+<p><code>!Note</code> This also can be achieved using <a href="#d-runner">DRunner</a></p>
+</blockquote>
 </li>
 </ul>
 <hr>
@@ -465,6 +480,42 @@ print(secondary); // null
 </code></pre>
 </li>
 </ul>
+<h2 id="a-named-extensions-on-request-contexta-onrequestcontext"><a name="d-extensions-on-request-context"></a> OnRequestContext</h2>
+<p>A set of extension collection on <a href="https://pub.dev/documentation/dart_frog/1.0.1/dart_frog/RequestContext-class.html">RequestContext</a>.</p>
+<ul>
+<li><a name="d-extensions-on-request-context-method"></a> <strong>Method</strong> : A shortcut to get <a href="https://pub.dev/documentation/dart_frog/1.0.1/dart_frog/HttpMethod.html">HttpMethod</a> out of <a href="https://pub.dev/documentation/dart_frog/1.0.1/dart_frog/RequestContext-class.html">RequestContext</a>.
+<pre class="language-dart"><code class="language-dart">HttpMethod method = context.method;
+</code></pre>
+</li>
+<li><a name="d-extensions-on-request-context-isget"></a> <strong>Is Get</strong> : Check whether request method is <a href="https://pub.dev/documentation/dart_frog/1.0.1/dart_frog/HttpMethod.html">HttpMethod.get</a> or not.
+<pre class="language-dart"><code class="language-dart">bool isGET = context.isGET;
+</code></pre>
+</li>
+<li><a name="d-extensions-on-request-context-ispost"></a> <strong>Is Post</strong> : Check whether request method is <a href="https://pub.dev/documentation/dart_frog/1.0.1/dart_frog/HttpMethod.html">HttpMethod.post</a> or not.
+<pre class="language-dart"><code class="language-dart">bool isPOST = context.isPOST;
+</code></pre>
+</li>
+<li><a name="d-extensions-on-request-context-isput"></a> <strong>Is Put</strong> : Check whether request method is <a href="https://pub.dev/documentation/dart_frog/1.0.1/dart_frog/HttpMethod.html">HttpMethod.put</a> or not.
+<pre class="language-dart"><code class="language-dart">bool isPUT = context.isPUT;
+</code></pre>
+</li>
+<li><a name="d-extensions-on-request-context-isdelete"></a> <strong>Is Delete</strong> : Check whether request method is <a href="https://pub.dev/documentation/dart_frog/1.0.1/dart_frog/HttpMethod.html">HttpMethod.delete</a> or not.
+<pre class="language-dart"><code class="language-dart">bool isDELETE = context.isDELETE;
+</code></pre>
+</li>
+<li><a name="d-extensions-on-request-context-iswebsocket"></a> <strong>Is Web Socket</strong> : Check whether request method is a http request or websocket request.
+<pre class="language-dart"><code class="language-dart">bool isWS = context.isWebSocket;
+</code></pre>
+</li>
+<li><a name="d-extensions-on-request-context-parameter"></a> <strong>Parameter</strong> : A shortcut to get parameter from <a href="https://pub.dev/documentation/dart_frog/1.0.1/dart_frog/RequestContext-class.html">RequestContext</a>.
+<pre class="language-dart"><code class="language-dart">JSON parameter = context.parameter;
+</code></pre>
+</li>
+<li><a name="d-extensions-on-request-context-verify"></a> <strong>JWT Verify</strong> : A function to verify <code>JWT</code> Bearer Token.
+<pre class="language-dart"><code class="language-dart">JWT jwt = await context.verify((key) =&gt; Env.read&lt;String&gt;(key));
+</code></pre>
+</li>
+</ul>
 <h2 id="a-named-extensions-on-lista-onlist"><a name="d-extensions-on-list"></a> OnList</h2>
 <p>A set of extension collection on <a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html">BuildContext</a>.</p>
 <ul>
@@ -559,7 +610,7 @@ final message = DParse.httpMethodMessage(method.name);
 print(message); // 'Data successfully loaded'
 </code></pre>
 </li>
-<li><a name="d-parse-http-status-message"></a> <strong>HTTP Status Message</strong> : Parsing message of <code>statusCode</code> value in <code>Response</code>.
+<li><a name="d-parse-http-status-message"></a> <strong>HTTP Status Message</strong> : Parsing message of <code>statusCode</code> value in <a href="https://pub.dev/documentation/dart_frog/1.0.1/dart_frog/Response-class.html">Response</a>.
 <pre class="language-dart"><code class="language-dart">Response response = Response(...);
 final message = DParse.httpStatusMessage(response.statusCode);
 print(message); // 'Not Found: The requested resource could not be found'
@@ -572,6 +623,45 @@ print(message); // 'Data is not exist'
 </code></pre>
 </li>
 </ul>
+<hr>
+<h1 id="d-runner">D Runner</h1>
+<p>Runner class for `Dart Fusion CLI'.</p>
+<ul>
+<li><a name="d-runner-asset"></a> <strong>Asset Runner</strong> : Runner to scan asset and turn it into one model class.</li>
+<li><a name="d-runner-model"></a> <strong>Model Runner</strong> : Runner to completing <code>DModel</code>, like <code>copyWith</code>, <code>fromJSON</code> and <code>toJSON</code>.</li>
+<li><a name="d-runner-localization"></a> <strong>Localization Runner</strong> : Runner to translate <code>Locale</code> and generate a model to be integrated with <code>easy_localization</code>.</li>
+</ul>
+<h2 id="a-named-runner-usagea-usage"><a name="d-runner-usage"></a> Usage</h2>
+<p>Set this in your root main.dart</p>
+<blockquote>
+<p><strong>File:</strong> <code>main.dart</code></p>
+<pre class="language-dart"><code class="language-dart">void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  DartFusion.runner(const [AssetRunner(), ModelRunner(), LocalizeRunner()]);
+  runApp(...);
+}
+</code></pre>
+</blockquote>
+<hr>
+<h1 id="d-service">D Service</h1>
+<p>A set of service collection mosty used in dart backend.</p>
+<h2 id="a-named-service-middlewarea-middleware"><a name="d-service-middleware"></a> MiddleWare</h2>
+<p>Middleware for handling requests and responses in <code>Dart Frog</code>. This middleware supports both regular HTTP requests and websockets.</p>
+<blockquote>
+<p><strong>File:</strong> <code>_middleware.dart</code></p>
+<pre class="language-dart"><code class="language-dart">Handler middleware(Handler handler) {
+  return DService.middleware(
+    handler: handler,
+    certificate: (key) =&gt; Env.read(key)!,
+    data: ResponseDataModel.fromJSON,
+  );
+}
+</code></pre>
+</blockquote>
+<h2 id="a-named-service-random-ida-random-id"><a name="d-service-random-id"></a> Random ID</h2>
+<p>Generate simple random key identifier</p>
+<pre class="language-dart"><code class="language-dart">String id = DService.randomID();
+</code></pre>
 <hr>
 <p><a name="d-state-widget-logo"></a></p>
 <p align="center">
@@ -620,10 +710,10 @@ With a convenient data method, you can easily declare and pass data between the 
   }
 }
 </code></pre>
-<p>and you can also get <a href="dart_fusion/DStateValue-class.html">DStateValue</a> in its child, by calling this</p>
+<p>and you can also get <code>DStateValue</code> in its child, by calling this</p>
 <pre class="language-dart"><code class="language-dart">DStateInherited.of(context);
 </code></pre>
-<p>or get the data in <a href="dart_fusion/DStateValue-class.html">DStateValue</a> with this</p>
+<p>or get the data in <code>DStateValue</code> with this</p>
 <pre class="language-dart"><code class="language-dart">context.value&lt;TextEditingController&gt;("controller");
 </code></pre>
 <p>also to cell setState we change it to</p>
@@ -697,7 +787,7 @@ With a convenient data method, you can easily declare and pass data between the 
 <footer>
   <span class="no-break">
     dart_fusion
-      2.3.0
+      2.5.0
   </span>
 
   

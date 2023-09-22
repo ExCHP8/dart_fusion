@@ -56,5 +56,5 @@
 * Add `D Service`
 * Avoid dart keyword in asset scanner name
 * Add generated model of localization to integrate with easy localization
-* Add Dart Fussion Runner
+* Add `D Runner`
 * Change DartFusion.initialize to DartFusion.runner

@@ -30,8 +30,8 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../../index.html">dart_fusion</a></li>
     <li><a href="../../dart_fusion/dart_fusion-library.html">dart_fusion</a></li>
-    <li><a href="../../dart_fusion/ResponseModel-class.html">ResponseModel</a></li>
-    <li class="self-crumb">fromJSON static method</li>
+    <li><a href="../../dart_fusion/ResponseModel-class.html">ResponseModel<span class="signature">&lt;<wbr><span class="type-parameter">T extends DModel</span>&gt;</span></a></li>
+    <li class="self-crumb">fromJSON&lt;<wbr><span class="type-parameter">T extends DModel</span>&gt; static method</li>
   </ol>
   <div class="self-name">fromJSON</div>
   <form class="search navbar-right" role="search">
@@ -57,14 +57,17 @@
       data-above-sidebar="dart_fusion&#47;ResponseModel-class-sidebar.html"
       data-below-sidebar="">
       <div>
-<h1><span class="kind-method">fromJSON</span> static method 
+<h1><span class="kind-method">fromJSON&lt;<wbr><span class="type-parameter">T extends DModel</span>&gt;</span> static method 
 </h1></div>
 
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="../../dart_fusion/ResponseModel-class.html">ResponseModel</a></span>
-<span class="name ">fromJSON</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="fromJSON-param-value"><span class="type-annotation"><a href="../../dart_fusion/JSON.html">JSON</a></span> <span class="parameter-name">value</span></span></li>
+<span class="returntype"><a href="../../dart_fusion/ResponseModel-class.html">ResponseModel</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../dart_fusion/DModel-class.html">DModel</a></span>&gt;</span></span>
+<span class="name ">fromJSON</span>&lt;<wbr><span class="type-parameter">T extends DModel</span>&gt;(<wbr><ol class="parameter-list"><li><span class="parameter" id="fromJSON-param-value"><span class="type-annotation"><a href="../../dart_fusion/JSON.html">JSON</a></span> <span class="parameter-name">value</span>, </span></li>
+<li><span class="parameter" id="fromJSON-param-data">{<span class="type-annotation">T</span> <span class="parameter-name">data</span>(<ol class="parameter-list"><li><span class="parameter" id="param-value"><span class="type-annotation"><a href="../../dart_fusion/JSON.html">JSON</a></span> <span class="parameter-name">value</span></span></li>
+</ol>
+)?}</span></li>
 </ol>)
 
       <div class="features"><span class="feature">override</span></div>
@@ -79,11 +82,12 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">static ResponseModel fromJSON(JSON value) {
+  <pre class="language-dart"><code class="language-dart">static ResponseModel fromJSON&lt;T extends DModel&gt;(JSON value,
+    {T Function(JSON value)? data}) {
   return ResponseModel(
     success: value.of(&#39;success&#39;),
     message: value.of(&#39;message&#39;),
-    data: DModel.fromJSON(value.of(&#39;data&#39;)),
+    data: data != null ? data(value) : null,
   );
 }</code></pre>
 </section>
@@ -102,8 +106,8 @@
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
     <li><a href="../../index.html">dart_fusion</a></li>
     <li><a href="../../dart_fusion/dart_fusion-library.html">dart_fusion</a></li>
-    <li><a href="../../dart_fusion/ResponseModel-class.html">ResponseModel</a></li>
-    <li class="self-crumb">fromJSON static method</li>
+    <li><a href="../../dart_fusion/ResponseModel-class.html">ResponseModel<span class="signature">&lt;<wbr><span class="type-parameter">T extends DModel</span>&gt;</span></a></li>
+    <li class="self-crumb">fromJSON&lt;<wbr><span class="type-parameter">T extends DModel</span>&gt; static method</li>
 </ol>
 
 
@@ -118,7 +122,7 @@
 <footer>
   <span class="no-break">
     dart_fusion
-      2.3.0
+      2.5.0
   </span>
 
   

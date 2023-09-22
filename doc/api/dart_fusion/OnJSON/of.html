@@ -103,8 +103,9 @@ print(secondary); // "No Data"
     } else if (T is DateTime) {
       return DateTime.now() as T;
     } else {
-      throw const FormatException(
-          &#39;Type is not provided, use &lt;JSON&gt;{}.maybeOf(&quot;key&quot;) instead.&#39;);
+      throw const TypeException(
+          message:
+              &#39;Type is not provided, use &lt;JSON&gt;{}.maybeOf(&quot;key&quot;) instead.&#39;);
     }
   }
 
@@ -142,7 +143,7 @@ print(secondary); // "No Data"
 <footer>
   <span class="no-break">
     dart_fusion
-      2.3.0
+      2.5.0
   </span>
 
   

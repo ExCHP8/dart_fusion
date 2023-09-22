@@ -70,6 +70,14 @@
       <h2>Classes</h2>
 
       <dl>
+        <dt id="AssetRunner">
+  <span class="name "><a href="../dart_fusion/AssetRunner-class.html">AssetRunner</a></span> 
+
+</dt>
+<dd>
+  Runner to scan asset and turn it into one model class.
+</dd>
+
         <dt id="DartFusion">
   <span class="name "><a href="../dart_fusion/DartFusion-class.html">DartFusion</a></span> 
 
@@ -109,6 +117,14 @@ tap interactions with various customization options.
 </dt>
 <dd>
   A widget for displaying vector or bitmap images from different sources.
+</dd>
+
+        <dt id="DInherited">
+  <span class="name "><a href="../dart_fusion/DInherited-class.html">DInherited</a></span> 
+
+</dt>
+<dd>
+  A scope to pass <a href="../dart_fusion/DState-class.html">DState</a> data to its descendant.
 </dd>
 
         <dt id="DLog">
@@ -151,28 +167,28 @@ tap interactions with various customization options.
   A utility class for parsing mostly related to http request.
 </dd>
 
-        <dt id="DStateInherited">
-  <span class="name "><a href="../dart_fusion/DStateInherited-class.html">DStateInherited</a></span> 
+        <dt id="DRunner">
+  <span class="name "><a href="../dart_fusion/DRunner-class.html">DRunner</a></span> 
 
 </dt>
 <dd>
-  A scope to pass <a href="../dart_fusion/DStateValue-class.html">DStateValue</a> data to its descendant.
+  The base abstract class for a <a href="../dart_fusion/DRunner-class.html">DRunner</a>.
 </dd>
 
-        <dt id="DStateValue">
-  <span class="name "><a href="../dart_fusion/DStateValue-class.html">DStateValue</a></span> 
+        <dt id="DService">
+  <span class="name "><a href="../dart_fusion/DService-class.html">DService</a></span> 
 
 </dt>
 <dd>
-  State child class of <a href="../dart_fusion/DStateWidget-class.html">DStateWidget</a>.
+  A set of service collection mosty used in dart backend.
 </dd>
 
-        <dt id="DStateWidget">
-  <span class="name "><a href="../dart_fusion/DStateWidget-class.html">DStateWidget</a></span> 
+        <dt id="DState">
+  <span class="name "><a href="../dart_fusion/DState-class.html">DState</a></span> 
 
 </dt>
 <dd>
-  Making <a href="https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html">StatefulWidget</a> prettier and less boilerplate.
+  State child class of <a href="../dart_fusion/DWidget-class.html">DWidget</a>.
 </dd>
 
         <dt id="DTextArea">
@@ -181,6 +197,14 @@ tap interactions with various customization options.
 </dt>
 <dd>
   A custom text area widget.
+</dd>
+
+        <dt id="DWidget">
+  <span class="name "><a href="../dart_fusion/DWidget-class.html">DWidget</a></span> 
+
+</dt>
+<dd>
+  Making <a href="https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html">StatefulWidget</a> prettier and less boilerplate.
 </dd>
 
         <dt id="InkMaterial">
@@ -192,6 +216,14 @@ tap interactions with various customization options.
 ink splash effects on taps.
 </dd>
 
+        <dt id="LocalizeRunner">
+  <span class="name "><a href="../dart_fusion/LocalizeRunner-class.html">LocalizeRunner</a></span> 
+
+</dt>
+<dd>
+  Runner to translate <a href="https://api.flutter.dev/flutter/dart-ui/Locale-class.html">Locale</a> and generate a model to be integrated with <code>easy_localization</code>.
+</dd>
+
         <dt id="Model">
   <span class="name "><a href="../dart_fusion/Model-class.html">Model</a></span> 
 
@@ -201,8 +233,16 @@ ink splash effects on taps.
 <a href="../dart_fusion/Model/toJSON.html">toJSON</a> and <a href="../dart_fusion/Model/copyWith.html">copyWith</a> inside the annotated class.
 </dd>
 
+        <dt id="ModelRunner">
+  <span class="name "><a href="../dart_fusion/ModelRunner-class.html">ModelRunner</a></span> 
+
+</dt>
+<dd>
+  Runner to completing <a href="../dart_fusion/DModel-class.html">DModel</a>, like <code>copyWith</code>, <code>fromJSON</code> and <code>toJSON</code>.
+</dd>
+
         <dt id="ResponseModel">
-  <span class="name "><a href="../dart_fusion/ResponseModel-class.html">ResponseModel</a></span> 
+  <span class="name "><a href="../dart_fusion/ResponseModel-class.html">ResponseModel</a><span class="signature">&lt;<wbr><span class="type-parameter">T extends <a href="../dart_fusion/DModel-class.html">DModel</a></span>&gt;</span></span> 
 
 </dt>
 <dd>
@@ -244,12 +284,12 @@ ink splash effects on taps.
 </dd>
 
 
-        <dt id="OnDStateValue">
-    <span class="name "><a href="../dart_fusion/OnDStateValue.html">OnDStateValue</a></span> 
+        <dt id="OnDState">
+    <span class="name "><a href="../dart_fusion/OnDState.html">OnDState</a></span> 
 
 </dt>
 <dd>
-    Extensioning values used in <a href="../dart_fusion/DStateValue-class.html">DStateValue</a>.
+    Extensioning values used in <a href="../dart_fusion/DState-class.html">DState</a>.
 </dd>
 
 
@@ -304,6 +344,15 @@ ink splash effects on taps.
 </dt>
 <dd>
     Extension on <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a> to provide additional functionality.
+</dd>
+
+
+        <dt id="RequestContextExtension">
+    <span class="name "><a href="../dart_fusion/RequestContextExtension.html">RequestContextExtension</a></span> 
+
+</dt>
+<dd>
+    An extension of <a href="https://pub.dev/documentation/dart_frog/1.0.1/dart_frog/RequestContext-class.html">RequestContext</a>.
 </dd>
 
 
@@ -390,6 +439,28 @@ wether its part of code generation or not.
       </dl>
     </section>
 
+    <section class="summary offset-anchor" id="exceptions">
+      <h2>Exceptions / Errors</h2>
+
+      <dl>
+        <dt id="ResponseException">
+  <span class="name "><a href="../dart_fusion/ResponseException-class.html">ResponseException</a></span> 
+
+</dt>
+<dd>
+  An exception of <a href="https://pub.dev/documentation/dart_frog/1.0.1/dart_frog/Response-class.html">Response</a> to be thrown.
+</dd>
+
+        <dt id="TypeException">
+  <span class="name "><a href="../dart_fusion/TypeException-class.html">TypeException</a></span> 
+
+</dt>
+<dd>
+  An exception of failed to parse <a href="https://api.flutter.dev/flutter/dart-core/Type-class.html">Type</a>.
+</dd>
+
+      </dl>
+    </section>
 
   </div> <!-- /.main-content -->
 
@@ -424,7 +495,7 @@ wether its part of code generation or not.
 <footer>
   <span class="no-break">
     dart_fusion
-      2.3.0
+      2.5.0
   </span>
 
   
