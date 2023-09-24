@@ -87,8 +87,8 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 List&lt;String&gt; get arguments =&gt; [
-      if (input != null) &#39;-i ${input!.path}&#39;,
-      if (output != null) &#39;-o ${output!.path}&#39;
+      if (input != null) ...[&#39;-i&#39;, input!.path],
+      if (output != null) ...[&#39;-o&#39;, output!.path]
     ];</code></pre>
 </section>
 
@@ -124,7 +124,7 @@ List&lt;String&gt; get arguments =&gt; [
 <footer>
   <span class="no-break">
     dart_fusion
-      2.5.0
+      2.6.0
   </span>
 
   

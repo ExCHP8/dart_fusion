@@ -28,7 +28,8 @@ abstract class DRunner {
   Future<ProcessResult?> run({bool onDebug = true}) async {
     if (onDebug ? kDebugMode : true) {
       try {
-        stdout.write('\n\n\x1B[33m------------------- Starting $name Runner -------------------\x1B\n');
+        stdout.write(
+            '\n\n\x1B[33m------------------- Starting $name Runner -------------------\x1B\n');
         final process = await Process.run(
             'dart',
             [
@@ -127,7 +128,10 @@ class LocalizeRunner extends DRunner {
         if (output != null) ...['-o', output!.path],
         if (from != null) ...['--from', from!.languageCode],
         if (to != null) ...['--to', to!.map((e) => e.languageCode).join(',')],
-        if (exclude != null) ...['--exclude', exclude!.map((e) => e.languageCode).join(',')],
+        if (exclude != null) ...[
+          '--exclude',
+          exclude!.map((e) => e.languageCode).join(',')
+        ],
         translate ? '--translate' : '--no-translate'
       ];
 }

@@ -87,10 +87,14 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 List&lt;String&gt; get arguments =&gt; [
-      if (input != null) &#39;-i ${input!.path}&#39;,
-      if (output != null) &#39;-o ${output!.path}&#39;,
-      &#39;--from ${from.languageCode}&#39;,
-      &#39;--to ${to.map((e) =&gt; e.languageCode).toList()}&#39;,
+      if (input != null) ...[&#39;-i&#39;, input!.path],
+      if (output != null) ...[&#39;-o&#39;, output!.path],
+      if (from != null) ...[&#39;--from&#39;, from!.languageCode],
+      if (to != null) ...[&#39;--to&#39;, to!.map((e) =&gt; e.languageCode).join(&#39;,&#39;)],
+      if (exclude != null) ...[
+        &#39;--exclude&#39;,
+        exclude!.map((e) =&gt; e.languageCode).join(&#39;,&#39;)
+      ],
       translate ? &#39;--translate&#39; : &#39;--no-translate&#39;
     ];</code></pre>
 </section>
@@ -127,7 +131,7 @@ List&lt;String&gt; get arguments =&gt; [
 <footer>
   <span class="no-break">
     dart_fusion
-      2.5.0
+      2.6.0
   </span>
 
   
