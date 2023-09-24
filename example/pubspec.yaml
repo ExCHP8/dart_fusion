@@ -21,6 +21,7 @@ dev_dependencies:
 
 flutter:
   assets:
+    - assets/translation//
     - assets/image/icon/
     - assets/image/background/
     - assets/image/

@@ -6,24 +6,34 @@ Future<void> insertLocalization({required ArgResults from}) async {
       throw '\x1B[0mAvailable commands :';
     } else {
       String base = from['from'];
-      List<String> target = from['to'];
+      List<String> exclude = from['exclude'];
+      List<String> target = (from['to'] as List<String>)..removeWhere((e) => exclude.contains(e));
       File input = File(from['input']);
-      String? output = from['output'];
+      File? output = from['output'] != null ? File(from['output']!) : null;
       Map<String, dynamic> json = jsonDecode(input.readAsStringSync());
       if (output != null) {
-        final file = File(output)
+        final file = output
           ..parent.createSync(recursive: true)
-          ..writeAsStringSync(json.model(
-              className: File(output).name.capitalize, isRoot: true));
-        print(
-            'Generating \x1B[33m${input.path}\x1B[0m to \x1B[33m${file.path}\x1B[0m \x1B[32m✔︎\x1B[0m');
+          ..writeAsStringSync(json.model(className: output.name.capitalize, isRoot: true));
+        print('Generating \x1B[33m${input.path}\x1B[0m to \x1B[33m${file.path}\x1B[0m \x1B[32m✔︎\x1B[0m');
       }
       if (from['translate'] == true) {
+        int progress = 0;
         for (var lang in target..removeWhere((e) => e == base)) {
-          final translation = await json.translate(from: base, to: lang);
-          File('${input.parent.path}/$lang.json').writeAsStringSync(
-              const JsonEncoder.withIndent('  ').convert(translation));
+          final translation = await json.translate(
+            from: base,
+            to: lang,
+            callback: (to) {
+              progress++;
+              var percentage = '${((progress / json.totalLength) * 100).toInt()}%';
+              stdout.write(
+                  '\rTranslating \x1B[33m$base\x1B[0m to \x1B[33m$to\x1B[0m [$percentage] ${percentage == '100%' ? '\x1B[32m✓\x1B[0m' : ''}          ');
+            },
+          );
+          File('${input.parent.path}/$lang.json')
+              .writeAsStringSync(const JsonEncoder.withIndent('  ').convert(translation));
           stdout.writeln();
+          progress = 0;
         }
       }
     }
@@ -38,7 +48,8 @@ Future<void> insertLocalization({required ArgResults from}) async {
         '| --from\t| Base language used for translation\t\t\t\t\t|\n'
         '| \t\t| \x1B[2mdefault to \x1B[0m\x1B[33m"en"\x1B[0m\t\t\t\t\t\t\t|\n'
         '| --to\t\t| Targeted translation languages\t\t\t\t\t|\n'
-        '| \t\t| \x1B[2mdefault to \x1B[0m\x1B[33m$languages\x1B[0m\t\t\t\t\t\t\t\t\t\t\t|\n'
+        '| \t\t| \x1B[2mdefault to \x1B[0m\x1B[33m$languages\x1B[0m\t\t\t\t\t\t\t\t\t|\n'
+        '| --exclude\t| Excluded translation languages\t\t\t\t\t|\n'
         '| -h, --help\t| Print this usage information.\t\t\t\t\t\t|\n'
         '+---------------+-----------------------------------------------------------------------+\n'
         '\nUsage : '
@@ -47,8 +58,7 @@ Future<void> insertLocalization({required ArgResults from}) async {
 }
 
 extension JSONExtension on Map<String, dynamic> {
-  String generateDartClasses(
-      String className, Map<String, dynamic> jsonMap, bool isRoot) {
+  String generateDartClasses(String className, Map<String, dynamic> jsonMap, bool isRoot) {
     StringBuffer buffer = StringBuffer();
 
     if (isRoot) {
@@ -60,13 +70,10 @@ extension JSONExtension on Map<String, dynamic> {
     // Generate properties or getters based on the root level
     for (var key in jsonMap.keys) {
       if (jsonMap[key] is Map<String, dynamic>) {
-        buffer.write(
-            '  ${key.capitalize} get $key => const ${key.capitalize}();\n');
+        buffer.write('  ${key.capitalize} get $key => const ${key.capitalize}();\n');
         buffer.write(generateDartClasses(key.capitalize, jsonMap[key], false));
       } else {
-        buffer.write(isRoot
-            ? '  static String $key = \'$key\'.tr();\n'
-            : '  String get $key => \'$key\'.tr();\n');
+        buffer.write(isRoot ? '  static String $key = \'$key\'.tr();\n' : '  String get $key => \'$key\'.tr();\n');
       }
     }
 
@@ -102,8 +109,7 @@ extension JSONExtension on Map<String, dynamic> {
             '\n\tconst $name();');
       for (var value in json.entries) {
         final name = value.key.split('_').map((e) => e.capitalize).join();
-        final parentKey =
-            parent.isNotEmpty ? '$parent.${value.key}' : value.key;
+        final parentKey = parent.isNotEmpty ? '$parent.${value.key}' : value.key;
         if (value.value is Map<String, dynamic>) {
           classes(
             name: name,
@@ -185,27 +191,44 @@ ${result.reversed.join('\n')}
 ''';
   }
 
-  Future<Map<String, dynamic>> translate(
-      {required String from, required String to}) async {
+  int get totalLength {
+    int length = 0;
+
+    void counter(Map<String, dynamic> json) {
+      for (var value in json.values) {
+        if (value is Map<String, dynamic>) {
+          counter(value);
+        } else {
+          length++;
+        }
+      }
+    }
+
+    counter(this);
+
+    return length;
+  }
+
+  Future<Map<String, dynamic>> translate({
+    required String from,
+    required String to,
+    required void Function(String to) callback,
+  }) async {
     Map<String, dynamic> result = {};
-    int index = 0;
 
     for (var item in entries) {
       try {
         if (item.value is Map<String, dynamic>) {
-          result[item.key] = await (item.value as Map<String, dynamic>)
-              .translate(from: from, to: to); // Recursive call
+          result[item.key] =
+              await (item.value as Map<String, dynamic>).translate(from: from, to: to, callback: callback);
         } else {
-          Iterable<String> values =
-              item.value.toString().trim().split(RegExp(r'(?={.*?})|(?<=\w})'));
+          Iterable<String> values = item.value.toString().trim().split(RegExp(r'(?={.*?})|(?<=\w})'));
           List<String> newValues = [];
           for (var value in values) {
-            if (value.trim().startsWith('{') ||
-                RegExp(r'^\W+$').hasMatch(value)) {
+            if (value.trim().startsWith('{') || RegExp(r'^\W+$').hasMatch(value)) {
               newValues.add(value);
             } else {
-              final translation =
-                  await processing(text: value, from: from, to: to);
+              final translation = await processing(text: value, from: from, to: to);
               newValues.add(translation != null
                   ? value.endsWith(' ')
                       ? '$translation '
@@ -214,32 +237,31 @@ ${result.reversed.join('\n')}
             }
           }
           result[item.key] = newValues.join();
+          callback(to);
         }
       } catch (e) {
         stderr.writeln('ERROR: $e');
         result[item.key] = item.value;
+        print('ERROR: $e');
       }
-      var percentage = '${(((index + 1) / length) * 100).toInt()}%';
-      stdout.write(
-          '\rTranslating \x1B[33m$from\x1B[0m to \x1B[33m$to\x1B[0m [$percentage] ${percentage == '100%' ? '\x1B[32m✓\x1B[0m' : ''}          ');
-      index++;
     }
 
     return result;
   }
 }
 
-Future<String?> processing(
-    {required String text, required String from, required String to}) async {
+Future<String?> processing({required String text, required String from, required String to}) async {
   Map<String, dynamic> json = {};
   try {
-    final response = await http
-        .get(Uri.parse('https://t.song.work/api?text=$text&from=$from&to=$to'));
+    final response = await http.get(Uri.parse('https://t.song.work/api?text=$text&from=$from&to=$to'));
     json = jsonDecode(response.body);
     return json['result']!;
   } catch (e) {
     if (json.isNotEmpty) {
       print('\n\x1B[31m$json\x1B[0m');
+      if (json.toString().contains('Please wait for a moment and retry.')) {
+        await Future.delayed(const Duration(seconds: 1));
+      }
     } else {
       print('\n\x1B[33m$e\x1B[0m');
     }

@@ -1,10 +1,14 @@
 {
-  "key": "This is a wonderful day!",
+  "key": "Ini adalah hari yang indah!",
   "nested": {
-    "key": "How are you?"
+    "key": "Apa kabarmu?",
+    "another_nested": {
+      "key": "Hanya pengujian",
+      "test": "{test}pengujian {test}mendongkrak {day}"
+    }
   },
-  "interpolated": "Have a nice day, {name}!",
-  "pluralKey_one": "This is a nice example.",
-  "pluralKey_other": "This are nice examples.",
-  "testing": "this is a test"
+  "interpolated": "Semoga harimu menyenangkan, {name}!",
+  "pluralKey_one": "Ini adalah contoh yang bagus.",
+  "pluralKey_other": "Ini adalah contoh yang bagus.",
+  "testing": "ini adalah sebuah ujian"
 }

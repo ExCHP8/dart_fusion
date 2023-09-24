@@ -27,8 +27,8 @@ abstract class DRunner {
   /// arguments for execution.
   Future<ProcessResult?> run({bool onDebug = true}) async {
     if (onDebug ? kDebugMode : true) {
-      DateTime time = DateTime.now();
       try {
+        stdout.write('\n\n\x1B[33m------------------- Starting $name Runner -------------------\x1B\n');
         final process = await Process.run(
             'dart',
             [
@@ -39,15 +39,11 @@ abstract class DRunner {
             ],
             workingDirectory: Directory.current.path,
             runInShell: true);
-        print(
-            '\n\n\x1B[33m------------------- BEGINNING OF ${name.toUpperCase()} RUNNER -------------------\x1B[0m\n\n${process.stdout}${process.stderr}');
+        stdout.write('\r${process.stdout}${process.stderr}');
         return process;
       } catch (e) {
         print(e);
         return null;
-      } finally {
-        print(
-            '[${DateTime.now().difference(time).inMilliseconds} ms]\n\n\x1B[33m--------------------- ENDING OF ${name.toUpperCase()} RUNNER ---------------------\x1B[0m\n');
       }
     }
     return null;
@@ -76,29 +72,31 @@ class AssetRunner extends DRunner {
 
   @override
   List<String> get arguments => [
-        if (input != null) '-i ${input!.path}',
-        if (output != null) '-o ${output!.path}'
+        if (input != null) ...['-i', input!.path],
+        if (output != null) ...['-o', output!.path]
       ];
 }
 
 /// Runner to translate [Locale] and generate a model to be integrated with `easy_localization`.
 class LocalizeRunner extends DRunner {
-  /// Default constant constructor where the [input] by default is `assets/translation/en.json`, with default Locale
+  /// Default constant constructor where the [input] by default is `assets/translation/en.json`,
+  /// with default Locale
   /// [from] `en` and targetting list of Locale in [DartFusion.locales].
-  const LocalizeRunner({
-    this.input,
-    this.output,
-    this.from = const Locale('en'),
-    this.to = DartFusion.locales,
-    this.translate = true,
-  });
+  const LocalizeRunner(
+      {this.input,
+      this.output,
+      this.from = const Locale('en'),
+      this.to = DartFusion.locales,
+      this.translate = false,
+      this.exclude = const []});
 
   /// Printing usage information of [LocalizeRunner].
   const LocalizeRunner.help()
       : input = null,
         output = null,
-        from = const Locale('en'),
-        to = DartFusion.locales,
+        from = null,
+        to = null,
+        exclude = null,
         translate = false,
         super.help();
 
@@ -109,10 +107,13 @@ class LocalizeRunner extends DRunner {
   final File? output;
 
   /// List of targeted translation. By default its [DartFusion.locales].
-  final List<Locale> to;
+  final List<Locale>? to;
+
+  /// List of excluded translation. By default its empty.
+  final List<Locale>? exclude;
 
   /// Base Locale. By default is `Locale('en')`.
-  final Locale from;
+  final Locale? from;
 
   /// Choose whether to translate json to targetted locales or not.
   final bool translate;
@@ -122,10 +123,11 @@ class LocalizeRunner extends DRunner {
 
   @override
   List<String> get arguments => [
-        if (input != null) '-i ${input!.path}',
-        if (output != null) '-o ${output!.path}',
-        '--from ${from.languageCode}',
-        '--to ${to.map((e) => e.languageCode).toList()}',
+        if (input != null) ...['-i', input!.path],
+        if (output != null) ...['-o', output!.path],
+        if (from != null) ...['--from', from!.languageCode],
+        if (to != null) ...['--to', to!.map((e) => e.languageCode).join(',')],
+        if (exclude != null) ...['--exclude', exclude!.map((e) => e.languageCode).join(',')],
         translate ? '--translate' : '--no-translate'
       ];
 }
@@ -149,5 +151,7 @@ class ModelRunner extends DRunner {
   String get name => 'Model';
 
   @override
-  List<String> get arguments => [if (input != null) '-i ${input!.path}'];
+  List<String> get arguments => [
+        if (input != null) ...['-i', input!.path]
+      ];
 }

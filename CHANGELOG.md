@@ -58,3 +58,8 @@
 * Add generated model of localization to integrate with easy localization
 * Add `D Runner`
 * Change DartFusion.initialize to DartFusion.runner
+## 2.6.0
+* Update translate argument in dart_fussion localize defaults to `true`
+* Fix length counter in dart_fusion localize percentage
+* Add exlucde translations in dart_fusion localize
+* Fix runner path doesn't work

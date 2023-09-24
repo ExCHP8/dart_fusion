@@ -1,28 +1,7 @@
 // Dart Fusion Auto-Generated Asset Scanner
-// Created at 2023-09-22 11:39:01.828417
+// Created at 2023-09-24 14:59:59.205351
 // 🍔 [Buy me a coffee](https://www.buymeacoffee.com/nialixus) 🚀
 // ignore_for_file: constant_identifier_names
-
-/// An asset class scanned from `assets`, containing 2 files.
-///
-/// ```dart
-/// String value = Assets.value;
-/// ```
-class Assets {
-  /// Asset derived from `assets/.DS_Store`, with 6.00 KB size.
-  ///
-  /// ```dart
-  /// String value = Assets.DS_Store;
-  /// ```
-  static const String DS_Store = 'assets/.DS_Store';
-
-  /// Asset derived from `assets/configuration.env`, with 0 B size.
-  ///
-  /// ```dart
-  /// String value = Assets.configuration;
-  /// ```
-  static const String configuration = 'assets/configuration.env';
-}
 
 /// An asset class scanned from `assets/translation`, containing 136 files.
 ///
@@ -30,7 +9,7 @@ class Assets {
 /// String value = TranslationAssets.value;
 /// ```
 class TranslationAssets {
-  /// Asset derived from `assets/translation/hy.json`, with 255 B size.
+  /// Asset derived from `assets/translation/hy.json`, with 449 B size.
   ///
   /// ```dart
   /// String value = TranslationAssets.hy;
@@ -149,7 +128,7 @@ class TranslationAssets {
   /// ```
   static const String la = 'assets/translation/la.json';
 
-  /// Asset derived from `assets/translation/bn.json`, with 255 B size.
+  /// Asset derived from `assets/translation/bn.json`, with 611 B size.
   ///
   /// ```dart
   /// String value = TranslationAssets.bn;
@@ -429,7 +408,7 @@ class TranslationAssets {
   /// ```
   static const String ckb = 'assets/translation/ckb.json';
 
-  /// Asset derived from `assets/translation/az.json`, with 255 B size.
+  /// Asset derived from `assets/translation/az.json`, with 353 B size.
   ///
   /// ```dart
   /// String value = TranslationAssets.az;
@@ -450,7 +429,7 @@ class TranslationAssets {
   /// ```
   static const String pt = 'assets/translation/pt.json';
 
-  /// Asset derived from `assets/translation/be.json`, with 255 B size.
+  /// Asset derived from `assets/translation/be.json`, with 468 B size.
   ///
   /// ```dart
   /// String value = TranslationAssets.be;
@@ -604,7 +583,7 @@ class TranslationAssets {
   /// ```
   static const String cy = 'assets/translation/cy.json';
 
-  /// Asset derived from `assets/translation/sq.json`, with 255 B size.
+  /// Asset derived from `assets/translation/sq.json`, with 410 B size.
   ///
   /// ```dart
   /// String value = TranslationAssets.sq;
@@ -618,7 +597,7 @@ class TranslationAssets {
   /// ```
   static const String hmn = 'assets/translation/hmn.json';
 
-  /// Asset derived from `assets/translation/ay.json`, with 255 B size.
+  /// Asset derived from `assets/translation/ay.json`, with 427 B size.
   ///
   /// ```dart
   /// String value = TranslationAssets.ay;
@@ -646,14 +625,14 @@ class TranslationAssets {
   /// ```
   static const String ne = 'assets/translation/ne.json';
 
-  /// Asset derived from `assets/translation/bs.json`, with 255 B size.
+  /// Asset derived from `assets/translation/bs.json`, with 347 B size.
   ///
   /// ```dart
   /// String value = TranslationAssets.bs;
   /// ```
   static const String bs = 'assets/translation/bs.json';
 
-  /// Asset derived from `assets/translation/bho.json`, with 255 B size.
+  /// Asset derived from `assets/translation/bho.json`, with 648 B size.
   ///
   /// ```dart
   /// String value = TranslationAssets.bho;
@@ -667,7 +646,7 @@ class TranslationAssets {
   /// ```
   static const String fr = 'assets/translation/fr.json';
 
-  /// Asset derived from `assets/translation/am.json`, with 255 B size.
+  /// Asset derived from `assets/translation/am.json`, with 449 B size.
   ///
   /// ```dart
   /// String value = TranslationAssets.am;
@@ -688,7 +667,7 @@ class TranslationAssets {
   /// ```
   static const String el = 'assets/translation/el.json';
 
-  /// Asset derived from `assets/translation/bg.json`, with 255 B size.
+  /// Asset derived from `assets/translation/bg.json`, with 395 B size.
   ///
   /// ```dart
   /// String value = TranslationAssets.bg;
@@ -709,7 +688,7 @@ class TranslationAssets {
   /// ```
   static const String hi = 'assets/translation/hi.json';
 
-  /// Asset derived from `assets/translation/ca.json`, with 255 B size.
+  /// Asset derived from `assets/translation/ca.json`, with 364 B size.
   ///
   /// ```dart
   /// String value = TranslationAssets.ca;
@@ -737,7 +716,7 @@ class TranslationAssets {
   /// ```
   static const String ko = 'assets/translation/ko.json';
 
-  /// Asset derived from `assets/translation/eu.json`, with 255 B size.
+  /// Asset derived from `assets/translation/eu.json`, with 362 B size.
   ///
   /// ```dart
   /// String value = TranslationAssets.eu;
@@ -814,7 +793,7 @@ class TranslationAssets {
   /// ```
   static const String te = 'assets/translation/te.json';
 
-  /// Asset derived from `assets/translation/as.json`, with 255 B size.
+  /// Asset derived from `assets/translation/as.json`, with 593 B size.
   ///
   /// ```dart
   /// String value = TranslationAssets.as;
@@ -919,7 +898,7 @@ class TranslationAssets {
   /// ```
   static const String doi = 'assets/translation/doi.json';
 
-  /// Asset derived from `assets/translation/bm.json`, with 255 B size.
+  /// Asset derived from `assets/translation/bm.json`, with 397 B size.
   ///
   /// ```dart
   /// String value = TranslationAssets.bm;
@@ -940,7 +919,7 @@ class TranslationAssets {
   /// ```
   static const String es = 'assets/translation/es.json';
 
-  /// Asset derived from `assets/translation/ar.json`, with 255 B size.
+  /// Asset derived from `assets/translation/ar.json`, with 400 B size.
   ///
   /// ```dart
   /// String value = TranslationAssets.ar;
@@ -981,53 +960,4 @@ class TranslationAssets {
   /// String value = TranslationAssets.so;
   /// ```
   static const String so = 'assets/translation/so.json';
-}
-
-/// An asset class scanned from `assets/image`, containing 2 files.
-///
-/// ```dart
-/// String value = ImageAssets.value;
-/// ```
-class ImageAssets {
-  /// Asset derived from `assets/image/background.jpg`, with 0 B size.
-  ///
-  /// ```dart
-  /// String value = ImageAssets.background;
-  /// ```
-  static const String background = 'assets/image/background.jpg';
-
-  /// Asset derived from `assets/image/foreground.png`, with 0 B size.
-  ///
-  /// ```dart
-  /// String value = ImageAssets.foreground;
-  /// ```
-  static const String foreground = 'assets/image/foreground.png';
-}
-
-/// An asset class scanned from `assets/image/background`, containing 1 files.
-///
-/// ```dart
-/// String value = BackgroundImageAssets.value;
-/// ```
-class BackgroundImageAssets {
-  /// Asset derived from `assets/image/background/environment.svg`, with 0 B size.
-  ///
-  /// ```dart
-  /// String value = BackgroundImageAssets.environment;
-  /// ```
-  static const String environment = 'assets/image/background/environment.svg';
-}
-
-/// An asset class scanned from `assets/image/icon`, containing 1 files.
-///
-/// ```dart
-/// String value = IconImageAssets.value;
-/// ```
-class IconImageAssets {
-  /// Asset derived from `assets/image/icon/avatar.svg`, with 0 B size.
-  ///
-  /// ```dart
-  /// String value = IconImageAssets.avatar;
-  /// ```
-  static const String avatar = 'assets/image/icon/avatar.svg';
 }

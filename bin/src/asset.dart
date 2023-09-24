@@ -5,14 +5,14 @@ void insertAsset({required ArgResults from}) {
     if (from['help'] == true) {
       throw '\x1B[0mAvailable commands :';
     } else {
-      String input = from['input']!.toString();
-      String output = from['output']!.toString();
-
-      Directory(output.directory).createSync(recursive: true);
-      File(output)
+      String dir = from['input']!;
+      Directory input = Directory(dir.endsWith('/') ? dir.substring(0, dir.length - 1) : dir);
+      File output = File(from['output']);
+      output
+        ..parent.createSync(recursive: true)
         ..writeAsStringSync(input.file((dir, file) {
           print(
-              '\x1B[32mScanning ${dir.length} directories and ${file.length} files ✔️\x1B[0m \ninto \x1B[33m$output 🚀\x1B[0m');
+              '\x1B[32mScanning ${dir.length} directories and ${file.length} files ✔️\x1B[0m \ninto \x1B[33m${output.path} 🚀\x1B[0m');
         }))
         ..createSync(recursive: true);
     }
@@ -33,6 +33,64 @@ void insertAsset({required ArgResults from}) {
 }
 
 extension DirectoryExtension on Directory {
+  String file(void Function(List<Directory> directories, List<File> files) value) {
+    List<File> files = [];
+    List<Directory> directories = [if (listSync().any((e) => e is File)) this];
+    final StringBuffer classes = StringBuffer();
+    final StringBuffer variables = StringBuffer();
+
+    for (var item in listSync(recursive: true)) {
+      if (item is Directory) {
+        if (item.listSync().any((e) => e is File)) {
+          directories.add(item);
+        }
+      } else if (item is File) {
+        files.add(item);
+      }
+    }
+
+    directories.toPubspec();
+
+    for (var dir in directories) {
+      variables
+        ..clear()
+        ..write('\n');
+      for (var fil in files.where((e) => e.parent.path == dir.path)) {
+        variables.write('''
+
+  /// Asset derived from `${fil.path}`, with ${fil.statSync().size.toBytes} size.
+  /// 
+  /// ```dart
+  /// String value = ${dir.name}.${fil.name};
+  /// ```
+  static const String ${fil.name} = '${fil.path}';
+''');
+      }
+
+      classes.write('''
+/// An asset class scanned from `${dir.path}`, containing ${dir.listSync().whereType<File>().length} files.
+/// 
+/// ```dart
+/// String value = ${dir.name}.value;
+/// ```
+class ${dir.name} {$variables
+}
+
+''');
+    }
+
+    value(directories, files);
+
+    return '''
+// Dart Fusion Auto-Generated Asset Scanner
+// Created at ${DateTime.now()}
+// 🍔 [Buy me a coffee](https://www.buymeacoffee.com/nialixus) 🚀
+// ignore_for_file: constant_identifier_names
+
+$classes
+''';
+  }
+
   String get name {
     if (path.contains("/")) {
       return path.split("/").reversed.map((e) => e.capitalize).join("");
@@ -142,75 +200,13 @@ extension StringExtension on String {
       return split.join("/");
     }
   }
-
-  String file(
-      void Function(List<Directory> directories, List<File> files) value) {
-    List<File> files = [];
-    List<Directory> directories = [
-      if (Directory(this).listSync().any((e) => e is File)) Directory(this)
-    ];
-    final StringBuffer classes = StringBuffer();
-    final StringBuffer variables = StringBuffer();
-
-    for (var item in Directory(this).listSync(recursive: true)) {
-      if (item is Directory) {
-        if (item.listSync().any((e) => e is File)) {
-          directories.add(item);
-        }
-      } else if (item is File) {
-        files.add(item);
-      }
-    }
-
-    directories.toPubspec();
-
-    for (var dir in directories) {
-      variables
-        ..clear()
-        ..write('\n');
-      for (var fil in files.where((e) => e.parent.path == dir.path)) {
-        variables.write('''
-
-  /// Asset derived from `${fil.path}`, with ${fil.statSync().size.toBytes} size.
-  /// 
-  /// ```dart
-  /// String value = ${dir.name}.${fil.name};
-  /// ```
-  static const String ${fil.name} = '${fil.path}';
-''');
-      }
-
-      classes.write('''
-/// An asset class scanned from `${dir.path}`, containing ${dir.listSync().whereType<File>().length} files.
-/// 
-/// ```dart
-/// String value = ${dir.name}.value;
-/// ```
-class ${dir.name} {$variables
-}
-
-''');
-    }
-
-    value(directories, files);
-
-    return '''
-// Dart Fusion Auto-Generated Asset Scanner
-// Created at ${DateTime.now()}
-// 🍔 [Buy me a coffee](https://www.buymeacoffee.com/nialixus) 🚀
-// ignore_for_file: constant_identifier_names
-
-$classes
-''';
-  }
 }
 
 extension DirectoryListExtension on List<Directory> {
   void toPubspec() {
     File pubspec = File('pubspec.yaml');
     List<String> lines = pubspec.readAsLinesSync();
-    int flutterIndex =
-        lines.lastIndexWhere((line) => line.trim() == 'flutter:');
+    int flutterIndex = lines.lastIndexWhere((line) => line.trim() == 'flutter:');
     int assetsIndex = lines.lastIndexWhere((line) => line.trim() == 'assets:');
     if (flutterIndex == -1) {
       lines.insert(lines.length - 1, 'flutter:\n  assets:');
@@ -221,10 +217,8 @@ extension DirectoryListExtension on List<Directory> {
     }
 
     for (var directory in this) {
-      int assetsIndex =
-          lines.lastIndexWhere((line) => line.trim() == 'assets:');
-      int directoryIndex =
-          lines.lastIndexWhere((line) => line.trim() == '- ${directory.path}/');
+      int assetsIndex = lines.lastIndexWhere((line) => line.trim() == 'assets:');
+      int directoryIndex = lines.lastIndexWhere((line) => line.trim() == '- ${directory.path}/');
       if (directoryIndex == -1) {
         lines.insert(assetsIndex + 1, '    - ${directory.path}/');
       }
