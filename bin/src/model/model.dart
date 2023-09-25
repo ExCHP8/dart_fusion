@@ -1,4 +1,4 @@
-part of '../dart_fusion.dart';
+part of '../../dart_fusion.dart';
 
 /// Main function to update dart model based on given annotation.
 void insertModel({required ArgResults from}) {

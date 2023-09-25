@@ -1,37 +1,4 @@
-part of '../dart_fusion.dart';
-
-void insertAsset({required ArgResults from}) {
-  try {
-    if (from['help'] == true) {
-      throw '\x1B[0mAvailable commands :';
-    } else {
-      String dir = from['input']!;
-      Directory input =
-          Directory(dir.endsWith('/') ? dir.substring(0, dir.length - 1) : dir);
-      File output = File(from['output']);
-      output
-        ..parent.createSync(recursive: true)
-        ..writeAsStringSync(input.file((dir, file) {
-          print(
-              '\x1B[32mScanning ${dir.length} directories and ${file.length} files ✔️\x1B[0m \ninto \x1B[33m${output.path} 🚀\x1B[0m');
-        }))
-        ..createSync(recursive: true);
-    }
-  } catch (e) {
-    print('\n\x1B[31m$e\x1B[0m\n\n'
-        '+---------------+-----------------------------------------------+\n'
-        '| OPTION\t| DESCRIPTION\t\t\t\t\t|\n'
-        '+---------------+-----------------------------------------------+\n'
-        '| -i, --input\t| Input directory of where assets took place.\t|\n'
-        '| \t\t| \x1B[2mdefault to \x1B[0m\x1B[33m"assets"\x1B[0m\t\t\t\t|\n'
-        '| -o, --output\t| Output file of generated asset class.\t\t|\n'
-        '| \t\t| \x1B[2mdefault to \x1B[0m\x1B[33m"lib/src/assets.dart"\x1B[0m\t\t|\n'
-        '| -h, --help\t| Print this usage information.\t\t\t|\n'
-        '+---------------+-----------------------------------------------+\n'
-        '\nUsage : '
-        '\n- \x1B[32mdart\x1B[0m run \x1B[34mdart_fusion\x1B[0m asset -i \x1B[33m"assets"\x1B[0m -o \x1B[33m"lib/src/assets.dart"\x1B[0m');
-  }
-}
+part of '../../dart_fusion.dart';
 
 extension DirectoryExtension on Directory {
   String file(
@@ -57,16 +24,29 @@ extension DirectoryExtension on Directory {
       variables
         ..clear()
         ..write('\n');
-      for (var fil in files.where((e) => e.parent.path == dir.path)) {
-        variables.write('''
+      for (var fil in dir.listSync()) {
+        print(fil);
+        if (fil is File) {
+          variables.write('''
 
   /// Asset derived from `${fil.path}`, with ${fil.statSync().size.toBytes} size.
   /// 
   /// ```dart
-  /// String value = ${dir.name}.${fil.name};
+  /// String value = ${dir.name}().${fil.name};
   /// ```
-  static const String ${fil.name} = '${fil.path}';
+  String get ${fil.name} => '${fil.path}';
 ''');
+        } else if (fil is Directory) {
+          variables.write('''
+
+  /// Asset derived from `${fil.path}, containing ${fil.listSync().length} items.`
+  /// 
+  /// ```dart
+  /// ${fil.name} value = ${dir.name}().${fil.originalName};
+  /// ```
+  ${fil.name} get ${fil.originalName} => const ${fil.name}();
+''');
+        }
       }
 
       classes.write('''
@@ -75,7 +55,15 @@ extension DirectoryExtension on Directory {
 /// ```dart
 /// String value = ${dir.name}.value;
 /// ```
-class ${dir.name} {$variables
+class ${dir.name} {
+  /// Default constant constructor of directory
+  const ${dir.name}();
+
+  /// Static instance of ${dir.name}
+  static const ${dir.name} instance = ${dir.name}();
+
+  /// Path of this class directory
+  String get path => '${dir.path}';$variables
 }
 
 ''');
@@ -87,7 +75,7 @@ class ${dir.name} {$variables
 // Dart Fusion Auto-Generated Asset Scanner
 // Created at ${DateTime.now()}
 // 🍔 [Buy me a coffee](https://www.buymeacoffee.com/nialixus) 🚀
-// ignore_for_file: constant_identifier_names
+// ignore_for_file: constant_identifier_names, non_constant_identifier_names
 
 $classes
 ''';
@@ -98,6 +86,14 @@ $classes
       return path.split("/").reversed.map((e) => e.capitalize).join("");
     } else {
       return path.capitalize;
+    }
+  }
+
+  String get originalName {
+    if (path.contains("/")) {
+      return path.split("/").last.toLowerCase();
+    } else {
+      return path.toLowerCase();
     }
   }
 }
@@ -159,7 +155,9 @@ extension FileExtension on File {
         case 'source':
         case 'static':
         case 'with':
-          return '${result}_entity';
+        case 'path':
+        case 'instance':
+          return '${result}_value';
         default:
           return result;
       }

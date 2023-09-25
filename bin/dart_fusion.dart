@@ -3,9 +3,10 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:http/http.dart' as http;
 
-part 'src/asset.dart';
-part 'src/localization.dart';
-part 'src/model.dart';
+part 'src/asset/asset.dart';
+part 'src/asset/asset_extensions.dart';
+part 'src/localization/localization.dart';
+part 'src/model/model.dart';
 
 Future<void> main(List<String> arguments) async {
   ArgParser scanner = ArgParser()
@@ -70,7 +71,7 @@ Future<void> main(List<String> arguments) async {
   try {
     ArgResults? argument = runner.parse(arguments).command;
     if (argument?.name == 'asset') {
-      insertAsset(from: argument!);
+      Asset.runner(from: argument!);
     } else if (argument?.name == 'model') {
       insertModel(from: argument!);
     } else if (argument?.name == 'localize') {

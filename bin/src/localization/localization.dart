@@ -1,4 +1,4 @@
-part of '../dart_fusion.dart';
+part of '../../dart_fusion.dart';
 
 Future<void> insertLocalization({required ArgResults from}) async {
   try {

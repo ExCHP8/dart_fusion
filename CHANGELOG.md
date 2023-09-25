@@ -63,3 +63,5 @@
 * Fix length counter in dart_fusion localize percentage
 * Add exlucde translations in dart_fusion localize
 * Fix runner path doesn't work
+## 2.7.0
+* Update model class of asset scanner
