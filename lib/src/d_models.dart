@@ -28,7 +28,7 @@ class DModel extends Equatable {
   /// Convert a JSON to this DModel.
   ///
   /// ```dart
-  /// DModel DModel = DModel.fromJSON(json);
+  /// DModel model = DModel.fromJSON(json);
   /// ```
   static DModel fromJSON(JSON value) => const DModel();
 
@@ -59,7 +59,6 @@ class ResponseModel<T extends DModel> extends DModel {
     this.data,
   });
 
-  /// Parsing [ResponseModel] from [JSON] value, with additional null safety.
   static ResponseModel fromJSON<T extends DModel>(JSON value,
       {T Function(JSON value)? data}) {
     return ResponseModel(

@@ -80,8 +80,8 @@ extension JSONExtension on Map<String, dynamic> {
         buffer.write(generateDartClasses(key.capitalize, jsonMap[key], false));
       } else {
         buffer.write(isRoot
-            ? '  static String $key = \'$key\'.tr();\n'
-            : '  String get $key => \'$key\'.tr();\n');
+            ? '  static String ${key.name} = \'$key\'.tr();\n'
+            : '  String get ${key.name} => \'$key\'.tr();\n');
       }
     }
 
@@ -150,14 +150,14 @@ extension JSONExtension on Map<String, dynamic> {
                 .toList();
             buffer.write(""
                 "\n\t/// ```dart"
-                "\n\t/// String ${value.key.toLowerCase()} = $className.$parentKey(");
+                "\n\t/// String ${value.key.toLowerCase()} = $className.${parentKey.name}(");
             for (var args in arguments) {
               buffer.write(" $args: '$args',");
             }
             buffer.write(");"
-                "\n\t/// print(${value.key.toLowerCase()}); // ${value.value}"
-                "\n\t/// ```"
-                "\n\t${isRoot ? 'static ' : ''}String ${value.key.toLowerCase()}({");
+                "\n\t/// print(${value.key.name.toLowerCase()}); /* ${value.value.toString().replaceAll('\n', '\n\t/// ')}"
+                " */\n\t/// ```"
+                "\n\t${isRoot ? 'static ' : ''}String ${value.key.name.toLowerCase()}({");
             for (var args in arguments) {
               buffer.write('\n\t\trequired String $args,');
             }
@@ -170,12 +170,12 @@ extension JSONExtension on Map<String, dynamic> {
             buffer
               ..write(""
                   "\n\t/// ```dart"
-                  "\n\t/// String ${value.key.toLowerCase()} = $className.$parentKey"
-                  "\n\t/// print(${value.key.toLowerCase()}); // ${value.value}"
-                  "\n\t/// ```")
+                  "\n\t/// String ${value.key.name.toLowerCase()} = $className.${parentKey.name}"
+                  "\n\t/// print(${value.key.name.toLowerCase()}); /* ${value.value.toString().replaceAll('\n', '\n\t/// ')}"
+                  " */\n\t/// ```")
               ..write(isRoot
-                  ? "\n\tstatic String ${value.key.toLowerCase()} = '$parentKey'.tr();"
-                  : "\n\tString get ${value.key.toLowerCase()} => '$parentKey'.tr();");
+                  ? "\n\tstatic String ${value.key.name.toLowerCase()} = '$parentKey'.tr();"
+                  : "\n\tString get ${value.key.name.toLowerCase()} => '$parentKey'.tr();");
           }
         }
       }

@@ -1,5 +1,5 @@
 // Dart Fusion Auto-Generated Asset Scanner
-// Created at 2023-09-25 11:10:01.002412
+// Created at 2023-09-25 17:07:17.615334
 // 🍔 [Buy me a coffee](https://www.buymeacoffee.com/nialixus) 🚀
 // ignore_for_file: constant_identifier_names, non_constant_identifier_names
 
@@ -12,39 +12,36 @@ class Assets {
   /// Default constant constructor of directory
   const Assets();
 
-  /// Static instance of Assets
-  static const Assets instance = Assets();
-
   /// Path of this class directory
-  String get path => 'assets';
+  static const String path = 'assets';
 
   /// Asset derived from `assets/.DS_Store`, with 6.00 KB size.
   ///
   /// ```dart
-  /// String value = Assets().DS_Store;
+  /// String value = Assets.DS_Store;
   /// ```
-  String get DS_Store => 'assets/.DS_Store';
+  static const String DS_Store = 'assets/.DS_Store';
 
   /// Asset derived from `assets/translation, containing 3 items.`
   ///
   /// ```dart
-  /// TranslationAssets value = Assets().translation;
+  /// TranslationAssets value = Assets.translation;
   /// ```
-  TranslationAssets get translation => const TranslationAssets();
+  static const TranslationAssets translation = TranslationAssets();
 
   /// Asset derived from `assets/image, containing 4 items.`
   ///
   /// ```dart
-  /// ImageAssets value = Assets().image;
+  /// ImageAssets value = Assets.image;
   /// ```
-  ImageAssets get image => const ImageAssets();
+  static const ImageAssets image = ImageAssets();
 
   /// Asset derived from `assets/configuration.env`, with 0 B size.
   ///
   /// ```dart
-  /// String value = Assets().configuration;
+  /// String value = Assets.configuration;
   /// ```
-  String get configuration => 'assets/configuration.env';
+  static const String configuration = 'assets/configuration.env';
 }
 
 /// An asset class scanned from `assets/translation`, containing 3 files.
@@ -55,9 +52,6 @@ class Assets {
 class TranslationAssets {
   /// Default constant constructor of directory
   const TranslationAssets();
-
-  /// Static instance of TranslationAssets
-  static const TranslationAssets instance = TranslationAssets();
 
   /// Path of this class directory
   String get path => 'assets/translation';
@@ -92,9 +86,6 @@ class TranslationAssets {
 class ImageAssets {
   /// Default constant constructor of directory
   const ImageAssets();
-
-  /// Static instance of ImageAssets
-  static const ImageAssets instance = ImageAssets();
 
   /// Path of this class directory
   String get path => 'assets/image';
@@ -137,9 +128,6 @@ class BackgroundImageAssets {
   /// Default constant constructor of directory
   const BackgroundImageAssets();
 
-  /// Static instance of BackgroundImageAssets
-  static const BackgroundImageAssets instance = BackgroundImageAssets();
-
   /// Path of this class directory
   String get path => 'assets/image/background';
 
@@ -159,9 +147,6 @@ class BackgroundImageAssets {
 class IconImageAssets {
   /// Default constant constructor of directory
   const IconImageAssets();
-
-  /// Static instance of IconImageAssets
-  static const IconImageAssets instance = IconImageAssets();
 
   /// Path of this class directory
   String get path => 'assets/image/icon';

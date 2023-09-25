@@ -25,16 +25,16 @@ extension DirectoryExtension on Directory {
         ..clear()
         ..write('\n');
       for (var fil in dir.listSync()) {
-        print(fil);
+        bool isRoot = fil.parent.path == path;
         if (fil is File) {
           variables.write('''
 
   /// Asset derived from `${fil.path}`, with ${fil.statSync().size.toBytes} size.
   /// 
   /// ```dart
-  /// String value = ${dir.name}().${fil.name};
+  /// String value = ${dir.name}${isRoot ? '' : '()'}.${fil.name};
   /// ```
-  String get ${fil.name} => '${fil.path}';
+  ${isRoot ? "static const String ${fil.name} = '${fil.path}'" : "String get ${fil.name} => '${fil.path}'"};
 ''');
         } else if (fil is Directory) {
           variables.write('''
@@ -42,9 +42,9 @@ extension DirectoryExtension on Directory {
   /// Asset derived from `${fil.path}, containing ${fil.listSync().length} items.`
   /// 
   /// ```dart
-  /// ${fil.name} value = ${dir.name}().${fil.originalName};
+  /// ${fil.name} value = ${dir.name}${isRoot ? '' : '()'}.${fil.originalName};
   /// ```
-  ${fil.name} get ${fil.originalName} => const ${fil.name}();
+  ${isRoot ? 'static const ${fil.name} ${fil.originalName} = ${fil.name}();' : '${fil.name} get ${fil.originalName} => const ${fil.name}();'}
 ''');
         }
       }
@@ -59,11 +59,8 @@ class ${dir.name} {
   /// Default constant constructor of directory
   const ${dir.name}();
 
-  /// Static instance of ${dir.name}
-  static const ${dir.name} instance = ${dir.name}();
-
   /// Path of this class directory
-  String get path => '${dir.path}';$variables
+  ${dir == this ? "static const String path = '${dir.path}';" : "String get path => '${dir.path}';"}$variables
 }
 
 ''');
@@ -157,7 +154,8 @@ extension FileExtension on File {
         case 'with':
         case 'path':
         case 'instance':
-          return '${result}_value';
+        case 'new':
+          return '${result}var';
         default:
           return result;
       }
@@ -183,6 +181,61 @@ extension IntExtension on int {
 }
 
 extension StringExtension on String {
+  String short(int length) {
+    return substring(0, this.length < length ? this.length : length);
+  }
+
+  String get name {
+    switch (trim()) {
+      case 'is':
+      case 'do':
+      case 'while':
+      case 'break':
+      case 'continue':
+      case 'return':
+      case 'case':
+      case 'default':
+      case 'if':
+      case 'else':
+      case 'for':
+      case 'switch':
+      case 'assert':
+      case 'try':
+      case 'catch':
+      case 'finally':
+      case 'rethrow':
+      case 'throw':
+      case 'on':
+      case 'typedef':
+      case 'async':
+      case 'await':
+      case 'yield':
+      case 'yield*':
+      case 'sync':
+      case 'external':
+      case 'covariant':
+      case 'deferred':
+      case 'get':
+      case 'hide':
+      case 'implements':
+      case 'import':
+      case 'library':
+      case 'operator':
+      case 'part':
+      case 'set':
+      case 'show':
+      case 'source':
+      case 'static':
+      case 'with':
+      case 'path':
+      case 'instance':
+      case 'new':
+        return '${this}var';
+      default:
+        return this;
+    }
+  }
+
   String get capitalize {
     try {
       return this[0].toUpperCase() + substring(1).toLowerCase();
