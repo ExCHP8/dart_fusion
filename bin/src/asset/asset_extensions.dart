@@ -1,8 +1,7 @@
 part of '../../dart_fusion.dart';
 
 extension DirectoryExtension on Directory {
-  String file(
-      void Function(List<Directory> directories, List<File> files) value) {
+  String file(void Function(List<Directory> directories, List<File> files) value) {
     List<File> files = [];
     List<Directory> directories = [if (listSync().any((e) => e is File)) this];
     final StringBuffer classes = StringBuffer();
@@ -27,10 +26,11 @@ extension DirectoryExtension on Directory {
       for (var fil in dir.listSync()) {
         bool isRoot = fil.parent.path == path;
         if (fil is File) {
+          final ext = fil.path.split('.').last.toLowerCase();
           variables.write('''
 
   /// Asset derived from `${fil.path}`, with ${fil.statSync().size.toBytes} size.
-  /// 
+  /// ${(ext == 'png' || ext == 'jpg' || ext == 'svg' || ext == 'jpeg' || ext == 'bmp' || ext == 'gif' || ext == 'tiff' || ext == 'webp') ? '\n\t/// <img src="${fil.absolute.path}" alt="${fil.name}" width="30" height="30" />\n\t///' : ''}
   /// ```dart
   /// String value = ${dir.name}${isRoot ? '' : '()'}.${fil.name};
   /// ```
@@ -155,7 +155,7 @@ extension FileExtension on File {
         case 'path':
         case 'instance':
         case 'new':
-          return '${result}var';
+          return '${result}_';
         default:
           return result;
       }
@@ -230,7 +230,7 @@ extension StringExtension on String {
       case 'path':
       case 'instance':
       case 'new':
-        return '${this}var';
+        return '${this}_';
       default:
         return this;
     }
@@ -259,8 +259,7 @@ extension DirectoryListExtension on List<Directory> {
   void toPubspec() {
     File pubspec = File('pubspec.yaml');
     List<String> lines = pubspec.readAsLinesSync();
-    int flutterIndex =
-        lines.lastIndexWhere((line) => line.trim() == 'flutter:');
+    int flutterIndex = lines.lastIndexWhere((line) => line.trim() == 'flutter:');
     int assetsIndex = lines.lastIndexWhere((line) => line.trim() == 'assets:');
     if (flutterIndex == -1) {
       lines.insert(lines.length - 1, 'flutter:\n  assets:');
@@ -271,10 +270,8 @@ extension DirectoryListExtension on List<Directory> {
     }
 
     for (var directory in this) {
-      int assetsIndex =
-          lines.lastIndexWhere((line) => line.trim() == 'assets:');
-      int directoryIndex =
-          lines.lastIndexWhere((line) => line.trim() == '- ${directory.path}/');
+      int assetsIndex = lines.lastIndexWhere((line) => line.trim() == 'assets:');
+      int directoryIndex = lines.lastIndexWhere((line) => line.trim() == '- ${directory.path}/');
       if (directoryIndex == -1) {
         lines.insert(assetsIndex + 1, '    - ${directory.path}/');
       }

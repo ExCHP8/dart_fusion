@@ -1,7 +1,7 @@
 name: dart_fusion
 description: A library that brings together a harmonious blend of essential
   tools, utilities, and components designed to supercharge your Dart projects.
-version: 2.7.0
+version: 2.8.0
 homepage: https://github.com/Nialixus/dart_fusion.git
 repository: https://github.com/Nialixus/dart_fusion.git
 issue_tracker: https://github.com/Nialixus/dart_fusion/issues
@@ -28,7 +28,6 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_svg: ^2.0.7
-  go_router: ^11.0.0
   http: ^1.1.0
   logger: ^2.0.2+1
   universal_file: ^1.0.0

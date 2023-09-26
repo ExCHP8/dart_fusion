@@ -65,3 +65,7 @@
 * Fix runner path doesn't work
 ## 2.7.0
 * Update model class of asset scanner
+## 2.8.0
+* Remove GoRouter Extension
+* Add DLogWidget
+* Display scanned image file in doc.

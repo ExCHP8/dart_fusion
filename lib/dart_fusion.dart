@@ -10,7 +10,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 import 'package:universal_file/universal_file.dart';
 
@@ -42,8 +41,7 @@ class DartFusion {
   ///   LocalizeRunner()
   /// ]);
   /// ```
-  static Future<void> runner(List<DRunner> runner,
-      {bool onDebug = true}) async {
+  static Future<void> runner(List<DRunner> runner, {bool onDebug = true}) async {
     try {
       for (var value in runner) {
         await value.run(onDebug: onDebug);

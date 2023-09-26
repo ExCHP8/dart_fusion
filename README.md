@@ -78,7 +78,7 @@ dependencies:
     git:
       url: https://github.com/Nialixus/dart_fusion.git
       ## Optional with version
-      ref: v2.7.0
+      ref: v2.8.0
 ```
 
 also run this command in terminal
