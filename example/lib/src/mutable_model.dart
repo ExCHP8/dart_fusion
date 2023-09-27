@@ -32,4 +32,10 @@ class MutableModel extends DModel {
       ..message = value.of<String>('message')
       ..status = value.of<int>('status');
   }
+
+  static MutableModel get test {
+    return MutableModel()
+      ..message = 'This is a sample message'
+      ..status = 0;
+  }
 }

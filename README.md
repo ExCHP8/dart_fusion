@@ -543,11 +543,11 @@ Offers a solution to simplify the boilerplate code commonly associated with usin
 
 ## <a name="d-state-widget-key-features"></a> Key Features
 * Reduce Boilerplate
-  With DStateWidget, you can significantly reduce boilerplate code when working with StatefulWidget. Say goodbye to excessive code blocks and welcome concise, elegant declarations.
+  With DWidget, you can significantly reduce boilerplate code when working with StatefulWidget. Say goodbye to excessive code blocks and welcome concise, elegant declarations.
 * Improved Readability
   By abstracting away common patterns, the library ensures cleaner and more readable code, making it easier to comprehend and maintain your project.
 * Easy to Use
-  Implementing DStateWidget is straightforward. Just extend the class, override specific methods like onStart, onPreparation, onFinish, and let the magic happen.
+  Implementing DWidget is straightforward. Just extend the class, override specific methods like onStart, onPreparation, onFinish, and let the magic happen.
 * Data Passing Made Simple
   With a convenient data method, you can easily declare and pass data between the widget and its state, ensuring your data management is both efficient and organized.
 
@@ -555,42 +555,42 @@ Offers a solution to simplify the boilerplate code commonly associated with usin
 To use it, you're going to need extending this class like this
 
 ```dart
-class MyClass extends DStateWidget {
+class MyClass extends DWidget {
   const MyClass({super.key});
 
   @override
-  Map<String, dynamic> data(DStateValue state){
+  Map<String, dynamic> data(DState state){
     return {'controller': TextEditingController()};
   }
 
   @override
-  void onPreparation(DStateValue state){
+  void onPreparation(DState state){
     state.value<TextEditingController>('controller').text = 'Loading';
   }
 
   @override
-  Widget onStart(DStateValue state){
+  Widget onStart(DState state){
     return TextField(controller: state.value<TextEditingController>('controller'));
   }
 
-  void onReady(DStateValue state){
+  void onReady(DState state){
     state.value<TextEditingController>('controller').text = 'Data Loaded';
   }
 
   @override
-  void onFinish(DStateValue state){
+  void onFinish(DState state){
     state.value<TextEditingController>('controller').dispose();
   }
 }
 ```
 
-and you can also get [DStateValue] in its child, by calling this
+and you can also get [DState] in its child, by calling this
 
 ```dart
-DStateInherited.of(context);
+DInherited.of(context);
 ```
 
-or get the data in [DStateValue] with this
+or get the data in [DState] with this
 
 ```dart
 context.value<TextEditingController>("controller");

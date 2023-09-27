@@ -2,10 +2,15 @@
 
 import 'package:dart_fusion/dart_fusion.dart';
 
+enum Test { abc, def, ghi, jkl, mno, pqr, stu, vwx, yz }
+
 @Model(immutable: false)
 class MutableModel extends DModel {
-  @variable
+  @Variable(defaultsTo: 'Lorem ipsum dolor sit amet')
   String message = '';
+
+  @Variable(defaultsTo: 'THUIS IS AS TEST')
+  String? absurd;
 
   @variable
   int status = 200;
@@ -13,34 +18,56 @@ class MutableModel extends DModel {
   @Variable(fromJSON: true, toJSON: true)
   List<ImmutableModel> immutables = [];
 
+  Test get enumerate => Test.values[testID];
+
+  @Variable(name: 'test_id')
+  int testID = 0;
+
   @override
   MutableModel copyWith({
     String? message,
+    String? absurd,
     int? status,
     List<ImmutableModel>? immutables,
+    int? testID,
   }) {
     return MutableModel()
       ..message = message ?? this.message
+      ..absurd = absurd ?? this.absurd
       ..status = status ?? this.status
-      ..immutables = immutables ?? this.immutables;
+      ..immutables = immutables ?? this.immutables
+      ..testID = testID ?? this.testID;
   }
 
   @override
   JSON get toJSON => {
         'message': message,
+        'absurd': absurd,
         'status': status,
         'immutables': immutables.toJSON,
+        'test_id': testID,
         ...super.toJSON,
       };
 
   static MutableModel fromJSON(JSON value) {
     return MutableModel()
-      ..message = value.of<String>('message')
+      ..message = value.of<String>('message', 'Lorem ipsum dolor sit amet')
+      ..absurd = value.maybeOf<String>('absurd') ?? 'THUIS IS AS TEST'
       ..status = value.of<int>('status')
       ..immutables = value
           .of<List<JSON>>('immutables')
           .map(ImmutableModel.fromJSON)
-          .toList();
+          .toList()
+      ..testID = value.of<int>('test_id');
+  }
+
+  static MutableModel get test {
+    return MutableModel()
+      ..message = 'Lorem ipsum dolor sit amet'
+      ..absurd = 'THUIS IS AS TEST'
+      ..status = 0
+      ..immutables = const []
+      ..testID = 0;
   }
 }
 
@@ -53,8 +80,8 @@ class ImmutableModel extends DModel {
     required this.mutable,
   });
 
-  @variable
-  final String message;
+  @Variable(defaultsTo: 'Lorem ipsum dolor sit amet 🚀')
+  final String? message;
 
   @variable
   final int status;
@@ -64,6 +91,15 @@ class ImmutableModel extends DModel {
 
   @Variable(name: 'mutable_model', toJSON: true, fromJSON: true)
   final MutableModel mutableModel;
+
+  static ImmutableModel get test {
+    return ImmutableModel(
+      message: 'Lorem ipsum dolor sit amet 🚀',
+      status: 0,
+      mutable: const [],
+      mutableModel: MutableModel.test,
+    );
+  }
 
   @override
   ImmutableModel copyWith({
@@ -85,17 +121,18 @@ class ImmutableModel extends DModel {
         'message': message,
         'status': status,
         'mutable': mutable.toJSON,
-        'mutable_model': mutableModel.toJSON,
+        'mutableModel': mutableModel.toJSON,
         ...super.toJSON,
       };
 
   static ImmutableModel fromJSON(JSON value) {
     return ImmutableModel(
-      message: value.of<String>('message'),
+      message:
+          value.maybeOf<String>('message') ?? 'Lorem ipsum dolor sit amet 🚀',
       status: value.of<int>('status'),
       mutable:
           value.of<List<JSON>>('mutable').map(MutableModel.fromJSON).toList(),
-      mutableModel: MutableModel.fromJSON(value.of<JSON>('mutable_model')),
+      mutableModel: MutableModel.fromJSON(value.of<JSON>('mutableModel')),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:args/args.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,64 +11,28 @@ part 'src/model/model.dart';
 
 Future<void> main(List<String> arguments) async {
   ArgParser scanner = ArgParser()
-    ..addOption('input',
-        abbr: 'i',
-        defaultsTo: 'assets',
-        help: 'Input directory of where assets took place.')
-    ..addOption('output',
-        abbr: 'o',
-        defaultsTo: 'lib/src/assets.dart',
-        help: 'Output file of generated asset class')
-    ..addFlag('help',
-        abbr: 'h',
-        negatable: false,
-        defaultsTo: false,
-        help: 'Print this usage information');
+    ..addOption('input', abbr: 'i', defaultsTo: 'assets', help: 'Input directory of where assets took place.')
+    ..addOption('output', abbr: 'o', defaultsTo: 'lib/src/assets.dart', help: 'Output file of generated asset class')
+    ..addFlag('help', abbr: 'h', negatable: false, defaultsTo: false, help: 'Print this usage information');
   ArgParser translator = ArgParser()
     ..addOption('input',
         abbr: 'i',
         defaultsTo: 'assets/translation/en.json',
         help: 'Input directory of where the JSON translations took place.')
-    ..addOption('output',
-        abbr: 'o', help: 'Generate easy localization model from input file')
-    ..addFlag('translate',
-        help: 'Choose whether to translate or not',
-        defaultsTo: true,
-        negatable: true)
-    ..addFlag('help',
-        abbr: 'h',
-        negatable: false,
-        defaultsTo: false,
-        help: 'Print this usage information')
-    ..addOption('from',
-        defaultsTo: 'en',
-        allowed: languages,
-        help: 'Base language used to translate')
-    ..addMultiOption('to',
-        defaultsTo: languages,
-        allowed: languages,
-        help: 'Targeted translation languagees')
-    ..addMultiOption('exclude',
-        defaultsTo: [], help: 'Excluded translation languages');
+    ..addOption('output', abbr: 'o', help: 'Generate easy localization model from input file')
+    ..addFlag('translate', help: 'Choose whether to translate or not', defaultsTo: true, negatable: true)
+    ..addFlag('help', abbr: 'h', negatable: false, defaultsTo: false, help: 'Print this usage information')
+    ..addOption('from', defaultsTo: 'en', allowed: languages, help: 'Base language used to translate')
+    ..addMultiOption('to', defaultsTo: languages, allowed: languages, help: 'Targeted translation languagees')
+    ..addMultiOption('exclude', defaultsTo: [], help: 'Excluded translation languages');
   ArgParser generator = ArgParser()
-    ..addOption('input',
-        abbr: 'i',
-        defaultsTo: '',
-        help: 'Input directory of where the models took place.')
-    ..addFlag('help',
-        abbr: 'h',
-        negatable: false,
-        defaultsTo: false,
-        help: 'Print this usage information');
+    ..addOption('input', abbr: 'i', defaultsTo: '', help: 'Input directory of where the models took place.')
+    ..addFlag('help', abbr: 'h', negatable: false, defaultsTo: false, help: 'Print this usage information');
   ArgParser runner = ArgParser()
     ..addCommand('asset', scanner)
     ..addCommand('model', generator)
     ..addCommand('localize', translator)
-    ..addFlag('help',
-        abbr: 'h',
-        negatable: false,
-        defaultsTo: false,
-        help: 'Print this usage information');
+    ..addFlag('help', abbr: 'h', negatable: false, defaultsTo: false, help: 'Print this usage information');
   try {
     ArgResults? argument = runner.parse(arguments).command;
     if (argument?.name == 'asset') {

@@ -46,4 +46,12 @@ class ImmutableModel extends DModel {
       model: MutableModel.fromJSON(value.of<JSON>('model')),
     );
   }
+
+  static ImmutableModel get test {
+    return ImmutableModel(
+      message: 'This is a sample message',
+      status: 0,
+      model: MutableModel.test,
+    );
+  }
 }

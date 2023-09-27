@@ -41,16 +41,40 @@ class Variable {
     this.name,
     this.toJSON = false,
     this.fromJSON = false,
+    this.defaultsTo,
   });
 
   /// Json key value
+  ///
+  /// ```dart
+  /// @Variable(name: 'sample_test')
+  /// final String test;
+  /// ```
   final String? name;
 
   /// Is variable has [toJSON] function or not.
+  ///
+  /// ```dart
+  /// @Variable(toJSON: true)
+  /// final ExtendedDModel model;
+  /// ```
   final bool toJSON;
 
   /// Is variable has [fromJSON] function or not.
+  ///
+  /// ```dart
+  /// @Variable(fromJSON: true)
+  /// final ExtendedDModel model;
+  /// ```
   final bool fromJSON;
+
+  /// Default value if the expected value is null.
+  ///
+  /// ```dart
+  /// @Variable(defaultsTo: 'Lorem ipsum')
+  /// final String test;
+  /// ```
+  final Object? defaultsTo;
 }
 
 /// Annotation of class as an indicator to generate a [fromJSON],
@@ -74,6 +98,7 @@ class Model {
     this.toJSON = true,
     this.copyWith = true,
     this.fromJSON = true,
+    this.test = true,
   });
 
   /// Indicates whether code for JSON serialization should be generated or not.
@@ -85,8 +110,11 @@ class Model {
   /// Indicates whether code for JSON deserialization should be generated or not.
   final bool fromJSON;
 
-  /// Wether class is immutable or not.
+  /// Whether class is immutable or not.
   final bool immutable;
+
+  /// Whether want to generate test model or not.
+  final bool test;
 }
 
 /// A constant instance of [Variable] to be used as an annotation.
