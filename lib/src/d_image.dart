@@ -78,9 +78,9 @@ class DImage<Source extends Object> extends StatelessWidget {
   Widget build(BuildContext context) {
     try {
       if (source is File) {
-        final source = this.source as File;
-        if (source.path.endsWith(".svg")) {
-          return SvgPicture.file(
+        final source = (this.source as File).readAsBytesSync();
+        try {
+          return SvgPicture.memory(
             source,
             width: size?.width,
             height: size?.height,
@@ -91,8 +91,8 @@ class DImage<Source extends Object> extends StatelessWidget {
             color: color,
             colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
           );
-        } else {
-          return Image.file(source,
+        } catch (e) {
+          return Image.memory(source,
               width: size?.width,
               height: size?.height,
               fit: fit,

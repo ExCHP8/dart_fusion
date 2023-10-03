@@ -25,29 +25,28 @@ abstract class DRunner {
   ///
   /// The [arguments] are combined with the default 'run' and 'dart_fusion'
   /// arguments for execution.
-  Future<ProcessResult?> run({bool onDebug = true}) async {
-    if (onDebug ? kDebugMode : true) {
-      try {
-        stdout.write(
-            '\n\n\x1B[33m------------------- Starting $name Runner -------------------\x1B\n');
-        final process = await Process.run(
-            'dart',
-            [
-              'run',
-              'dart_fusion',
-              name.toLowerCase(),
-              if (help) '-h' else ...arguments,
-            ],
-            workingDirectory: Directory.current.path,
-            runInShell: true);
-        stdout.write('\r${process.stdout}${process.stderr}');
-        return process;
-      } catch (e) {
-        print(e);
-        return null;
+  Future<void> run({bool onDebug = true}) async {
+    if (!kIsWeb) {
+      if (onDebug ? kDebugMode : true) {
+        try {
+          stdout.write(
+              '\n\n\x1B[33m------------------- Starting $name Runner -------------------\x1B\n');
+          final process = await Process.run(
+              'dart',
+              [
+                'run',
+                'dart_fusion',
+                name.toLowerCase(),
+                if (help) '-h' else ...arguments,
+              ],
+              workingDirectory: Directory.current.path,
+              runInShell: true);
+          stdout.write('\r${process.stdout}${process.stderr}');
+        } catch (e) {
+          print(e);
+        }
       }
     }
-    return null;
   }
 }
 

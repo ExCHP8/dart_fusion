@@ -7,13 +7,16 @@ void insertModel({required ArgResults from}) {
       throw '\x1B[0mAvailable commands :';
     } else {
       String dir = from['input']!;
-      List<File> files = Directory(dir.endsWith('/') ? dir.substring(0, dir.length - 1) : dir)
-          .listSync(recursive: true)
-          .whereType<File>()
-          .where((e) =>
-              e.path.split('.').last.trim() == 'dart' &&
-              e.readAsStringSync().contains(RegExp(r'(?=@Model)|(?=@model)')))
-          .toList();
+      List<File> files =
+          Directory(dir.endsWith('/') ? dir.substring(0, dir.length - 1) : dir)
+              .listSync(recursive: true)
+              .whereType<File>()
+              .where((e) =>
+                  e.path.split('.').last.trim() == 'dart' &&
+                  e
+                      .readAsStringSync()
+                      .contains(RegExp(r'(?=@Model)|(?=@model)')))
+              .toList();
       for (int index = 0; index < files.length; index++) {
         ModelParser.run(files.elementAt(index));
         stdout.write('\rUpdating model ${index + 1}/${files.length} ');
@@ -136,13 +139,20 @@ class ModelParser {
   final int end;
 
   static File run(File file) {
-    var data = file.readAsStringSync().split(RegExp(r'(?=@Model)|(?=@model)')).map((e) {
+    var data = file
+        .readAsStringSync()
+        .split(RegExp(r'(?=@Model)|(?=@model)'))
+        .map((e) {
       if (e.trim().startsWith(RegExp(r'(?=@Model)|(?=@model)'))) {
         final value = e.split('\n');
-        bool noToJSON = value.contain('toJSON: false', sources: ['@Model(...)']);
-        bool noCopyWith = value.contain('copyWith: false', sources: ['@Model(...)']);
-        bool noFromJSON = value.contain('fromJSON: false', sources: ['@Model(...)']);
-        bool noImmutable = value.contain('immutable: false', sources: ['@Model(...)']);
+        bool noToJSON =
+            value.contain('toJSON: false', sources: ['@Model(...)']);
+        bool noCopyWith =
+            value.contain('copyWith: false', sources: ['@Model(...)']);
+        bool noFromJSON =
+            value.contain('fromJSON: false', sources: ['@Model(...)']);
+        bool noImmutable =
+            value.contain('immutable: false', sources: ['@Model(...)']);
         bool noTest = value.contain('test: false', sources: ['@Model(...)']);
         final range = value.range(['@Model(...)', '@model']);
         List<VariableParser> variables = VariableParser.fromString(e);
@@ -151,7 +161,10 @@ class ModelParser {
           end: value.length,
           begin: 0,
           test: !noTest,
-          name: RegExp(r'(?<=class\s).+?\w+').allMatches(value[range.last + 1]).first.group(0)!,
+          name: RegExp(r'(?<=class\s).+?\w+')
+              .allMatches(value[range.last + 1])
+              .first
+              .group(0)!,
           toJSON: !noToJSON,
           copyWith: !noCopyWith,
           fromJSON: !noFromJSON,
@@ -159,10 +172,13 @@ class ModelParser {
         );
 
         if (model.test) {
-          value.replace('static ${model.name} get test...}', replacement: (exist) {
+          value.replace('static ${model.name} get test...}',
+              replacement: (exist) {
             buffer.clear();
             for (var variable in variables) {
-              buffer.write(model.immutable ? '\n\t\t\t${variable.name}: ' : '\n\t\t\t..${variable.name} = ');
+              buffer.write(model.immutable
+                  ? '\n\t\t\t${variable.name}: '
+                  : '\n\t\t\t..${variable.name} = ');
               if (variable.defaultsTo != null) {
                 buffer.write('${variable.defaultsTo}');
               } else {
@@ -209,7 +225,8 @@ class ModelParser {
             if (model.immutable) {
               buffer.write('\t\treturn ${model.name}(\n');
               for (var variable in variables) {
-                buffer.write('\t\t\t${variable.name}: ${variable.name} ?? this.${variable.name},\n');
+                buffer.write(
+                    '\t\t\t${variable.name}: ${variable.name} ?? this.${variable.name},\n');
               }
               buffer.write('\t\t);\n');
             } else {
@@ -243,13 +260,18 @@ class ModelParser {
         }
 
         if (model.fromJSON) {
-          value.replace('static ${model.name} fromJSON...}', replacement: (exist) {
+          value.replace('static ${model.name} fromJSON...}',
+              replacement: (exist) {
             buffer.clear();
             for (var variable in variables) {
               String prefix = variable.nullable ? 'value.maybeOf' : 'value.of';
               String suffixNullable =
-                  variable.nullable && variable.defaultsTo != null ? ' ?? ${variable.defaultsTo}' : '';
-              String suffix = !variable.nullable && variable.defaultsTo != null ? ', ${variable.defaultsTo}' : '';
+                  variable.nullable && variable.defaultsTo != null
+                      ? ' ?? ${variable.defaultsTo}'
+                      : '';
+              String suffix = !variable.nullable && variable.defaultsTo != null
+                  ? ', ${variable.defaultsTo}'
+                  : '';
               String content = variable.fromJSON
                   ? variable.type.contains('List')
                       ? "$prefix<List<JSON>>('${variable.key ?? variable.name}'$suffix).map(${variable.type.replaceAll(RegExp(r'.+?(?<=<)|(?=>).+?'), '')}.fromJSON).toList()$suffixNullable"
@@ -276,7 +298,8 @@ class ModelParser {
       }
       return e;
     }).join('');
-    if (data.contains('immutable: false') && !data.contains('must_be_immutable')) {
+    if (data.contains('immutable: false') &&
+        !data.contains('must_be_immutable')) {
       data = '// ignore_for_file: must_be_immutable\n\n$data';
     }
     file.writeAsStringSync(data);
@@ -325,10 +348,16 @@ class VariableParser {
             .stringMatch(values[range.last])
             ?.trim()
             .replaceAll(RegExp(r'''('|")'''), '');
-        bool toJSON = values.contain('toJSON: true', sources: ['@Variable(...)']);
-        bool fromJSON = values.contain('fromJSON: true', sources: ['@Variable(...)']);
-        List<String> variable = line.replaceAll(RegExp(r'final |const |static |;'), '').trim().split(' ');
-        var defaultsTo = RegExp(r'(?<=defaultsTo:).*(?=, toJSON|, fromJSON|, name|,.*?\)\\n|\))')
+        bool toJSON =
+            values.contain('toJSON: true', sources: ['@Variable(...)']);
+        bool fromJSON =
+            values.contain('fromJSON: true', sources: ['@Variable(...)']);
+        List<String> variable = line
+            .replaceAll(RegExp(r'final |const |static |;'), '')
+            .trim()
+            .split(' ');
+        var defaultsTo = RegExp(
+                r'(?<=defaultsTo:).*(?=, toJSON|, fromJSON|, name|,.*?\)\\n|\))')
             .stringMatch(values[range.last])
             ?.trim();
         final model = VariableParser(
