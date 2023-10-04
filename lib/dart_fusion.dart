@@ -11,8 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
-import 'package:universal_file/universal_file.dart'
-    if (kIsWeb) 'package:universal_file/universal_file.dart';
+import 'package:universal_file/universal_file.dart';
 
 part 'src/d_behavior.dart';
 part 'src/d_exceptions.dart';

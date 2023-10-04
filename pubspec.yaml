@@ -7,10 +7,11 @@ repository: https://github.com/Nialixus/dart_fusion.git
 issue_tracker: https://github.com/Nialixus/dart_fusion/issues
 documentation: https://raw.githack.com/Nialixus/dart_fusion/main/doc/api/index.html
 publish_to: none
-funding: https://www.buymeacoffee.com/nialixus
+funding: 
+  - https://www.buymeacoffee.com/nialixus
 screenshots:
   - description: 'Dart Fusion Logo'
-    url: https://user-images.githubusercontent.com/45191605/267848544-e316c985-3369-4609-9aa5-6becfdb9bee8.png
+    path: logo.png
 topics:
   - collection
   - utility
@@ -23,7 +24,7 @@ dependencies:
   args: ^2.4.2
   dart_frog: ^1.0.1
   dart_frog_web_socket: ^1.0.0
-  dart_jsonwebtoken: ^2.11.0
+  dart_jsonwebtoken: ^2.12.0
   equatable: ^2.0.5
   flutter:
     sdk: flutter

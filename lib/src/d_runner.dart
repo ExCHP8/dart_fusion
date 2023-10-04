@@ -29,8 +29,6 @@ abstract class DRunner {
     if (!kIsWeb) {
       if (onDebug ? kDebugMode : true) {
         try {
-          stdout.write(
-              '\n\n\x1B[33m------------------- Starting $name Runner -------------------\x1B\n');
           final process = await Process.run(
               'dart',
               [
@@ -41,7 +39,8 @@ abstract class DRunner {
               ],
               workingDirectory: Directory.current.path,
               runInShell: true);
-          stdout.write('\r${process.stdout}${process.stderr}');
+          print(
+              '\x1B[33m[$name Runner]\x1B[0m ${process.stdout}${process.stderr}');
         } catch (e) {
           print(e);
         }
