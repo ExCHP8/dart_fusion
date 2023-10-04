@@ -2,16 +2,19 @@
 library dart_fusion;
 
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:dart_frog/dart_frog.dart';
+import 'package:dart_fusion/src/d_process/d_process_io.dart'
+    if (dart.library.js) 'package:dart_fusion/src/d_process/d_process.dart'
+    if (dart.library.html) 'package:dart_fusion/src/d_process/d_process.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
-import 'package:universal_file/universal_file.dart';
 
 part 'src/d_behavior.dart';
 part 'src/d_exceptions.dart';

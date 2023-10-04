@@ -31,7 +31,6 @@ dependencies:
   flutter_svg: ^2.0.7
   http: ^1.1.0
   logger: ^2.0.2+1
-  universal_file: ^1.0.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0

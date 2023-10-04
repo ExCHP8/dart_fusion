@@ -26,25 +26,8 @@ abstract class DRunner {
   /// The [arguments] are combined with the default 'run' and 'dart_fusion'
   /// arguments for execution.
   Future<void> run({bool onDebug = true}) async {
-    if (!kIsWeb) {
-      if (onDebug ? kDebugMode : true) {
-        try {
-          final process = await Process.run(
-              'dart',
-              [
-                'run',
-                'dart_fusion',
-                name.toLowerCase(),
-                if (help) '-h' else ...arguments,
-              ],
-              workingDirectory: Directory.current.path,
-              runInShell: true);
-          print(
-              '\x1B[33m[$name Runner]\x1B[0m ${process.stdout}${process.stderr}');
-        } catch (e) {
-          print(e);
-        }
-      }
+    if (onDebug ? kDebugMode : true) {
+      await DProcess(name: name, arguments: arguments, help: help).run();
     }
   }
 }
