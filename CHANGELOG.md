@@ -72,3 +72,4 @@
 * Add nullable scanner in Model generator
 * Add Test model generation in Model generator and DModel
 * Add defaultsTo in Variable annotation
+* Add conditional import DProcess

@@ -65,10 +65,10 @@ A library that brings together a harmonious blend of essential tools, utilities,
 - [D Service](#d-service)
   - [Middleware](#d-service-middleware)
   - [Random ID](#d-service-random-id)
-- [D State Widget](#d-state-widget-logo)
-  - [Key Features](#d-state-widget-key-features)
-  - [Usage](#d-state-widget-usage)
 - [D Typedefs](#d-typedefs)
+- [D Widget](#d-widget-logo)
+  - [Key Features](#d-widget-key-features)
+  - [Usage](#d-widget-usage)
  
 ## Installation
 put this in your pubspec.yaml
@@ -533,15 +533,24 @@ String id = DService.randomID();
 
 ---
 
-<a name="d-state-widget-logo"></a>
+# D Typedefs
+A set of mostly used typedefs in dart.
+
+| Typedef | Original             | 
+| ------- | -------------------- |
+| JSON    | Map<String, dynamic> | 
+
+---
+
+<a name="d-widget-logo"></a>
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/45191605/268439850-08b6133c-1585-4853-8e99-c3fc7abef447.png" alt="D State Widget Logo" width="150">
+  <img src="https://user-images.githubusercontent.com/45191605/268439850-08b6133c-1585-4853-8e99-c3fc7abef447.png" alt="D Widget Logo" width="150">
 </p>
 
-# D State Widget
+# D Widget
 Offers a solution to simplify the boilerplate code commonly associated with using StatefulWidget. By providing a clean and efficient approach, it enhances the developer experience. Designed with convenience and simplicity in mind, AppStateWidget streamlines the development process, allowing you to focus on building intuitive user interfaces without getting bogged down by repetitive code.
 
-## <a name="d-state-widget-key-features"></a> Key Features
+## <a name="d-widget-key-features"></a> Key Features
 * Reduce Boilerplate
   With DWidget, you can significantly reduce boilerplate code when working with StatefulWidget. Say goodbye to excessive code blocks and welcome concise, elegant declarations.
 * Improved Readability
@@ -551,7 +560,7 @@ Offers a solution to simplify the boilerplate code commonly associated with usin
 * Data Passing Made Simple
   With a convenient data method, you can easily declare and pass data between the widget and its state, ensuring your data management is both efficient and organized.
 
-## <a name="d-state-widget-usage"></a> Usage
+## <a name="d-widget-usage"></a> Usage
 To use it, you're going to need extending this class like this
 
 ```dart
@@ -600,15 +609,6 @@ also to cell setState we change it to
 ```dart
 state.update();
 ```
----
-
-# D Typedefs
-A set of mostly used typedefs in dart.
-
-| Typedef | Original             | 
-| ------- | -------------------- |
-| JSON    | Map<String, dynamic> | 
-
 ---
 
 ## Documentation

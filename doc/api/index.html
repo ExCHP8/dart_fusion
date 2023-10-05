@@ -148,13 +148,13 @@
 <li><a href="#d-service-random-id">Random ID</a></li>
 </ul>
 </li>
-<li><a href="#d-state-widget-logo">D State Widget</a>
+<li><a href="#d-typedefs">D Typedefs</a></li>
+<li><a href="#d-widget-logo">D Widget</a>
 <ul>
-<li><a href="#d-state-widget-key-features">Key Features</a></li>
-<li><a href="#d-state-widget-usage">Usage</a></li>
+<li><a href="#d-widget-key-features">Key Features</a></li>
+<li><a href="#d-widget-usage">Usage</a></li>
 </ul>
 </li>
-<li><a href="#d-typedefs">D Typedefs</a></li>
 </ul>
 <h2 id="installation">Installation</h2>
 <p>put this in your pubspec.yaml</p>
@@ -163,7 +163,7 @@
     git:
       url: https://github.com/Nialixus/dart_fusion.git
       ## Optional with version
-      ref: v2.7.0
+      ref: v2.8.0
 </code></pre>
 <p>also run this command in terminal</p>
 <pre class="language-bash"><code class="language-bash">dart pub global activate --source git https://github.com/Nialixus/dart_fusion.git
@@ -664,63 +664,6 @@ print(message); // 'Data is not exist'
 <pre class="language-dart"><code class="language-dart">String id = DService.randomID();
 </code></pre>
 <hr>
-<p><a name="d-state-widget-logo"></a></p>
-<p align="center">
-<img src="https://user-images.githubusercontent.com/45191605/268439850-08b6133c-1585-4853-8e99-c3fc7abef447.png" alt="D State Widget Logo" width="150">
-</p>
-<h1 id="d-state-widget">D State Widget</h1>
-<p>Offers a solution to simplify the boilerplate code commonly associated with using StatefulWidget. By providing a clean and efficient approach, it enhances the developer experience. Designed with convenience and simplicity in mind, AppStateWidget streamlines the development process, allowing you to focus on building intuitive user interfaces without getting bogged down by repetitive code.</p>
-<h2 id="a-named-state-widget-key-featuresa-key-features"><a name="d-state-widget-key-features"></a> Key Features</h2>
-<ul>
-<li>Reduce Boilerplate
-With DStateWidget, you can significantly reduce boilerplate code when working with StatefulWidget. Say goodbye to excessive code blocks and welcome concise, elegant declarations.</li>
-<li>Improved Readability
-By abstracting away common patterns, the library ensures cleaner and more readable code, making it easier to comprehend and maintain your project.</li>
-<li>Easy to Use
-Implementing DStateWidget is straightforward. Just extend the class, override specific methods like onStart, onPreparation, onFinish, and let the magic happen.</li>
-<li>Data Passing Made Simple
-With a convenient data method, you can easily declare and pass data between the widget and its state, ensuring your data management is both efficient and organized.</li>
-</ul>
-<h2 id="a-named-state-widget-usagea-usage"><a name="d-state-widget-usage"></a> Usage</h2>
-<p>To use it, you're going to need extending this class like this</p>
-<pre class="language-dart"><code class="language-dart">class MyClass extends DStateWidget {
-  const MyClass({super.key});
-
-  @override
-  Map&lt;String, dynamic&gt; data(DStateValue state){
-    return {'controller': TextEditingController()};
-  }
-
-  @override
-  void onPreparation(DStateValue state){
-    state.value&lt;TextEditingController&gt;('controller').text = 'Loading';
-  }
-
-  @override
-  Widget onStart(DStateValue state){
-    return TextField(controller: state.value&lt;TextEditingController&gt;('controller'));
-  }
-
-  void onReady(DStateValue state){
-    state.value&lt;TextEditingController&gt;('controller').text = 'Data Loaded';
-  }
-
-  @override
-  void onFinish(DStateValue state){
-    state.value&lt;TextEditingController&gt;('controller').dispose();
-  }
-}
-</code></pre>
-<p>and you can also get <code>DStateValue</code> in its child, by calling this</p>
-<pre class="language-dart"><code class="language-dart">DStateInherited.of(context);
-</code></pre>
-<p>or get the data in <code>DStateValue</code> with this</p>
-<pre class="language-dart"><code class="language-dart">context.value&lt;TextEditingController&gt;("controller");
-</code></pre>
-<p>also to cell setState we change it to</p>
-<pre class="language-dart"><code class="language-dart">state.update();
-</code></pre>
-<hr>
 <h1 id="d-typedefs">D Typedefs</h1>
 <p>A set of mostly used typedefs in dart.</p>
 <table>
@@ -737,6 +680,63 @@ With a convenient data method, you can easily declare and pass data between the 
 </tr>
 </tbody>
 </table>
+<hr>
+<p><a name="d-widget-logo"></a></p>
+<p align="center">
+<img src="https://user-images.githubusercontent.com/45191605/268439850-08b6133c-1585-4853-8e99-c3fc7abef447.png" alt="D Widget Logo" width="150">
+</p>
+<h1 id="d-widget">D Widget</h1>
+<p>Offers a solution to simplify the boilerplate code commonly associated with using StatefulWidget. By providing a clean and efficient approach, it enhances the developer experience. Designed with convenience and simplicity in mind, AppStateWidget streamlines the development process, allowing you to focus on building intuitive user interfaces without getting bogged down by repetitive code.</p>
+<h2 id="a-named-widget-key-featuresa-key-features"><a name="d-widget-key-features"></a> Key Features</h2>
+<ul>
+<li>Reduce Boilerplate
+With DWidget, you can significantly reduce boilerplate code when working with StatefulWidget. Say goodbye to excessive code blocks and welcome concise, elegant declarations.</li>
+<li>Improved Readability
+By abstracting away common patterns, the library ensures cleaner and more readable code, making it easier to comprehend and maintain your project.</li>
+<li>Easy to Use
+Implementing DWidget is straightforward. Just extend the class, override specific methods like onStart, onPreparation, onFinish, and let the magic happen.</li>
+<li>Data Passing Made Simple
+With a convenient data method, you can easily declare and pass data between the widget and its state, ensuring your data management is both efficient and organized.</li>
+</ul>
+<h2 id="a-named-widget-usagea-usage"><a name="d-widget-usage"></a> Usage</h2>
+<p>To use it, you're going to need extending this class like this</p>
+<pre class="language-dart"><code class="language-dart">class MyClass extends DWidget {
+  const MyClass({super.key});
+
+  @override
+  Map&lt;String, dynamic&gt; data(DState state){
+    return {'controller': TextEditingController()};
+  }
+
+  @override
+  void onPreparation(DState state){
+    state.value&lt;TextEditingController&gt;('controller').text = 'Loading';
+  }
+
+  @override
+  Widget onStart(DState state){
+    return TextField(controller: state.value&lt;TextEditingController&gt;('controller'));
+  }
+
+  void onReady(DState state){
+    state.value&lt;TextEditingController&gt;('controller').text = 'Data Loaded';
+  }
+
+  @override
+  void onFinish(DState state){
+    state.value&lt;TextEditingController&gt;('controller').dispose();
+  }
+}
+</code></pre>
+<p>and you can also get <a href="dart_fusion/DState-class.html">DState</a> in its child, by calling this</p>
+<pre class="language-dart"><code class="language-dart">DInherited.of(context);
+</code></pre>
+<p>or get the data in <a href="dart_fusion/DState-class.html">DState</a> with this</p>
+<pre class="language-dart"><code class="language-dart">context.value&lt;TextEditingController&gt;("controller");
+</code></pre>
+<p>also to cell setState we change it to</p>
+<pre class="language-dart"><code class="language-dart">state.update();
+</code></pre>
 <hr>
 <h2 id="documentation">Documentation</h2>
 <p>For dart doc generated document, you can see it in this
@@ -788,7 +788,7 @@ With a convenient data method, you can easily declare and pass data between the 
 <footer>
   <span class="no-break">
     dart_fusion
-      2.7.0
+      2.8.0
   </span>
 
   

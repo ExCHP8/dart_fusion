@@ -63,7 +63,7 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-io/ProcessResult-class.html">ProcessResult</a>?</span>&gt;</span></span>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
 <span class="name ">run</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="run-param-onDebug">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">onDebug</span> = <span class="default-value">true</span>}</span></li>
 </ol>)
 
@@ -84,29 +84,10 @@ arguments for execution.</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;ProcessResult?&gt; run({bool onDebug = true}) async {
+  <pre class="language-dart"><code class="language-dart">Future&lt;void&gt; run({bool onDebug = true}) async {
   if (onDebug ? kDebugMode : true) {
-    try {
-      stdout.write(
-          &#39;\n\n\x1B[33m------------------- Starting $name Runner -------------------\x1B\n&#39;);
-      final process = await Process.run(
-          &#39;dart&#39;,
-          [
-            &#39;run&#39;,
-            &#39;dart_fusion&#39;,
-            name.toLowerCase(),
-            if (help) &#39;-h&#39; else ...arguments,
-          ],
-          workingDirectory: Directory.current.path,
-          runInShell: true);
-      stdout.write(&#39;\r${process.stdout}${process.stderr}&#39;);
-      return process;
-    } catch (e) {
-      print(e);
-      return null;
-    }
+    await DProcess(name: name, arguments: arguments, help: help).run();
   }
-  return null;
 }</code></pre>
 </section>
 
@@ -140,7 +121,7 @@ arguments for execution.</p>
 <footer>
   <span class="no-break">
     dart_fusion
-      2.7.0
+      2.8.0
   </span>
 
   
