@@ -73,3 +73,5 @@
 * Add Test model generation in Model generator and DModel
 * Add defaultsTo in Variable annotation
 * Add conditional import DProcess
+## 2.9.0
+* Update model updater

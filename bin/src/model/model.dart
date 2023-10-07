@@ -210,7 +210,7 @@ class ModelParser {
             }
             return '${exist ? '' : '\n'}'
                 '\tstatic ${model.name} get test {\n'
-                '${model.immutable ? '\t\treturn ${model.name}($buffer\n\t\t)' : '\t\treturn ${model.name}()$buffer\n\t\t'}'
+                '${model.immutable ? '\t\treturn ${variables.any((e) => e.type != 'String' || e.type != 'int' || e.type != 'double' || e.type != 'bool') ? 'const ' : ''}${model.name}($buffer\n\t\t)' : '\t\treturn ${model.name}()$buffer\n\t\t'}'
                 ';\n\t}';
           });
         }
