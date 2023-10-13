@@ -72,7 +72,8 @@ extension StringListExtension on List<String> {
           existed = false;
         } else {
           List<int> indexes = [index];
-          while (!this[index].contains(part.last) || index == length) {
+          while (!this[index].trim().endsWith(part.last) || index < length) {
+            if (this[index].trim().endsWith(part.last)) break;
             index++;
             indexes.add(index);
           }
@@ -100,7 +101,8 @@ extension StringListExtension on List<String> {
         Iterable<String> part = source.split('...').map((e) => e.trim());
         int index = indexWhere((e) => e.trim().startsWith(part.first));
         List<int> indexes = [index];
-        while (!this[index].contains(part.last) || index == length) {
+        while (!this[index].trim().endsWith(part.last) || index < length) {
+          if (this[index].trim().endsWith(part.last)) break;
           index++;
           indexes.add(index);
         }
@@ -197,7 +199,7 @@ class ModelParser {
                     break;
                   default:
                     if (variable.type.startsWith('List')) {
-                      buffer.write('const []');
+                      buffer.write('[]');
                       break;
                     } else {
                       buffer.write('${variable.type}.test');
@@ -270,7 +272,7 @@ class ModelParser {
                       ? ' ?? ${variable.defaultsTo}'
                       : '';
               String suffix = !variable.nullable && variable.defaultsTo != null
-                  ? ', ${variable.defaultsTo}'
+                  ? ', const ${variable.defaultsTo}'
                   : '';
               String content = variable.fromJSON
                   ? variable.type.contains('List')
@@ -356,10 +358,12 @@ class VariableParser {
             .replaceAll(RegExp(r'final |const |static |;'), '')
             .trim()
             .split(' ');
-        var defaultsTo = RegExp(
-                r'(?<=defaultsTo:).*(?=, toJSON|, fromJSON|, name|,.*?\)\\n|\))')
-            .stringMatch(values[range.last])
+
+        String? defaultsTo = RegExp(r'@Variable\(defaultsTo:\s*([^;]+)\)')
+            .firstMatch(values.map((e) => e.trim()).join(''))
+            ?.group(1)
             ?.trim();
+
         final model = VariableParser(
             key: key,
             defaultsTo: defaultsTo,

@@ -102,7 +102,11 @@ class DLogWidget extends StatelessWidget {
     Key? key,
     this.level = DLevel.info,
     required this.child,
+    this.onDebug = kDebugMode,
   }) : super(key: key);
+
+  /// Choose wether print log on debug or anytime.
+  final bool onDebug;
 
   /// The child widget to return after logging the message.
   final Widget child;
@@ -115,7 +119,7 @@ class DLogWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DLog(message, level: level);
+    if (onDebug) DLog(message, level: level);
     return child;
   }
 }
