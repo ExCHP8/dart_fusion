@@ -76,3 +76,5 @@
 ## 2.8.1
 * Update model updater by adding const
 * Update DLogWidget
+## 2.8.2
+* Undo dimage inlinespan

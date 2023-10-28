@@ -76,17 +76,132 @@ class DImage<Source extends Object> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isSelectionArea =
-        context.findAncestorWidgetOfExactType<SelectionArea>() != null;
-    print("IsSelectionArean: $isSelectionArea");
     try {
-      if (isSelectionArea) {
-        return Text.rich(
-          WidgetSpan(child: _image()),
-          semanticsLabel: semanticsLabel,
-        );
+      if (source is File) {
+        final source = (this.source as File).readAsBytesSync();
+        try {
+          return SvgPicture.memory(
+            source,
+            width: size?.width,
+            height: size?.height,
+            fit: fit,
+            alignment: alignment,
+            placeholderBuilder: placeholderBuilder,
+            semanticsLabel: semanticsLabel,
+            color: color,
+            colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
+          );
+        } catch (e) {
+          return Image.memory(source,
+              width: size?.width,
+              height: size?.height,
+              fit: fit,
+              alignment: alignment,
+              errorBuilder: errorBuilder,
+              frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+            if (placeholderBuilder != null && frame == null) {
+              return placeholderBuilder!(context);
+            }
+            return child;
+          },
+              semanticLabel: semanticsLabel,
+              color: color,
+              colorBlendMode: colorBlendMode);
+        }
+      } else if (source is Uint8List) {
+        final source = this.source as Uint8List;
+        try {
+          return SvgPicture.memory(
+            source,
+            width: size?.width,
+            height: size?.height,
+            fit: fit,
+            alignment: alignment,
+            placeholderBuilder: placeholderBuilder,
+            semanticsLabel: semanticsLabel,
+            color: color,
+            colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
+          );
+        } catch (e) {
+          return Image.memory(source,
+              width: size?.width,
+              height: size?.height,
+              fit: fit,
+              alignment: alignment,
+              errorBuilder: errorBuilder,
+              frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+            if (placeholderBuilder != null && frame == null) {
+              return placeholderBuilder!(context);
+            }
+            return child;
+          },
+              semanticLabel: semanticsLabel,
+              color: color,
+              colorBlendMode: colorBlendMode);
+        }
+      } else {
+        final source = this.source.toString();
+        if (source.startsWith("http")) {
+          if (source.endsWith(".svg")) {
+            return SvgPicture.network(
+              source,
+              width: size?.width,
+              height: size?.height,
+              fit: fit,
+              alignment: alignment,
+              placeholderBuilder: placeholderBuilder,
+              semanticsLabel: semanticsLabel,
+              color: color,
+              colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
+            );
+          } else {
+            return Image.network(source,
+                width: size?.width,
+                height: size?.height,
+                fit: fit,
+                alignment: alignment,
+                errorBuilder: errorBuilder,
+                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+              if (placeholderBuilder != null && frame == null) {
+                return placeholderBuilder!(context);
+              }
+              return child;
+            },
+                semanticLabel: semanticsLabel,
+                color: color,
+                colorBlendMode: colorBlendMode);
+          }
+        } else {
+          final source = this.source.toString();
+          if (source.endsWith(".svg")) {
+            return SvgPicture.asset(
+              source,
+              width: size?.width,
+              height: size?.height,
+              fit: fit,
+              alignment: alignment,
+              placeholderBuilder: placeholderBuilder,
+              semanticsLabel: semanticsLabel,
+              color: color,
+              colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
+            );
+          } else {
+            return Image.asset(source,
+                width: size?.width,
+                height: size?.height,
+                fit: fit,
+                alignment: alignment,
+                errorBuilder: errorBuilder,
+                semanticLabel: semanticsLabel,
+                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+              if (placeholderBuilder != null && frame == null) {
+                return placeholderBuilder!(context);
+              }
+              return child;
+            }, color: color, colorBlendMode: colorBlendMode);
+          }
+        }
       }
-      return _image();
     } catch (e) {
       if (kDebugMode) {
         DLog(e, level: DLevel.error);
@@ -122,133 +237,5 @@ class DImage<Source extends Object> extends StatelessWidget {
       semanticsLabel: semanticsLabel ?? this.semanticsLabel,
       errorBuilder: errorBuilder ?? this.errorBuilder,
     );
-  }
-
-  Widget _image() {
-    if (source is File) {
-      final source = (this.source as File).readAsBytesSync();
-      try {
-        return SvgPicture.memory(
-          source,
-          width: size?.width,
-          height: size?.height,
-          fit: fit,
-          alignment: alignment,
-          placeholderBuilder: placeholderBuilder,
-          semanticsLabel: semanticsLabel,
-          color: color,
-          colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
-        );
-      } catch (e) {
-        return Image.memory(source,
-            width: size?.width,
-            height: size?.height,
-            fit: fit,
-            alignment: alignment,
-            errorBuilder: errorBuilder,
-            frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-          if (placeholderBuilder != null && frame == null) {
-            return placeholderBuilder!(context);
-          }
-          return child;
-        },
-            semanticLabel: semanticsLabel,
-            color: color,
-            colorBlendMode: colorBlendMode);
-      }
-    } else if (source is Uint8List) {
-      final source = this.source as Uint8List;
-      try {
-        return SvgPicture.memory(
-          source,
-          width: size?.width,
-          height: size?.height,
-          fit: fit,
-          alignment: alignment,
-          placeholderBuilder: placeholderBuilder,
-          semanticsLabel: semanticsLabel,
-          color: color,
-          colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
-        );
-      } catch (e) {
-        return Image.memory(source,
-            width: size?.width,
-            height: size?.height,
-            fit: fit,
-            alignment: alignment,
-            errorBuilder: errorBuilder,
-            frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-          if (placeholderBuilder != null && frame == null) {
-            return placeholderBuilder!(context);
-          }
-          return child;
-        },
-            semanticLabel: semanticsLabel,
-            color: color,
-            colorBlendMode: colorBlendMode);
-      }
-    } else {
-      final source = this.source.toString();
-      if (source.startsWith("http")) {
-        if (source.endsWith(".svg")) {
-          return SvgPicture.network(
-            source,
-            width: size?.width,
-            height: size?.height,
-            fit: fit,
-            alignment: alignment,
-            placeholderBuilder: placeholderBuilder,
-            semanticsLabel: semanticsLabel,
-            color: color,
-            colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
-          );
-        } else {
-          return Image.network(source,
-              width: size?.width,
-              height: size?.height,
-              fit: fit,
-              alignment: alignment,
-              errorBuilder: errorBuilder,
-              frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-            if (placeholderBuilder != null && frame == null) {
-              return placeholderBuilder!(context);
-            }
-            return child;
-          },
-              semanticLabel: semanticsLabel,
-              color: color,
-              colorBlendMode: colorBlendMode);
-        }
-      } else {
-        final source = this.source.toString();
-        if (source.endsWith(".svg")) {
-          return SvgPicture.asset(
-            source,
-            width: size?.width,
-            height: size?.height,
-            fit: fit,
-            alignment: alignment,
-            placeholderBuilder: placeholderBuilder,
-            semanticsLabel: semanticsLabel,
-            color: color,
-            colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
-          );
-        } else {
-          return Image.asset(source,
-              width: size?.width,
-              height: size?.height,
-              fit: fit,
-              alignment: alignment,
-              errorBuilder: errorBuilder,
-              semanticLabel: semanticsLabel,
-              frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-            if (placeholderBuilder != null && frame == null) {
-              return placeholderBuilder!(context);
-            }
-            return child;
-          }, color: color, colorBlendMode: colorBlendMode);
-        }
-      }
-    }
   }
 }
