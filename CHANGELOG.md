@@ -78,3 +78,5 @@
 * Update DLogWidget
 ## 2.8.2
 * Undo dimage inlinespan
+## 2.8.3
+* Add textalign for DButton.text

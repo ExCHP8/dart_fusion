@@ -91,6 +91,30 @@ class InkMaterial extends StatelessWidget {
 /// A custom button widget that wraps the [InkMaterial] widget to provide
 /// tap interactions with various customization options.
 class DButton extends StatelessWidget {
+  const DButton.text(
+      {super.key,
+      this.padding =
+          const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.00),
+      this.margin,
+      this.color,
+      this.borderRadius,
+      this.ignore = false,
+      required this.text,
+      required this.onTap,
+      this.prefix,
+      this.suffix,
+      this.gap = 10.0,
+      this.style,
+      this.focusColor,
+      this.splashColor,
+      this.hoverColor,
+      this.highlightColor,
+      this.shapeBorder,
+      this.controller,
+      this.textAlign,
+      this.mainAxisSize = MainAxisSize.min})
+      : child = null;
+
   /// Creates a custom button widget with optional parameters for customization.
   ///
   /// The [padding] parameter specifies the padding around the button content.
@@ -124,29 +148,6 @@ class DButton extends StatelessWidget {
   ///   },
   /// )
   /// ```
-  const DButton.text(
-      {super.key,
-      this.padding =
-          const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.00),
-      this.margin,
-      this.color,
-      this.borderRadius,
-      this.ignore = false,
-      required this.text,
-      required this.onTap,
-      this.prefix,
-      this.suffix,
-      this.gap = 10.0,
-      this.style,
-      this.focusColor,
-      this.splashColor,
-      this.hoverColor,
-      this.highlightColor,
-      this.shapeBorder,
-      this.controller,
-      this.mainAxisSize = MainAxisSize.min})
-      : child = null;
-
   const DButton({
     super.key,
     this.padding =
@@ -168,7 +169,11 @@ class DButton extends StatelessWidget {
         prefix = null,
         suffix = null,
         gap = 0.0,
-        style = null;
+        style = null,
+        textAlign = null;
+
+  /// Alignment for [DButton.text].
+  final TextAlign? textAlign;
 
   /// The padding around the button content.
   final EdgeInsets? padding;
@@ -229,6 +234,10 @@ class DButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textWidget = Text(text,
+        textAlign: textAlign,
+        style: style ??
+            context.text.bodyMedium?.copyWith(color: context.color.primary));
     return AbsorbPointer(
       absorbing: ignore,
       child: Padding(
@@ -255,12 +264,9 @@ class DButton extends StatelessWidget {
                         child: prefix,
                       ),
                     if (text.isNotEmpty)
-                      Text(
-                        text,
-                        style: style ??
-                            context.text.bodyMedium
-                                ?.copyWith(color: context.color.primary),
-                      ),
+                      (mainAxisSize == MainAxisSize.max)
+                          ? Expanded(child: textWidget)
+                          : textWidget,
                     if (suffix != null)
                       Padding(
                         padding: EdgeInsets.only(left: gap),
