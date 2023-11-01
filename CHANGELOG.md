@@ -80,3 +80,5 @@
 * Undo dimage inlinespan
 ## 2.8.3
 * Add textalign for DButton.text
+## 2.9.0
+* Add DSelectopn

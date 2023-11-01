@@ -112,6 +112,8 @@ class DButton extends StatelessWidget {
       this.shapeBorder,
       this.controller,
       this.textAlign,
+      this.decoration,
+      this.decorationPosition = DecorationPosition.background,
       this.mainAxisSize = MainAxisSize.min})
       : child = null;
 
@@ -162,6 +164,8 @@ class DButton extends StatelessWidget {
     this.highlightColor,
     this.shapeBorder,
     this.controller,
+    this.decoration,
+    this.decorationPosition = DecorationPosition.background,
     required this.onTap,
     required this.child,
   })  : text = '',
@@ -232,48 +236,62 @@ class DButton extends StatelessWidget {
   /// The controller to manually control the interaction states of the material.
   final MaterialStatesController? controller;
 
+  /// Custom decoration for button.
+  final BoxDecoration? decoration;
+
+  /// Decoration Position by default on background
+  final DecorationPosition decorationPosition;
+
   @override
   Widget build(BuildContext context) {
-    final textWidget = Text(text,
-        textAlign: textAlign,
-        style: style ??
-            context.text.bodyMedium?.copyWith(color: context.color.primary));
+    final textWidget = Text(
+      text,
+      textAlign: textAlign,
+      style: style ??
+          context.text.bodyMedium?.copyWith(color: context.color.primary),
+    );
+
     return AbsorbPointer(
       absorbing: ignore,
       child: Padding(
         padding: margin ?? EdgeInsets.zero,
-        child: InkMaterial(
-          onTap: onTap,
-          controller: controller,
-          focusColor: focusColor,
-          highlightColor: highlightColor,
-          hoverColor: hoverColor,
-          splashColor: splashColor,
-          color: color,
-          shapeBorder: shapeBorder,
-          borderRadius: borderRadius,
-          child: Padding(
-            padding: padding ?? EdgeInsets.zero,
-            child: child ??
-                Row(
-                  mainAxisSize: mainAxisSize ?? MainAxisSize.min,
-                  children: [
-                    if (prefix != null)
-                      Padding(
-                        padding: EdgeInsets.only(right: gap),
-                        child: prefix,
-                      ),
-                    if (text.isNotEmpty)
-                      (mainAxisSize == MainAxisSize.max)
-                          ? Expanded(child: textWidget)
-                          : textWidget,
-                    if (suffix != null)
-                      Padding(
-                        padding: EdgeInsets.only(left: gap),
-                        child: suffix,
-                      ),
-                  ],
-                ),
+        child: DecoratedBox(
+          position: decorationPosition,
+          decoration: (decoration ?? const BoxDecoration())
+              .copyWith(borderRadius: borderRadius),
+          child: InkMaterial(
+            onTap: onTap,
+            controller: controller,
+            focusColor: focusColor,
+            highlightColor: highlightColor,
+            hoverColor: hoverColor,
+            splashColor: splashColor,
+            color: color,
+            shapeBorder: shapeBorder,
+            borderRadius: borderRadius,
+            child: Padding(
+              padding: padding ?? EdgeInsets.zero,
+              child: child ??
+                  Row(
+                    mainAxisSize: mainAxisSize ?? MainAxisSize.min,
+                    children: [
+                      if (prefix != null)
+                        Padding(
+                          padding: EdgeInsets.only(right: gap),
+                          child: prefix,
+                        ),
+                      if (text.isNotEmpty)
+                        (mainAxisSize == MainAxisSize.max)
+                            ? Expanded(child: textWidget)
+                            : textWidget,
+                      if (suffix != null)
+                        Padding(
+                          padding: EdgeInsets.only(left: gap),
+                          child: suffix,
+                        ),
+                    ],
+                  ),
+            ),
           ),
         ),
       ),

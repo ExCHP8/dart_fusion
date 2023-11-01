@@ -223,10 +223,10 @@ extension OnContext on BuildContext {
   bool get isTablet => !isPhone && !isDesktop;
 
   /// Getting [DState] from its descendant.
-  DState? get appstate => DInherited.of(this)?.value;
+  DState? get state => DInherited.of(this)?.value;
 
   /// A shortcut to get [DState.data] with [BuildContext].
-  T? value<T extends Object?>(String key) => appstate?.value<T>(key);
+  T? value<T extends Object?>(String key) => state?.value<T>(key);
 }
 
 /// Extensioning generic [List] value.

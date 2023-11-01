@@ -32,6 +32,7 @@ part 'src/d_textarea.dart';
 part 'src/d_annotation.dart';
 part 'src/d_service.dart';
 part 'src/d_runner.dart';
+part 'src/d_option.dart';
 
 /// A class for initializing DartFusion auto generation.
 class DartFusion {
