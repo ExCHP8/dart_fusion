@@ -41,6 +41,7 @@ class DTextArea extends StatelessWidget {
     this.cursorColor,
     this.textStyle,
     this.textAlign = TextAlign.start,
+    this.isDense = true,
     this.maxLines = 1,
     this.minLines,
     this.onSubmitted,
@@ -118,6 +119,11 @@ class DTextArea extends StatelessWidget {
   /// Decoration for the text field.
   final BoxDecoration? decoration;
 
+  /// Whether the [InputDecorator.child] is part of a dense form (i.e., uses less vertical space).
+  ///
+  /// Defaults to true.
+  final bool isDense;
+
   @override
   Widget build(BuildContext context) {
     return DBuilder(
@@ -146,7 +152,7 @@ class DTextArea extends StatelessWidget {
                         onSubmitted: onSubmitted,
                         decoration: InputDecoration(
                             hintText: hintText,
-                            isDense: true,
+                            isDense: isDense,
                             labelText: labelText,
                             labelStyle: labelStyle,
                             contentPadding: contentPadding ?? EdgeInsets.zero,

@@ -38,7 +38,6 @@ class DImage<Source extends Object> extends StatelessWidget {
     this.alignment = Alignment.center,
     this.color,
     this.colorBlendMode,
-    this.colorFilter,
     this.placeholderBuilder,
     this.semanticsLabel,
     this.errorBuilder,
@@ -61,9 +60,6 @@ class DImage<Source extends Object> extends StatelessWidget {
 
   /// The alignment of the image within its container.
   final Alignment alignment;
-
-  /// A color filter to apply to the image.
-  final ColorFilter? colorFilter;
 
   /// A builder function to create a placeholder widget while the image is being loaded.
   final Widget Function(BuildContext)? placeholderBuilder;
@@ -232,7 +228,6 @@ class DImage<Source extends Object> extends StatelessWidget {
       alignment: alignment ?? this.alignment,
       color: color ?? this.color,
       colorBlendMode: colorBlendMode ?? this.colorBlendMode,
-      colorFilter: colorFilter ?? this.colorFilter,
       placeholderBuilder: placeholderBuilder ?? this.placeholderBuilder,
       semanticsLabel: semanticsLabel ?? this.semanticsLabel,
       errorBuilder: errorBuilder ?? this.errorBuilder,
