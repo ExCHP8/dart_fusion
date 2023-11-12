@@ -87,3 +87,5 @@
 * Add `DChangeBuilder`
 * Add `DTileWrapper`
 * Add `DProvider`
+## 2.9.1
+* Fix `DProvider` context extension

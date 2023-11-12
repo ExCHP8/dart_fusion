@@ -229,7 +229,7 @@ extension OnContext on BuildContext {
   T? value<T extends Object?>(String key) => state?.value<T>(key);
 
   /// A shortcut to call [DProvider] of context.
-  DProvider get provider => DProvider.of(this);
+  Object get provider => DProvider.of(this);
 }
 
 /// Extensioning generic [List] value.
