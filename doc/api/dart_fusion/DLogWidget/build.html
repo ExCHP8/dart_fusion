@@ -118,7 +118,7 @@ and</li>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 Widget build(BuildContext context) {
-  DLog(message, level: level);
+  if (onDebug) DLog(message, level: level);
   return child;
 }</code></pre>
 </section>
@@ -153,7 +153,7 @@ Widget build(BuildContext context) {
 <footer>
   <span class="no-break">
     dart_fusion
-      2.8.0
+      2.9.0
   </span>
 
   

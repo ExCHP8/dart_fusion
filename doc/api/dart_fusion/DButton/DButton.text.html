@@ -80,42 +80,14 @@
 <li><span class="parameter" id="text-param-highlightColor"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-ui/Color-class.html">Color</a>?</span> <span class="parameter-name">highlightColor</span>, </span></li>
 <li><span class="parameter" id="text-param-shapeBorder"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/painting/ShapeBorder-class.html">ShapeBorder</a>?</span> <span class="parameter-name">shapeBorder</span>, </span></li>
 <li><span class="parameter" id="text-param-controller"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/material/MaterialStatesController-class.html">MaterialStatesController</a>?</span> <span class="parameter-name">controller</span>, </span></li>
+<li><span class="parameter" id="text-param-textAlign"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-ui/TextAlign.html">TextAlign</a>?</span> <span class="parameter-name">textAlign</span>, </span></li>
+<li><span class="parameter" id="text-param-decoration"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/painting/BoxDecoration-class.html">BoxDecoration</a>?</span> <span class="parameter-name">decoration</span>, </span></li>
+<li><span class="parameter" id="text-param-decorationPosition"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/rendering/DecorationPosition.html">DecorationPosition</a></span> <span class="parameter-name">decorationPosition</span> = <span class="default-value">DecorationPosition.background</span>, </span></li>
 <li><span class="parameter" id="text-param-mainAxisSize"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/rendering/MainAxisSize.html">MainAxisSize</a>?</span> <span class="parameter-name">mainAxisSize</span> = <span class="default-value">MainAxisSize.min</span>}</span></li>
 </ol>)
     </section>
 
     
-<section class="desc markdown">
-  <p>Creates a custom button widget with optional parameters for customization.</p>
-<p>The <a href="../../dart_fusion/DButton/padding.html">padding</a> parameter specifies the padding around the button content.
-The <a href="../../dart_fusion/DButton/margin.html">margin</a> parameter specifies the margin around the button.
-The <a href="../../dart_fusion/DButton/color.html">color</a> parameter sets the background color of the button.
-The <a href="../../dart_fusion/DButton/borderRadius.html">borderRadius</a> parameter determines the rounded corners of the button.
-The <a href="../../dart_fusion/DButton/ignore.html">ignore</a> parameter specifies whether the button should ignore tap interactions.
-The <a href="../../dart_fusion/DButton/onTap.html">onTap</a> parameter is the callback function triggered when the button is tapped.
-The <a href="../../dart_fusion/DButton/text.html">text</a> parameter provides the text to display inside the button.
-The <a href="../../dart_fusion/DButton/prefix.html">prefix</a> and <a href="../../dart_fusion/DButton/suffix.html">suffix</a> parameters are optional widgets to display before and after the text.
-The <a href="../../dart_fusion/DButton/gap.html">gap</a> parameter sets the space between the text and prefix/suffix widgets.
-The <a href="../../dart_fusion/DButton/style.html">style</a> parameter allows you to customize the text style of the button text.
-The <a href="../../dart_fusion/DButton/focusColor.html">focusColor</a>, <a href="../../dart_fusion/DButton/splashColor.html">splashColor</a>, <a href="../../dart_fusion/DButton/hoverColor.html">hoverColor</a>, and <a href="../../dart_fusion/DButton/highlightColor.html">highlightColor</a> parameters
-set the colors for specific material interaction states.
-The <a href="../../dart_fusion/DButton/shapeBorder.html">shapeBorder</a> parameter allows you to customize the shape of the button material.
-The <a href="../../dart_fusion/DButton/controller.html">controller</a> parameter provides a MaterialStatesController to manually control
-the interaction states of the material.
-The <a href="../../dart_fusion/DButton/mainAxisSize.html">mainAxisSize</a> parameter specifies the main axis size of the button.
-The <a href="../../dart_fusion/DButton/child.html">child</a> parameter allows you to provide a custom child widget for the button.</p>
-<p>By default, the <a href="../../dart_fusion/DButton/padding.html">padding</a> is set to <code>EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0)</code>.
-The <a href="../../dart_fusion/DButton/mainAxisSize.html">mainAxisSize</a> is set to <code>MainAxisSize.min</code>.</p>
-<p>Example:</p>
-<pre class="language-dart"><code class="language-dart">DButton(
-  text: "Click Me",
-  color: Colors.blue,
-  onTap: () {
-    // Handle button tap event
-  },
-)
-</code></pre>
-</section>
 
 
     
@@ -141,6 +113,9 @@ The <a href="../../dart_fusion/DButton/mainAxisSize.html">mainAxisSize</a> is se
     this.highlightColor,
     this.shapeBorder,
     this.controller,
+    this.textAlign,
+    this.decoration,
+    this.decorationPosition = DecorationPosition.background,
     this.mainAxisSize = MainAxisSize.min})
     : child = null;</code></pre>
 </section>
@@ -175,7 +150,7 @@ The <a href="../../dart_fusion/DButton/mainAxisSize.html">mainAxisSize</a> is se
 <footer>
   <span class="no-break">
     dart_fusion
-      2.8.0
+      2.9.0
   </span>
 
   

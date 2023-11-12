@@ -69,6 +69,9 @@ A library that brings together a harmonious blend of essential tools, utilities,
 - [D Widget](#d-widget-logo)
   - [Key Features](#d-widget-key-features)
   - [Usage](#d-widget-usage)
+- [D Change Builder](#d-change-builder)
+- [D Provider](#d-provider)
+- [D Tile Wrapper](#d-tile-wrapper)
  
 ## Installation
 put this in your pubspec.yaml
@@ -78,7 +81,7 @@ dependencies:
     git:
       url: https://github.com/Nialixus/dart_fusion.git
       ## Optional with version
-      ref: v2.8.4
+      ref: v2.9.0
 ```
 
 also run this command in terminal
@@ -609,6 +612,56 @@ also to cell setState we change it to
 ```dart
 state.update();
 ```
+---
+
+# D Change Builder
+A widget that listens to changes in a `ChangeNotifier` and rebuilds its child widgets based on the changes.
+
+## <a name="d-change-builder-usage"></a> Usage
+```dart
+final changeNotifier = ScrollController();
+
+return DChangeBuilder(
+  value: changeNotifier,
+  builder: (context, value, child) {
+    /* Your code here */
+  },
+  child: AnotherWidget(),
+);
+```
+
+---
+
+# D Provider
+A generic InheritedWidget for providing an object to its descendants.
+
+## <a name="d-provider-usage"></a> Usage
+This is to set the value
+```dart
+DProvider<MyData>(
+  value: 'Test',
+  child: MyWidget(),
+);
+```
+
+and this way to get the value
+```dart
+var value = context.provider.value;
+print(value); // 'Test'
+```
+
+---
+
+# D Tile Wrapper
+A wrapper around `ExpansionTile` to listen changes of its state.
+
+## <a name="d-tile-wrapper-usage"></a> Usage
+```dart
+DTileWrapper((isExpanded) {
+  return ExpansionTile(...);
+});
+```
+
 ---
 
 ## Documentation

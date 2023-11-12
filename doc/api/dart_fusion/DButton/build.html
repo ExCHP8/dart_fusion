@@ -118,45 +118,54 @@ and</li>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 Widget build(BuildContext context) {
+  final textWidget = Text(
+    text,
+    textAlign: textAlign,
+    style: style ??
+        context.text.bodyMedium?.copyWith(color: context.color.primary),
+  );
+
   return AbsorbPointer(
     absorbing: ignore,
     child: Padding(
       padding: margin ?? EdgeInsets.zero,
-      child: InkMaterial(
-        onTap: onTap,
-        controller: controller,
-        focusColor: focusColor,
-        highlightColor: highlightColor,
-        hoverColor: hoverColor,
-        splashColor: splashColor,
-        color: color,
-        shapeBorder: shapeBorder,
-        borderRadius: borderRadius,
-        child: Padding(
-          padding: padding ?? EdgeInsets.zero,
-          child: child ??
-              Row(
-                mainAxisSize: mainAxisSize ?? MainAxisSize.min,
-                children: [
-                  if (prefix != null)
-                    Padding(
-                      padding: EdgeInsets.only(right: gap),
-                      child: prefix,
-                    ),
-                  if (text.isNotEmpty)
-                    Text(
-                      text,
-                      style: style ??
-                          context.text.bodyMedium
-                              ?.copyWith(color: context.color.primary),
-                    ),
-                  if (suffix != null)
-                    Padding(
-                      padding: EdgeInsets.only(left: gap),
-                      child: suffix,
-                    ),
-                ],
-              ),
+      child: DecoratedBox(
+        position: decorationPosition,
+        decoration: (decoration ?? const BoxDecoration())
+            .copyWith(borderRadius: borderRadius),
+        child: InkMaterial(
+          onTap: onTap,
+          controller: controller,
+          focusColor: focusColor,
+          highlightColor: highlightColor,
+          hoverColor: hoverColor,
+          splashColor: splashColor,
+          color: color,
+          shapeBorder: shapeBorder,
+          borderRadius: borderRadius,
+          child: Padding(
+            padding: padding ?? EdgeInsets.zero,
+            child: child ??
+                Row(
+                  mainAxisSize: mainAxisSize ?? MainAxisSize.min,
+                  children: [
+                    if (prefix != null)
+                      Padding(
+                        padding: EdgeInsets.only(right: gap),
+                        child: prefix,
+                      ),
+                    if (text.isNotEmpty)
+                      (mainAxisSize == MainAxisSize.max)
+                          ? Expanded(child: textWidget)
+                          : textWidget,
+                    if (suffix != null)
+                      Padding(
+                        padding: EdgeInsets.only(left: gap),
+                        child: suffix,
+                      ),
+                  ],
+                ),
+          ),
         ),
       ),
     ),
@@ -194,7 +203,7 @@ Widget build(BuildContext context) {
 <footer>
   <span class="no-break">
     dart_fusion
-      2.8.0
+      2.9.0
   </span>
 
   

@@ -155,6 +155,9 @@
 <li><a href="#d-widget-usage">Usage</a></li>
 </ul>
 </li>
+<li><a href="#d-change-builder">D Change Builder</a></li>
+<li><a href="#d-provider">D Provider</a></li>
+<li><a href="#d-tile-wrapper">D Tile Wrapper</a></li>
 </ul>
 <h2 id="installation">Installation</h2>
 <p>put this in your pubspec.yaml</p>
@@ -163,7 +166,7 @@
     git:
       url: https://github.com/Nialixus/dart_fusion.git
       ## Optional with version
-      ref: v2.8.0
+      ref: v2.9.0
 </code></pre>
 <p>also run this command in terminal</p>
 <pre class="language-bash"><code class="language-bash">dart pub global activate --source git https://github.com/Nialixus/dart_fusion.git
@@ -738,6 +741,42 @@ With a convenient data method, you can easily declare and pass data between the 
 <pre class="language-dart"><code class="language-dart">state.update();
 </code></pre>
 <hr>
+<h1 id="d-change-builder">D Change Builder</h1>
+<p>A widget that listens to changes in a <code>ChangeNotifier</code> and rebuilds its child widgets based on the changes.</p>
+<h2 id="a-named-change-builder-usagea-usage"><a name="d-change-builder-usage"></a> Usage</h2>
+<pre class="language-dart"><code class="language-dart">final changeNotifier = ScrollController();
+
+return DChangeBuilder(
+  value: changeNotifier,
+  builder: (context, value, child) {
+    /* Your code here */
+  },
+  child: AnotherWidget(),
+);
+</code></pre>
+<hr>
+<h1 id="d-provider">D Provider</h1>
+<p>A generic InheritedWidget for providing an object to its descendants.</p>
+<h2 id="a-named-provider-usagea-usage"><a name="d-provider-usage"></a> Usage</h2>
+<p>This is to set the value</p>
+<pre class="language-dart"><code class="language-dart">DProvider&lt;MyData&gt;(
+  value: 'Test',
+  child: MyWidget(),
+);
+</code></pre>
+<p>and this way to get the value</p>
+<pre class="language-dart"><code class="language-dart">var value = context.provider.value;
+print(value); // 'Test'
+</code></pre>
+<hr>
+<h1 id="d-tile-wrapper">D Tile Wrapper</h1>
+<p>A wrapper around <code>ExpansionTile</code> to listen changes of its state.</p>
+<h2 id="a-named-tile-wrapper-usagea-usage"><a name="d-tile-wrapper-usage"></a> Usage</h2>
+<pre class="language-dart"><code class="language-dart">DTileWrapper((isExpanded) {
+  return ExpansionTile(...);
+});
+</code></pre>
+<hr>
 <h2 id="documentation">Documentation</h2>
 <p>For dart doc generated document, you can see it in this
 <a href="https://raw.githack.com/Nialixus/dart_fusion/main/doc/api/index.html" title="Dart Fusion Documentation">Documentation</a></p>
@@ -788,7 +827,7 @@ With a convenient data method, you can easily declare and pass data between the 
 <footer>
   <span class="no-break">
     dart_fusion
-      2.8.0
+      2.9.0
   </span>
 
   
