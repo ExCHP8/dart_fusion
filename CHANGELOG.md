@@ -84,6 +84,6 @@
 * Remove colorFilter from `DImage`.
 * Update `DTextArea`.
 ## 2.9.0
-* Add `ChangeNotifierBuilder`
-* Add `ExpansionTileWrapper`
+* Add `DChangeBuilder`
+* Add `DTileWrapper`
 * Add `DProvider`
