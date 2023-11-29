@@ -80,8 +80,15 @@ dependencies:
   dart_fusion:
     git:
       url: https://github.com/Nialixus/dart_fusion.git
+      parth: dart_fusion
       ## Optional with version
-      ref: v3.0.0
+      ref: v3.0.1
+  dart_fusion_flutter:
+    git:
+      url: https://github.com/Nialixus/dart_fusion.git
+      parth: dart_fusion_flutter
+      ## Optional with version
+      ref: v3.0.1
 ```
 
 also run this command in terminal

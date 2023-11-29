@@ -11,7 +11,7 @@ funding:
   - https://www.buymeacoffee.com/nialixus
 screenshots:
   - description: 'Dart Fusion Logo'
-    path: logo.png
+    path: ../logo.png
 topics:
   - collection
   - utility
