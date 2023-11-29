@@ -1,4 +1,4 @@
-part of '../dart_fusion.dart';
+part of '../dart_fusion_flutter.dart';
 
 /// Making [StatefulWidget] prettier and less boilerplate.
 abstract class DWidget extends StatefulWidget {

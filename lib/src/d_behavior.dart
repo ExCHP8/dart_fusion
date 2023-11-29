@@ -1,4 +1,4 @@
-part of '../dart_fusion.dart';
+part of '../dart_fusion_flutter.dart';
 
 /// A custom scroll behavior for controlling the scrolling physics of scrollable widgets.
 ///

@@ -1,6 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
-part of '../dart_fusion.dart';
+part of '../dart_fusion_flutter.dart';
 
 /// A widget for displaying vector or bitmap images from different sources.
 ///

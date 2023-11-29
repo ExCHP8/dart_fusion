@@ -1,4 +1,4 @@
-part of '../dart_fusion.dart';
+part of '../dart_fusion_flutter.dart';
 
 /// A builder widget that displays an overlay.
 ///

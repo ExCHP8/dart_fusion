@@ -1,4 +1,4 @@
-part of '../dart_fusion.dart';
+part of '../dart_fusion_flutter.dart';
 
 /// A widget that listens to changes in a [ChangeNotifier] and rebuilds its
 /// child widgets based on the changes.

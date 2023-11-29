@@ -1,4 +1,4 @@
-part of '../dart_fusion.dart';
+part of '../dart_fusion_flutter.dart';
 
 /// A generic InheritedWidget for providing a value of type [T] to its descendants.
 ///

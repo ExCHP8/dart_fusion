@@ -13,28 +13,17 @@ import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
 
-part 'src/d_behavior.dart';
 part 'src/d_exceptions.dart';
-part 'src/d_image.dart';
 part 'src/d_log.dart';
-part 'src/d_widget.dart';
-part 'src/d_builder.dart';
 part 'src/d_extensions.dart';
-part 'src/d_button.dart';
 part 'src/d_models.dart';
-part 'src/d_overlay.dart';
 part 'src/d_typedefs.dart';
 part 'src/d_parse.dart';
-part 'src/d_textarea.dart';
 part 'src/d_annotation.dart';
 part 'src/d_service.dart';
 part 'src/d_runner.dart';
-part 'src/d_provider.dart';
-part 'src/d_tile_wrapper.dart';
-part 'src/d_change_builder.dart';
 
 /// A class for initializing DartFusion auto generation.
 class DartFusion {

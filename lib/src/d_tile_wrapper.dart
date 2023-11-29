@@ -1,4 +1,4 @@
-part of '../dart_fusion.dart';
+part of '../dart_fusion_flutter.dart';
 
 /// A wrapper around [ExpansionTile] that allows customization of its behavior.
 ///

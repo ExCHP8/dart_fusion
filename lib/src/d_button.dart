@@ -1,4 +1,4 @@
-part of '../dart_fusion.dart';
+part of '../dart_fusion_flutter.dart';
 
 /// A custom widget that combines [Material] and [InkWell] to provide
 /// ink splash effects on taps.
