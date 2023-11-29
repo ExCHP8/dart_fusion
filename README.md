@@ -82,13 +82,13 @@ dependencies:
       url: https://github.com/Nialixus/dart_fusion.git
       parth: dart_fusion
       ## Optional with version
-      ref: v3.0.1
+      ref: v3.1.1
   dart_fusion_flutter:
     git:
       url: https://github.com/Nialixus/dart_fusion.git
       parth: dart_fusion_flutter
       ## Optional with version
-      ref: v3.0.1
+      ref: v3.1.1
 ```
 
 also run this command in terminal
@@ -673,4 +673,6 @@ DTileWrapper((isExpanded) {
 
 ## Documentation
 For dart doc generated document, you can see it in this
-[Documentation](https://raw.githack.com/Nialixus/dart_fusion/main/doc/api/index.html "Dart Fusion Documentation")
+
+- [Dart Fusion](https://raw.githack.com/Nialixus/dart_fusion/tree/main/dart_fusion/doc/api/index.html "Dart Fusion Documentation")
+- [Dart Fusion Flutter](https://raw.githack.com/Nialixus/dart_fusion/tree/main/dart_fusion_flutter/doc/api/index.html "Dart Fusion Flutter Documentation")

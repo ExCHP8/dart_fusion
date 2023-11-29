@@ -37,11 +37,11 @@ class DChangeBuilder<T extends ChangeNotifier> extends StatelessWidget {
   /// - [ChangeNotifier], which is a base class for objects that provide
   ///   notification when they are modified.
   const DChangeBuilder({
-    Key? key,
+    super.key,
     required this.value,
     required this.builder,
     this.child = const SizedBox(),
-  }) : super(key: key);
+  });
 
   /// The instance of [ChangeNotifier] to listen to for changes.
   final T value;

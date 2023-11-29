@@ -22,10 +22,10 @@ class DProvider<T extends Object> extends InheritedWidget {
   /// The [child] parameter is the widget that will be the descendant and
   /// receive the provided value.
   const DProvider({
-    Key? key,
+    super.key,
     required this.value,
-    required Widget child,
-  }) : super(key: key, child: child);
+    required super.child,
+  });
 
   /// The value of type [T] that is provided to descendants.
   final T value;

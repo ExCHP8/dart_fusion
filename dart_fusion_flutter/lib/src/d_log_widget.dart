@@ -11,11 +11,11 @@ class DLogWidget extends StatelessWidget {
   /// Creates a [DLogWidget] with the specified [message], [level], and [child].
   const DLogWidget(
     this.message, {
-    Key? key,
+    super.key,
     this.level = DLevel.info,
     required this.child,
     this.onDebug = kDebugMode,
-  }) : super(key: key);
+  });
 
   /// Choose wether print log on debug or anytime.
   final bool onDebug;

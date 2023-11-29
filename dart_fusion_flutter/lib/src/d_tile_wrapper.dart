@@ -22,8 +22,8 @@ class DTileWrapper extends StatefulWidget {
   /// the current expansion state, and returns an [ExpansionTile] widget.
   const DTileWrapper(
     this.builder, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// The function that builds the [ExpansionTile] widget with customization.
   final ExpansionTile Function(bool isExpanded) builder;

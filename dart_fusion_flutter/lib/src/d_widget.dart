@@ -91,8 +91,8 @@ class DInherited extends InheritedWidget {
   const DInherited({
     super.key,
     required this.value,
-    required Widget child,
-  }) : super(child: child);
+    required super.child,
+  });
 
   @override
   bool updateShouldNotify(covariant InheritedWidget oldWidget) =>
