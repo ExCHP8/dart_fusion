@@ -1,3 +1,2 @@
-## 0.0.1
-
-* TODO: Describe initial release.
+## 3.0.1
+* Split dart and flutter libraries
