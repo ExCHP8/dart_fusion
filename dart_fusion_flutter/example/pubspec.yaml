@@ -9,6 +9,11 @@ environment:
 dependencies:
   cupertino_icons: ^1.0.2
   dart_fusion:
+    git:
+      url: https://github.com/Nialixus/dart_fusion
+      path: dart_fusion
+      ref: v3.0.1
+  dart_fusion_flutter:
     path: ../
   easy_localization: ^3.0.3
   flutter:

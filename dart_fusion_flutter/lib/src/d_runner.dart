@@ -1,4 +1,4 @@
-part of '../dart_fusion.dart';
+part of '../dart_fusion_flutter.dart';
 
 /// The base abstract class for a [DRunner].
 abstract class DRunner {

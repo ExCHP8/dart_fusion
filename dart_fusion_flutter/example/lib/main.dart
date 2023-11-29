@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:dart_fusion/dart_fusion.dart';
+import 'package:dart_fusion_flutter/dart_fusion_flutter.dart';
 import 'package:flutter/material.dart';
 
 void main() {

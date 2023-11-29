@@ -91,3 +91,5 @@
 * Fix `DProvider` context extension
 ## 3.0.0
 * Separate dart and flutter libraries
+## 3.0.1
+* Split dart and flutter libraries
