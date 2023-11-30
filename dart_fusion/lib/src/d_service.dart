@@ -11,10 +11,9 @@ class DService {
   /// [handler] is the main request handler.
   /// [certificate] is an optional function for certificate verification.
   /// [data] is a function to process the received JSON data.
-  static Handler middleware<T extends DModel>({
+  static Handler middleware({
     required Handler handler,
     String Function(String key)? certificate,
-    T Function(JSON value)? data,
   }) {
     return (context) async {
       try {
@@ -26,9 +25,9 @@ class DService {
           if (response.statusCode == 200) {
             final json = await response.json() as JSON? ?? {};
             return Response.json(
-              body: ResponseModel<T>(
+              body: ResponseModel(
                 message: DParse.httpMethodMessage(context.method.value),
-                data: data != null ? data(json) : null,
+                data: json,
                 success: true,
               ).toJSON,
             );

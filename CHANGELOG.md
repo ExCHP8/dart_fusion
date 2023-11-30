@@ -98,3 +98,5 @@
 * Update dart doc
 ## 3.1.2
 * Update DModel toJSON
+## 3.1.3.
+* Update middleware

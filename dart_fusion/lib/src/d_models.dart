@@ -59,7 +59,7 @@ class DModel extends Equatable {
 ///   message: 'Successfully Fetching Data!',
 ///   data: const ResponseDataModel());
 /// ```
-class ResponseModel<T extends DModel> extends DModel {
+class ResponseModel extends DModel {
   /// Default constructor of [ResponseModel] with value [success] is `false`,
   /// [message] is `No Message`, and [data] is [DModel].
   const ResponseModel({
@@ -68,13 +68,11 @@ class ResponseModel<T extends DModel> extends DModel {
     this.data,
   });
 
-  static ResponseModel fromJSON<T extends DModel>(JSON value,
-      {T Function(JSON value)? data}) {
+  static ResponseModel fromJSON<T extends DModel>(JSON value) {
     return ResponseModel(
-      success: value.of('success'),
-      message: value.of('message'),
-      data: data != null ? data(value) : null,
-    );
+        success: value.of('success'),
+        message: value.of('message'),
+        data: value.of('data'));
   }
 
   /// Success status of whether the response is what is expected or not.
@@ -85,13 +83,13 @@ class ResponseModel<T extends DModel> extends DModel {
 
   /// Child data of [ResponseModel], must be a class that extends
   /// [DModel].
-  final T? data;
+  final JSON? data;
 
   @override
   ResponseModel copyWith({
     bool? success,
     String? message,
-    T? data,
+    JSON? data,
   }) {
     return ResponseModel(
       success: success ?? this.success,
