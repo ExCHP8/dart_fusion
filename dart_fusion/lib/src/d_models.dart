@@ -23,7 +23,7 @@ class DModel extends Equatable {
   /// DModel DModel = const DModel();
   /// JSON json = DModel.toJSON;
   /// ```
-  JSON get toJSON => {'model_type': runtimeType};
+  JSON get toJSON => {'model_type': runtimeType.toString()};
 
   /// Convert a JSON to this DModel.
   ///

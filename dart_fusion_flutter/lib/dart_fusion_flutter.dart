@@ -15,7 +15,7 @@ part 'src/d_image.dart';
 part 'src/d_log_widget.dart';
 part 'src/d_widget.dart';
 part 'src/d_builder.dart';
-part 'src/d_extensions_flutter.dart';
+part 'src/d_extensions.dart';
 part 'src/d_button.dart';
 part 'src/d_overlay.dart';
 part 'src/d_textarea.dart';

@@ -96,3 +96,5 @@
 ## 3.1.1
 * Update dart_fusion_flutter syntax
 * Update dart doc
+## 3.1.2
+* Update DModel toJSON

@@ -92,12 +92,10 @@ packages:
   dart_fusion:
     dependency: "direct main"
     description:
-      path: dart_fusion
-      ref: "v3.0.1"
-      resolved-ref: "40b0eaa7e13cd52e7d0a6679b378068f2716149f"
-      url: "https://github.com/Nialixus/dart_fusion"
-    source: git
-    version: "3.0.1"
+      path: "../dart_fusion"
+      relative: true
+    source: path
+    version: "3.1.2"
   dart_jsonwebtoken:
     dependency: transitive
     description:
