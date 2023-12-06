@@ -66,13 +66,16 @@ class ResponseModel extends DModel {
     this.success = false,
     this.message = 'No Message',
     this.data,
+    this.links = const [],
   });
 
   static ResponseModel fromJSON<T extends DModel>(JSON value) {
     return ResponseModel(
-        success: value.of('success'),
-        message: value.of('message'),
-        data: value.of('data'));
+      success: value.of('success'),
+      message: value.of('message'),
+      data: value.of('data'),
+      links: value.of('links'),
+    );
   }
 
   /// Success status of whether the response is what is expected or not.
@@ -85,16 +88,21 @@ class ResponseModel extends DModel {
   /// [DModel].
   final JSON? data;
 
+  /// List of reference link of this model.
+  final List<LinkModel> links;
+
   @override
   ResponseModel copyWith({
     bool? success,
     String? message,
     JSON? data,
+    List<LinkModel>? links,
   }) {
     return ResponseModel(
       success: success ?? this.success,
       message: message ?? this.message,
       data: data ?? this.data,
+      links: links ?? this.links,
     );
   }
 
@@ -103,6 +111,54 @@ class ResponseModel extends DModel {
         'success': success,
         'message': message,
         'data': data?.toJSON,
+        if (links.isNotEmpty) 'links': links.toJSON,
+        ...super.toJSON,
+      };
+}
+
+/// Link reference used in [ResponseModel] to indicate the relationship of resources.
+class LinkModel extends DModel {
+  /// Constructs a [LinkModel] with [name] and [reference].
+  ///
+  /// The [name] parameter specifies the name of the link model.
+  /// The [reference] parameter specifies the reference URL of the model.
+  const LinkModel({
+    required this.name,
+    required this.reference,
+  });
+
+  /// The name identifying the link model.
+  ///
+  /// This [name] property represents the name of the link model.
+  final String name;
+
+  /// Reference URL of this model.
+  ///
+  /// The [reference] property holds the reference link for this model.
+  final String reference;
+
+  static LinkModel fromJSON(JSON value) {
+    return LinkModel(
+      name: value.of('name'),
+      reference: value.of('reference'),
+    );
+  }
+
+  @override
+  LinkModel copyWith({
+    String? name,
+    String? reference,
+  }) {
+    return LinkModel(
+      name: name ?? this.name,
+      reference: reference ?? this.reference,
+    );
+  }
+
+  @override
+  JSON get toJSON => {
+        'name': name,
+        'reference': reference,
         ...super.toJSON,
       };
 }
