@@ -100,3 +100,4 @@
 * Update DModel toJSON
 ## 3.1.3.
 * Update middleware
+* Add `ResponseAssertion`

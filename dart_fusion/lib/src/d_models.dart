@@ -110,7 +110,7 @@ class ResponseModel extends DModel {
   JSON get toJSON => {
         'success': success,
         'message': message,
-        'data': data?.toJSON,
+        if (data != null) 'data': data!.toJSON,
         if (links.isNotEmpty) 'links': links.toJSON,
         ...super.toJSON,
       };

@@ -17,3 +17,4 @@ part 'src/d_typedefs.dart';
 part 'src/d_parse.dart';
 part 'src/d_annotation.dart';
 part 'src/d_service.dart';
+part 'src/d_assertion.dart';
