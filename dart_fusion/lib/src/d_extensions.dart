@@ -87,13 +87,13 @@ extension OnJSON on JSON {
       } else if (T is JSON) {
         return <JSON>{} as T;
       } else if (T is List) {
-        return <dynamic>[] as T;
+        return [] as T;
       } else if (T is DateTime) {
         return DateTime.now() as T;
       } else {
         throw const TypeException(
-            message:
-                'Type is not provided, use <JSON>{}.maybeOf("key") instead.');
+            message: 'Type is not provided, '
+                'use <JSON>{}.maybeOf("key") instead.');
       }
     }
 
