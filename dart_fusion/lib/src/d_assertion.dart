@@ -54,27 +54,15 @@ class ResponseAssertion {
   /// If the [assertion] fails, it throws a [ResponseException] with a response
   /// containing the specified [statusCode] and [message].
   void run() {
-    if (_list.isNotEmpty && _list.any((e) => !e.assertion)) {
-      ResponseAssertion assertion = _list.firstWhere((e) => !e.assertion);
+    if (!assertion && _list.isEmpty) {
       throw ResponseException(
         response: Response.json(
-          statusCode: assertion.statusCode,
+          statusCode: statusCode,
           body: ResponseModel(
-            message: assertion.message,
+            message: message,
           ).toJSON,
         ),
       );
-    } else {
-      if (!assertion) {
-        throw ResponseException(
-          response: Response.json(
-            statusCode: statusCode,
-            body: ResponseModel(
-              message: message,
-            ).toJSON,
-          ),
-        );
-      }
     }
   }
 }
