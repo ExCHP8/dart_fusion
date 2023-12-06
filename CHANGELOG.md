@@ -101,3 +101,4 @@
 ## 3.1.3.
 * Update middleware
 * Add `ResponseAssertion`
+* Add CORS validation

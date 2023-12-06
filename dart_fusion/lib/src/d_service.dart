@@ -17,16 +17,29 @@ class DService {
     String Function(String key)? certificate,
   }) {
     return (context) async {
+      // [1] Initiating header
+      final head = (headers?..addAll(context.request.headers)) ??
+          context.request.headers;
       try {
+        // [2] Return Websocket
         if (context.isWebSocket) {
-          return (await handler(context)).copyWith(headers: headers);
+          return (await handler(context)).copyWith(headers: head);
         } else {
+          // [3] Verify Bearer Token
           if (certificate != null) await context.verify(certificate);
           final response = await handler(context);
+
+          // [3] Verify CORS
+          // String cors =
+          //     headers?['Access-Control-Allow-Origin']?.toString() ?? '';
+          // String origin = context.
+          // if (cors.isNotEmpty )
+
+          // [4] Return successful response
           if (response.statusCode >= 200 && response.statusCode < 300) {
             final json = await response.json() as JSON? ?? {};
             return Response.json(
-              headers: headers ?? {},
+              headers: head,
               body: json['model_type'] == 'ResponseModel'
                   ? json
                   : ResponseModel(
@@ -36,10 +49,11 @@ class DService {
                     ).toJSON,
             );
           } else {
+            // [5] Return failed response
             final body = await response.body();
             throw ResponseException(
               response: Response.json(
-                headers: headers ?? {},
+                headers: head,
                 statusCode: response.statusCode,
                 body: ResponseModel(
                   message: DParse.httpStatusMessage(response.statusCode) +
@@ -52,8 +66,9 @@ class DService {
       } on ResponseException catch (e) {
         return e.response;
       } catch (e) {
+        // [6] Return uncaught event
         return Response.json(
-          headers: headers ?? {},
+          headers: head,
           statusCode: 400,
           body: ResponseModel(
             message: DParse.exceptionMessage('$e'),
