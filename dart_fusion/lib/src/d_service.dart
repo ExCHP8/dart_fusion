@@ -36,7 +36,9 @@ class DService {
               response: Response.json(
                 statusCode: response.statusCode,
                 body: ResponseModel(
-                  message: DParse.httpStatusMessage(response.statusCode),
+                  message: DParse.httpStatusMessage(response.statusCode) +
+                      '\n\n --- \n\n' +
+                      (await response.body()),
                 ).toJSON,
               ),
             );
