@@ -25,11 +25,13 @@ class DService {
           if (response.statusCode >= 200 && response.statusCode < 300) {
             final json = await response.json() as JSON? ?? {};
             return Response.json(
-              body: ResponseModel(
-                message: DParse.httpMethodMessage(context.method.value),
-                data: json,
-                success: true,
-              ).toJSON,
+              body: json['model_type'] == 'ResponseModel'
+                  ? json
+                  : ResponseModel(
+                      message: DParse.httpMethodMessage(context.method.value),
+                      data: json,
+                      success: true,
+                    ).toJSON,
             );
           } else {
             throw ResponseException(
