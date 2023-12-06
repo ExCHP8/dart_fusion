@@ -20,9 +20,25 @@ class ResponseAssertion {
     this.assertion,
     this.message, {
     this.statusCode = 400,
-  }) {
+  }) : _list = [] {
     run();
   }
+
+  /// Constructs a [ResponseAssertion] list with the provided [children].
+  ///
+  /// The [children] parameter specifies the list of [ResponseAssertion] instances to be included in this [ResponseAssertion] list.
+  ///
+  /// The [statusCode] parameter sets the HTTP status code for the response if any of the assertions in the [children] list fail.
+  /// The default status code is 400 (Bad Request).
+  ResponseAssertion.list({
+    required List<ResponseAssertion> children,
+    this.statusCode = 400,
+  })  : _list = children,
+        assertion = true,
+        message = '';
+
+  /// The list of [ResponseAssertion] instances included in this [ResponseAssertion].
+  final List<ResponseAssertion> _list;
 
   /// The boolean assertion condition to be checked.
   final bool assertion;
@@ -38,15 +54,27 @@ class ResponseAssertion {
   /// If the [assertion] fails, it throws a [ResponseException] with a response
   /// containing the specified [statusCode] and [message].
   void run() {
-    if (!assertion) {
+    if (_list.isNotEmpty && _list.any((e) => !e.assertion)) {
+      ResponseAssertion assertion = _list.firstWhere((e) => !e.assertion);
       throw ResponseException(
         response: Response.json(
-          statusCode: statusCode,
+          statusCode: assertion.statusCode,
           body: ResponseModel(
-            message: message,
+            message: assertion.message,
           ).toJSON,
         ),
       );
+    } else {
+      if (!assertion) {
+        throw ResponseException(
+          response: Response.json(
+            statusCode: statusCode,
+            body: ResponseModel(
+              message: message,
+            ).toJSON,
+          ),
+        );
+      }
     }
   }
 }
