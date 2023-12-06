@@ -22,7 +22,7 @@ class DService {
         } else {
           if (certificate != null) await context.verify(certificate);
           final response = await handler(context);
-          if (response.statusCode == 200) {
+          if (response.statusCode >= 200 && response.statusCode < 300) {
             final json = await response.json() as JSON? ?? {};
             return Response.json(
               body: ResponseModel(
