@@ -34,13 +34,13 @@ class DService {
                     ).toJSON,
             );
           } else {
+            final body = await response.body();
             throw ResponseException(
               response: Response.json(
                 statusCode: response.statusCode,
                 body: ResponseModel(
                   message: DParse.httpStatusMessage(response.statusCode) +
-                      '\n\n --- \n\n' +
-                      (await response.body()),
+                      (body.isNotEmpty ? '\n\n --- \n\n$body' : body),
                 ).toJSON,
               ),
             );
