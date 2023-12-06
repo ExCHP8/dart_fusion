@@ -51,13 +51,20 @@ class DService {
           } else {
             // [5] Return failed response
             final body = await response.body();
+            String message;
+            try {
+              message = jsonDecode(body).toString();
+            } catch (e) {
+              message = body;
+            }
+
             throw ResponseException(
               response: Response.json(
                 headers: head,
                 statusCode: response.statusCode,
                 body: ResponseModel(
                   message: DParse.httpStatusMessage(response.statusCode) +
-                      (body.isNotEmpty ? '\n\n --- \n\n$body' : body),
+                      (message.isNotEmpty ? '\n\n --- \n\n$body' : body),
                 ).toJSON,
               ),
             );
