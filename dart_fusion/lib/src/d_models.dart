@@ -25,6 +25,9 @@ class DModel extends Equatable {
   /// ```
   JSON get toJSON => {'model_type': runtimeType.toString()};
 
+  /// Override toJSON value
+  set toJSON(JSON toJSON) => this.toJSON = toJSON;
+
   /// Convert a JSON to this DModel.
   ///
   /// ```dart

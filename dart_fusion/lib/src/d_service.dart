@@ -12,18 +12,14 @@ class DService {
   /// [certificate] is an optional function for certificate verification.
   /// [data] is a function to process the received JSON data.
   static Handler middleware({
-    Map<String, Object>? headers,
     required Handler handler,
     String Function(String key)? certificate,
   }) {
     return (context) async {
-      // [1] Initiating header
-      final head = (headers?..addAll(context.request.headers)) ??
-          context.request.headers;
       try {
         // [2] Return Websocket
         if (context.isWebSocket) {
-          return (await handler(context)).copyWith(headers: head);
+          return handler(context);
         } else {
           // [3] Verify Bearer Token
           if (certificate != null) await context.verify(certificate);
@@ -39,7 +35,6 @@ class DService {
           if (response.statusCode >= 200 && response.statusCode < 300) {
             final json = await response.json() as JSON? ?? {};
             return Response.json(
-              headers: head,
               body: json['model_type'] == 'ResponseModel'
                   ? json
                   : ResponseModel(
@@ -60,7 +55,6 @@ class DService {
 
             throw ResponseException(
               response: Response.json(
-                headers: head,
                 statusCode: response.statusCode,
                 body: ResponseModel(
                   message: DParse.httpStatusMessage(response.statusCode) +
@@ -75,7 +69,6 @@ class DService {
       } catch (e) {
         // [6] Return uncaught event
         return Response.json(
-          headers: head,
           statusCode: 400,
           body: ResponseModel(
             message: DParse.exceptionMessage('$e'),
