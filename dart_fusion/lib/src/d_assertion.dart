@@ -101,9 +101,7 @@ class ResponseAssert extends Assert {
   /// The [statusCode] parameter sets the HTTP status code for the response
   /// if the assertion fails. The default status code is 400 (Bad Request).
   ResponseAssert(bool assertion, String message, {this.statusCode = 400})
-      : super(assertion, message) {
-    _run();
-  }
+      : super(assertion, message);
 
   /// The HTTP status code for the response if the assertion fails.
   final int statusCode;
@@ -132,7 +130,7 @@ class ResponseAssert extends Assert {
     return ResponseAssert(
       value.of('assertion', true),
       value.of('message'),
-      statusCode: value.of('status_code'),
+      statusCode: value.of('status_code', 400),
     );
   }
 

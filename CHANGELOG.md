@@ -103,3 +103,4 @@
 * Add `ResponseAssertion`
 * Add CORS validation
 * Add toJSON setter in `DModel`
+* Add `Header` models

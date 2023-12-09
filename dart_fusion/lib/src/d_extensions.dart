@@ -75,29 +75,32 @@ extension OnJSON on JSON {
   /// print(secondary); // "No Data"
   /// ```
   T of<T extends Object>(String key, [T? onError]) {
-    T onElse() {
-      if (T is int) {
-        return 0 as T;
-      } else if (T is double) {
-        return 0.0 as T;
-      } else if (T is bool) {
-        return false as T;
-      } else if (T is String) {
-        return '' as T;
-      } else if (T is JSON) {
-        return <JSON>{} as T;
-      } else if (T is List) {
-        return [] as T;
-      } else if (T is DateTime) {
-        return DateTime.now() as T;
-      } else {
+    switch (T) {
+      case int:
+        return (int.tryParse(this[key].toString()) ?? onError ?? 0) as T;
+      case double:
+        return (double.tryParse(this[key].toString()) ?? onError ?? 0.0) as T;
+      case bool:
+        return (bool.tryParse(this[key].toString()) ?? onError ?? false) as T;
+      case String:
+        return (this[key]?.toString() ?? onError ?? '') as T;
+      case JSON:
+        try {
+          return <JSON>{...this[key]} as T;
+        } catch (e) {
+          return onError ?? <JSON>{} as T;
+        }
+      case List:
+        return this[key] is List ? this[key] : onError ?? [] as T;
+      case DateTime:
+        return (DateTime.tryParse(this[key].toString()) ??
+            onError ??
+            DateTime.now()) as T;
+      default:
         throw const TypeException(
             message: 'Type is not provided, '
                 'use <JSON>{}.maybeOf("key") instead.');
-      }
     }
-
-    return this[key] as T? ?? onError ?? onElse();
   }
 
   /// Parse `dynamic` value in [JSON] to given nullable [T].
