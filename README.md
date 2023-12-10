@@ -18,49 +18,56 @@ A library that brings together a harmonious blend of essential tools, utilities,
 - [D Annotations](#d-annotation-logo)
   - [Model](#d-annotation-model)
   - [Variable](#d-annotation-variable)
-- [D Assertions](#d-assertion)
+- [D Assertions](#d-assertions)
   - [Assert](#d-assertion-assert)
   - [Response Assert](#d-assertion-response)
 - [D Behavior](#d-behavior)
 - [D Builder](#d-builder)
+- [D Exceptions](#d-exceptions)
+  - [Type Exception](#d-exception-type)
+  - [Response Exception](#d-exception-response)
 - [D Extensions](#d-extensions-logo)
-  - [On Number](#d-extensions-on-number)
-    - [Min](#d-extensions-on-number-min)
-    - [Max](#d-extensions-on-number-max)
-    - [Limit](#d-extensions-on-number-limit)
-  - [On JSON](#d-extensions-on-json)
-    - [Merge](#d-extensions-on-json-merge)
-    - [Of](#d-extensions-on-json-of)
-    - [Maybe of](#d-extensions-on-json-maybe-of)
-  - [On Context](#d-extensions-on-context)
-    - [Theme](#d-extensions-on-context-theme)
-    - [Color](#d-extensions-on-context-color)
-    - [Text](#d-extensions-on-context-text)
-    - [Query](#d-extensions-on-context-query)
-    - [Size](#d-extensions-on-context-size)
-    - [Height](#d-extensions-on-context-height)
-    - [Width](#d-extensions-on-context-width)
-    - [Is Phone](#d-extensions-on-context-isphone)
-    - [Is Desktop](#d-extensions-on-context-isdesktop)
-    - [Is Tablet](#d-extensions-on-context-istablet)
-  - [On Request Context](#d-extensions-on-request-context)
-    - [Method](#d-extensions-on-request-context-method)
-    - [Is Get](#d-extensions-on-request-context-isget)
-    - [Is Post](#d-extensions-on-request-context-ispost)
-    - [Is Put](#d-extensions-on-request-context-isput)
-    - [Is Delete](#d-extensions-on-request-context-isdelete)
-    - [Is WebSocket](#d-extensions-on-request-context-iswebsocket)
-    - [Parameter](#d-extensions-on-request-context-parameter)
-    - [JWT Verify](#d-extensions-on-request-context-verify)
-  - [On List](#d-extensions-on-list)
-    - [To](#d-extensions-on-list-to)
-    - [Limit](#d-extensions-on-list-limit)
-  - [On DModel List](#d-extensions-on-dmodel-list)
-  - [On String](#d-extensions-on-string)
-  - [On Integer](#d-extensions-on-integer)
+  - [Number Extension](#d-extensions-number)
+    - [Min](#d-extensions-number-min)
+    - [Max](#d-extensions-number-max)
+    - [Limit](#d-extensions-number-limit)
+  - [Integer](#d-extensions-integer)
+  - [JSON Extension](#d-extensions-json)
+    - [Merge](#d-extensions-json-merge)
+    - [Of](#d-extensions-json-of)
+    - [Maybe of](#d-extensions-json-maybe-of)
+  - [BuildContext Extension](#d-extensions-build-context)
+    - [Theme](#d-extensions-build-context-theme)
+    - [Color](#d-extensions-build-context-color)
+    - [Text](#d-extensions-build-context-text)
+    - [Query](#d-extensions-build-context-query)
+    - [Size](#d-extensions-build-context-size)
+    - [Height](#d-extensions-build-context-height)
+    - [Width](#d-extensions-build-context-width)
+    - [Is Phone](#d-extensions-build-context-isphone)
+    - [Is Desktop](#d-extensions-build-context-isdesktop)
+    - [Is Tablet](#d-extensions-build-context-istablet)
+  - [RequestContext Extension](#d-extensions-request-context)
+    - [Method](#d-extensions-request-context-method)
+    - [Is Get](#d-extensions-request-context-isget)
+    - [Is Post](#d-extensions-request-context-ispost)
+    - [Is Put](#d-extensions-request-context-isput)
+    - [Is Delete](#d-extensions-request-context-isdelete)
+    - [Is WebSocket](#d-extensions-request-context-iswebsocket)
+    - [Parameter](#d-extensions-request-context-parameter)
+    - [Header](#d-extensions-request-context-header)
+    - [JWT Verify](#d-extensions-request-context-verify)
+  - [List Extension](#d-extensions-list)
+    - [To](#d-extensions-list-to)
+    - [Limit](#d-extensions-list-limit)
+    - [DModel List](#d-extensions-list-dmodel)
+  - [String Extension](#d-extensions-string)
 - [D Image](#d-image)
 - [D Log](#d-log)
-- [D Model](#d-model)
+- [D Models](#d-models)
+  - [D Model](#d-model)
+  - [Link Model](#d-model-link)
+  - [Response Model](#d-model-response)
 - [D Overlay](#d-overlay)
 - [D Parse](#d-parse)
   - [HTTP Method Message](#d-parse-http-method-message)
@@ -246,7 +253,7 @@ D Assertion is a set of assertion class used for performing assertions and valid
     'Number is not even!', // message if the conditional return false
   );
   ```
-<a name="d-annotation-response"></a>
+<a name="d-assertion-response"></a>
 - **Response**: A specialized `Assert` class for handling response-related assertions.
   ```dart
   return (context) {
@@ -290,6 +297,31 @@ DBuilder(
 )
 ```
 ---
+
+# D Exceptions
+D Exceptions is a set of exception class used in this library.
+
+## <a name="d-exceptions-usage"></a> Usage
+<a name="d-exception-type"></a>
+- **Type Exception**: An exception caused by failing to parse `Type`.
+  
+  ```dart
+  throw TypeException(
+    message: 'Type is not available',
+    );
+  ```
+<a name="d-exception-response"></a>
+- **Response Exception**: An exception containing `Response` value.
+  ```dart
+  throw ResponseException(
+      response: Response(
+        statusCode: 404,
+      )
+    );
+  ```
+
+---
+
 <a name="d-extensions-logo"></a>
 <p align="center">
   <img src="https://user-images.githubusercontent.com/45191605/268232865-208b24c8-141f-437c-bbb6-72168acf3981.png" alt="D Extensions Logo" width="250">
@@ -297,32 +329,41 @@ DBuilder(
 
 # D Extensions
 An extension collection of mostly used function in flutter project.
-## <a name="d-extensions-on-number"></a> OnNumber
+## <a name="d-extensions-number"></a> Number Extension
 Extension on numeric types (int, double) to add utility methods for limiting values within a specified range.
-  - <a name="d-extensions-on-number-min"></a> **Min** : Limit the minimum number of the extended value.
+  - <a name="d-extensions-number-min"></a> **Min** : Limit the minimum number of the extended value.
     ```dart
     int min = 5.min(10);
     print(min); // 10
     ```
-  - <a name="d-extensions-on-number-max"></a> **Max** : Limit the maximum number of the extended value.
+  - <a name="d-extensions-number-max"></a> **Max** : Limit the maximum number of the extended value.
     ```dart
     double max = 100.0.max(10.0);
     print(max); // 10.0
     ```
-  - <a name="d-extensions-on-number-limit"></a> **Limit** : Limit number of the extended value in a certain range.
+  - <a name="d-extensions-number-limit"></a> **Limit** : Limit number of the extended value in a certain range.
     ```dart
     int number = 75.limit(0, 100);
     print(number); // 75
     ```
-## <a name="d-extensions-on-json"></a> OnJSON
+
+## <a name="d-extensions-integer"></a> Integer Extension
+Converts integer to a human-readable string representing bytes.
+```dart
+int bytes = 1048576;
+String parse = bytes.toReadableBytes;
+print(parse); // "1048.57 KB"
+```
+
+## <a name="d-extensions-json"></a> JSON Extension
 Extension on the Map<String, dynamic> value.
-  - <a name="d-extensions-on-json-merge"></a> **Merge** : Merging one `JSON` to another.
+  - <a name="d-extensions-json-merge"></a> **Merge** : Merging one `JSON` to another.
     ```dart
     JSON json = {"primary": "1", "secondary": "2"};
     JSON anotherJSON = {"primary": "10", "tertiary": "3"};
     print(json.merge(anotherJSON)); // {"primary": "10", "secondary": "2", "tertiary": "3"}
     ```
-  - <a name="d-extensions-on-json-of"></a> **Of** : Parse `dynamic` value in `JSON` to given [T] with an optional [onError] fallback.
+  - <a name="d-extensions-json-of"></a> **Of** : Parse `dynamic` value in `JSON` to given [T] with an optional [onError] fallback.
     ```dart
     JSON value = {"primary": "1"};
     String primary = value.of<String>("primary");
@@ -330,7 +371,7 @@ Extension on the Map<String, dynamic> value.
     String secondary = value.of<String>("secondary", "No Data");
     print(secondary); // "No Data"
     ```
-  - <a name="d-extensions-on-json-maybe-of"></a> **Maybe of** : Parse `dynamic` value in `JSON` to given nullable [T].
+  - <a name="d-extensions-json-maybe-of"></a> **Maybe of** : Parse `dynamic` value in `JSON` to given nullable [T].
     ```dart
     JSON value = {"primary": "1"};
     String? primary = value.maybeOf<String>("primary");
@@ -338,113 +379,110 @@ Extension on the Map<String, dynamic> value.
     String? secondary = value.maybeOf<String>("secondary");
     print(secondary); // null
     ```
-## <a name="d-extensions-on-context"></a> OnContext
-A set of extension collection on [BuildContext].
-  - <a name="d-extensions-on-context-theme"></a> **Theme** : A shortcut for calling `Theme.of(context)`.
+## <a name="d-extensions-build-context"></a> BuildContext Extension
+A set of extension collection on `BuildContext`.
+  - <a name="d-extensions-build-context-theme"></a> **Theme** : A shortcut for calling `Theme.of(context)`.
     ```dart
     ThemeData theme = context.theme;
     ```
-  - <a name="d-extensions-on-context-color"></a> **Color** : A shortcut for calling `Theme.of(context).colorScheme`.
+  - <a name="d-extensions-build-context-color"></a> **Color** : A shortcut for calling `Theme.of(context).colorScheme`.
     ```dart
     ColorScheme color = context.color;
     ```
-  - <a name="d-extensions-on-context-text"></a> **Text** : A shortcut for calling `Theme.of(context).textTheme`.
+  - <a name="d-extensions-build-context-text"></a> **Text** : A shortcut for calling `Theme.of(context).textTheme`.
     ```dart
     TextTheme text = context.text;
     ```
-  - <a name="d-extensions-on-context-query"></a> **Query** : A shortcut for calling `MediaQuery.of(context)`.
+  - <a name="d-extensions-build-context-query"></a> **Query** : A shortcut for calling `MediaQuery.of(context)`.
     ```dart
     MediaQuery query = context.query;
     ```
-  - <a name="d-extensions-on-context-size"></a> **Size** : A shortcut for calling `MediaQuery.sizeOf(context)`.
+  - <a name="d-extensions-build-context-size"></a> **Size** : A shortcut for calling `MediaQuery.sizeOf(context)`.
     ```dart
     Size suze = context.querySize;
     ```
-  - <a name="d-extensions-on-context-width"></a> **Width** : A shortcut for calling `MediaQuery.sizeOf(context).width`.
+  - <a name="d-extensions-build-context-width"></a> **Width** : A shortcut for calling `MediaQuery.sizeOf(context).width`.
     ```dart
     double width = context.width;
     ```
-  - <a name="d-extensions-on-context-height"></a> **Height** : A shortcut for calling `MediaQuery.sizeOf(context).height`.
+  - <a name="d-extensions-build-context-height"></a> **Height** : A shortcut for calling `MediaQuery.sizeOf(context).height`.
     ```dart
     double height = context.height;
     ```
-  - <a name="d-extensions-on-context-isphone"></a> **Is Phone** : To check wether the screen width less than `400 px` or not.
+  - <a name="d-extensions-build-context-isphone"></a> **Is Phone** : To check wether the screen width less than `400 px` or not.
     ```dart
     bool isPhone = context.isPhone;
     ```
-  - <a name="d-extensions-on-context-isdesktop"></a> **Is Desktop** : To check wether the screen width more than `700 px` or not.
+  - <a name="d-extensions-build-context-isdesktop"></a> **Is Desktop** : To check wether the screen width more than `700 px` or not.
     ```dart
     bool isDesktop = context.isDesktop;
     ```
-  - <a name="d-extensions-on-context-istablet"></a> **Is Tablet** : To check wether the screen width less than `400 px` and more than `700 px` or not.
+  - <a name="d-extensions-build-context-istablet"></a> **Is Tablet** : To check wether the screen width less than `400 px` and more than `700 px` or not.
     ```dart
     bool isTablet = context.isTablet;
     ```
-## <a name="d-extensions-on-request-context"></a> OnRequestContext
-A set of extension collection on [RequestContext].
-  - <a name="d-extensions-on-request-context-method"></a> **Method** : A shortcut to get [HttpMethod] out of [RequestContext].
+## <a name="d-extensions-request-context"></a> RequestContext Extension
+A set of extension collection on `RequestContext`.
+  - <a name="d-extensions-request-context-method"></a> **Method** : A shortcut to get [HttpMethod] out of [RequestContext].
     ```dart
     HttpMethod method = context.method;
     ```
-  - <a name="d-extensions-on-request-context-isget"></a> **Is Get** : Check whether request method is [HttpMethod.get] or not.
+  - <a name="d-extensions-request-context-isget"></a> **Is Get** : Check whether request method is [HttpMethod.get] or not.
     ```dart
     bool isGET = context.isGET;
     ```
-  - <a name="d-extensions-on-request-context-ispost"></a> **Is Post** : Check whether request method is [HttpMethod.post] or not.
+  - <a name="d-extensions-request-context-ispost"></a> **Is Post** : Check whether request method is [HttpMethod.post] or not.
     ```dart
     bool isPOST = context.isPOST;
     ```
-  - <a name="d-extensions-on-request-context-isput"></a> **Is Put** : Check whether request method is [HttpMethod.put] or not.
+  - <a name="d-extensions-request-context-isput"></a> **Is Put** : Check whether request method is [HttpMethod.put] or not.
     ```dart
     bool isPUT = context.isPUT;
     ```
-  - <a name="d-extensions-on-request-context-isdelete"></a> **Is Delete** : Check whether request method is [HttpMethod.delete] or not.
+  - <a name="d-extensions-request-context-isdelete"></a> **Is Delete** : Check whether request method is [HttpMethod.delete] or not.
     ```dart
     bool isDELETE = context.isDELETE;
     ```
-  - <a name="d-extensions-on-request-context-iswebsocket"></a> **Is Web Socket** : Check whether request method is a http request or websocket request.
+  - <a name="d-extensions-request-context-iswebsocket"></a> **Is Web Socket** : Check whether request method is a http request or websocket request.
     ```dart
     bool isWS = context.isWebSocket;
     ```
- - <a name="d-extensions-on-request-context-parameter"></a> **Parameter** : A shortcut to get parameter from [RequestContext].
+ - <a name="d-extensions-request-context-parameter"></a> **Parameter** : A shortcut to get parameter from [RequestContext].
     ```dart
     JSON parameter = context.parameter;
     ```
- - <a name="d-extensions-on-request-context-verify"></a> **JWT Verify** : A function to verify `JWT` Bearer Token.
+ - <a name="d-extensions-request-context-header"></a> **Header** : A shortcut to get header from [RequestContext].
+    ```dart
+    JSON parameter = context.parameter;
+    ```
+ - <a name="d-extensions-request-context-verify"></a> **JWT Verify** : A function to verify `JWT` Bearer Token.
     ```dart
     JWT jwt = await context.verify((key) => Env.read<String>(key));
     ```
-## <a name="d-extensions-on-list"></a> OnList
+## <a name="d-extensions-list"></a> List Extension
 A set of extension collection on [BuildContext].
-  - <a name="d-extensions-on-list-to"></a> **To** : Generate key index and value of its items.
+  - <a name="d-extensions-list-to"></a> **To** : Generate key index and value of its items.
     ```dart
     List<String> texts = ["one", "two", "three"];
     List<Widget> widgets = texts.to((index, item) => Text("$index: $item"));
     ```
-  - <a name="d-extensions-on-list-limit"></a> **Limit** : Safely limitting list on certain length.
+  - <a name="d-extensions-list-limit"></a> **Limit** : Safely limitting list on certain length.
     ```dart
     List<int> integers = [1, 2, 3];
     List<int> sublist = integers.limit(1, 100);
     print(sublist); // [2, 3]
     ```
-## <a name="d-extensions-on-dmodel-list"></a> OnDModelList
+## <a name="d-extensions-list-dmodel"></a> DModel List Extension
 Extending list of [DModel] to get its toJSON values.
 ```dart
 List<DModel> dmodels = [DModel(), DModel()];
 List<JSON> jsons = dmodels.toJSON;
 ```
-## <a name="d-extensions-on-string"></a> OnString
+## <a name="d-extensions-string"></a> String Extension
 Capitalizing the first letter of [String].
 ```dart
 String word = 'magnificent'.capitalize;
 print(word); // Magnificent
-```
-## <a name="d-extensions-on-integer"></a> OnInteger
-Converts integer to a human-readable string representing bytes.
-```dart
-int bytes = 1048576;
-String parse = bytes.toReadableBytes;
-print(parse); // "1048.57 KB"
 ```
 ---
 
