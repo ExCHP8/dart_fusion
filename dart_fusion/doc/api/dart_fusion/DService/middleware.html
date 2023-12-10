@@ -31,7 +31,7 @@
     <li><a href="../../index.html">dart_fusion</a></li>
     <li><a href="../../dart_fusion/dart_fusion-library.html">dart_fusion</a></li>
     <li><a href="../../dart_fusion/DService-class.html">DService</a></li>
-    <li class="self-crumb">middleware&lt;<wbr><span class="type-parameter">T extends DModel</span>&gt; static method</li>
+    <li class="self-crumb">middleware static method</li>
   </ol>
   <div class="self-name">middleware</div>
   <form class="search navbar-right" role="search">
@@ -57,18 +57,15 @@
       data-above-sidebar="dart_fusion&#47;DService-class-sidebar.html"
       data-below-sidebar="">
       <div>
-<h1><span class="kind-method">middleware&lt;<wbr><span class="type-parameter">T extends DModel</span>&gt;</span> static method 
+<h1><span class="kind-method">middleware</span> static method 
 </h1></div>
 
     <section class="multi-line-signature">
       
 
 <span class="returntype"><a href="https://pub.dev/documentation/dart_frog/1.0.1/dart_frog/Handler.html">Handler</a></span>
-<span class="name ">middleware</span>&lt;<wbr><span class="type-parameter">T extends DModel</span>&gt;(<wbr><ol class="parameter-list"><li><span class="parameter" id="middleware-param-handler">{<span>required</span> <span class="type-annotation"><a href="https://pub.dev/documentation/dart_frog/1.0.1/dart_frog/Handler.html">Handler</a></span> <span class="parameter-name">handler</span>, </span></li>
+<span class="name ">middleware</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="middleware-param-handler">{<span>required</span> <span class="type-annotation"><a href="https://pub.dev/documentation/dart_frog/1.0.1/dart_frog/Handler.html">Handler</a></span> <span class="parameter-name">handler</span>, </span></li>
 <li><span class="parameter" id="middleware-param-certificate"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">certificate</span>(<ol class="parameter-list"><li><span class="parameter" id="param-key"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">key</span></span></li>
-</ol>
-)?, </span></li>
-<li><span class="parameter" id="middleware-param-data"><span class="type-annotation">T</span> <span class="parameter-name">data</span>(<ol class="parameter-list"><li><span class="parameter" id="param-value"><span class="type-annotation"><a href="../../dart_fusion/JSON.html">JSON</a></span> <span class="parameter-name">value</span></span></li>
 </ol>
 )?}</span></li>
 </ol>)
@@ -90,33 +87,55 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">static Handler middleware&lt;T extends DModel&gt;({
+  <pre class="language-dart"><code class="language-dart">static Handler middleware({
   required Handler handler,
   String Function(String key)? certificate,
-  T Function(JSON value)? data,
 }) {
   return (context) async {
     try {
+      &#47;&#47; [2] Return Websocket
       if (context.isWebSocket) {
         return handler(context);
       } else {
+        &#47;&#47; [3] Verify Bearer Token
         if (certificate != null) await context.verify(certificate);
         final response = await handler(context);
-        if (response.statusCode == 200) {
+
+        &#47;&#47; [3] Verify CORS
+        &#47;&#47; String cors =
+        &#47;&#47;     headers?[&#39;Access-Control-Allow-Origin&#39;]?.toString() ?? &#39;&#39;;
+        &#47;&#47; String origin = context.
+        &#47;&#47; if (cors.isNotEmpty )
+
+        &#47;&#47; [4] Return successful response
+        if (response.statusCode &gt;= 200 &amp;&amp; response.statusCode &lt; 300) {
           final json = await response.json() as JSON? ?? {};
           return Response.json(
-            body: ResponseModel&lt;T&gt;(
-              message: DParse.httpMethodMessage(context.method.value),
-              data: data != null ? data(json) : null,
-              success: true,
-            ).toJSON,
+            body: json[&#39;model_type&#39;] == &#39;ResponseModel&#39;
+                ? json
+                : ResponseModel(
+                    message: DParse.httpMethodMessage(context.method.value),
+                    data: json,
+                    success: true,
+                  ).toJSON,
           );
         } else {
+          &#47;&#47; [5] Return failed response
+          final body = await response.body();
+          bool isHavingMessage() {
+            try {
+              return (jsonDecode(body) as JSON).isNotEmpty;
+            } catch (e) {
+              return body.isNotEmpty;
+            }
+          }
+
           throw ResponseException(
             response: Response.json(
               statusCode: response.statusCode,
               body: ResponseModel(
-                message: DParse.httpStatusMessage(response.statusCode),
+                message: DParse.httpStatusMessage(response.statusCode) +
+                    (isHavingMessage() ? &#39;\n\n --- \n\n$body&#39; : body),
               ).toJSON,
             ),
           );
@@ -125,6 +144,7 @@
     } on ResponseException catch (e) {
       return e.response;
     } catch (e) {
+      &#47;&#47; [6] Return uncaught event
       return Response.json(
         statusCode: 400,
         body: ResponseModel(
@@ -151,7 +171,7 @@
     <li><a href="../../index.html">dart_fusion</a></li>
     <li><a href="../../dart_fusion/dart_fusion-library.html">dart_fusion</a></li>
     <li><a href="../../dart_fusion/DService-class.html">DService</a></li>
-    <li class="self-crumb">middleware&lt;<wbr><span class="type-parameter">T extends DModel</span>&gt; static method</li>
+    <li class="self-crumb">middleware static method</li>
 </ol>
 
 
@@ -166,7 +186,7 @@
 <footer>
   <span class="no-break">
     dart_fusion
-      3.1.1
+      3.1.3
   </span>
 
   

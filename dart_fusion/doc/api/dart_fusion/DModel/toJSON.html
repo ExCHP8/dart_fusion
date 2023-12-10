@@ -83,11 +83,35 @@ JSON json = DModel.toJSON;
 
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">JSON get toJSON =&gt; {&#39;model_type&#39;: runtimeType};</code></pre>
+  <pre class="language-dart"><code class="language-dart">JSON get toJSON =&gt; {&#39;model_type&#39;: runtimeType.toString()};</code></pre>
 </section>
 
 </section>
 
+
+        
+<section id="setter">
+
+<section class="multi-line-signature">
+  
+  <span class="returntype">void</span>
+  <span class="name ">toJSON=</span><span class="signature">(<wbr><span class="parameter" id="toJSON=-param-toJSON"><span class="type-annotation"><a href="../../dart_fusion/JSON.html">JSON</a></span> <span class="parameter-name">toJSON</span></span>)</span>
+  
+
+</section>
+
+
+<section class="desc markdown">
+  <p>Override toJSON value</p>
+</section>
+
+
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">set toJSON(JSON toJSON) =&gt; this.toJSON = toJSON;</code></pre>
+</section>
+
+</section>
 
   </div> <!-- /.main-content -->
 
@@ -118,7 +142,7 @@ JSON json = DModel.toJSON;
 <footer>
   <span class="no-break">
     dart_fusion
-      3.1.1
+      3.1.3
   </span>
 
   

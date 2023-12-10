@@ -104,3 +104,5 @@
 * Add CORS validation
 * Add toJSON setter in `DModel`
 * Add `Header` models
+* Update dart doc
+* Update readme
