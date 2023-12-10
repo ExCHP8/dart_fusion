@@ -15,7 +15,12 @@ A library that brings together a harmonious blend of essential tools, utilities,
   - [Asset Scanner](#dart-fusion-cli-asset)
   - [Model Updater](#dart-fusion-cli-model)
   - [Localization Translator](#dart-fusion-cli-localization)
-- [D Annotation](#d-annotation-logo)
+- [D Annotations](#d-annotation-logo)
+  - [Model](#d-annotation-model)
+  - [Variable](#d-annotation-variable)
+- [D Assertions](#d-assertion)
+  - [Assert](#d-assertion-assert)
+  - [Response Assert](#d-assertion-response)
 - [D Behavior](#d-behavior)
 - [D Builder](#d-builder)
 - [D Extensions](#d-extensions-logo)
@@ -159,10 +164,11 @@ The Dart Fusion CLI is a command-line tool that provides a set of utilities to s
   <img src="https://user-images.githubusercontent.com/45191605/267885292-129bc9a7-3b33-4b03-9926-079f12a28775.png" alt="D Annotation Logo" width="150">
 </p>
 
-# D Annotation
-D Annotation is a set of class used as an indicator for `Dart Fusion CLI` model generation
+# D Annotations
+D Annotations is a set of class used as an indicator for `Dart Fusion CLI` model generation
 
-## <a name="d-annotation-usage"></a> Usage
+## <a name="d-annotations-usage"></a> Usage
+<a name="d-annotation-model"></a>
 - **Model**: Annotation of class as an indicator to generate a `fromJSON`, `toJSON` and `copyWith` inside the annotated class.
   ```dart
   @model
@@ -173,6 +179,7 @@ D Annotation is a set of class used as an indicator for `Dart Fusion CLI` model 
   @Model(immutable: true, copyWith: true, fromJSON: true, toJSON: true)
   class MyClass extends DModel {}
   ```
+<a name="d-annotation-variable"></a>
 - **Variable**: Annotation of variable inside a model class with `@Model` annotation.
   ```dart
   @variable
@@ -223,6 +230,36 @@ D Annotation is a set of class used as an indicator for `Dart Fusion CLI` model 
     }
   }
   ```
+---
+
+# D Assertions
+D Assertion is a set of assertion class used for performing assertions and validations.
+
+## <a name="d-assertions-usage"></a> Usage
+<a name="d-assertion-assert"></a>
+- **Assert**: The `Assert` class facilitates assertion checks based on boolean conditions. If the assertion fails, it throws an `Exception` with a provided message.
+  
+  ```dart
+  int number = 1;
+  Assert(
+    number.isEven, // conditional needed in assertion checker
+    'Number is not even!', // message if the conditional return false
+  );
+  ```
+<a name="d-annotation-response"></a>
+- **Response**: A specialized `Assert` class for handling response-related assertions.
+  ```dart
+  return (context) {
+    final method = context.request.method;
+
+    Assert.response(
+      method == HttpMethod.post, // assertion checker
+      'Invalid Method!', // message if the conditional return false
+      statusCode: 405, // status code to send inside `ResponseException`
+    );
+  }
+  ```
+
 ---
 
 # D Behavior
