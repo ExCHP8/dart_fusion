@@ -23,6 +23,9 @@ extension OnRequestContext on RequestContext {
   /// A shortcut to get parameter from [RequestContext].
   JSON get parameter => request.uri.queryParameters;
 
+  /// A shortcut to get request header from [RequestContext].
+  JSON get header => request.headers;
+
   /// A function to verifiy `Bearer Token`.
   Future<JWT> verify(String Function(String key) certificate) async {
     try {

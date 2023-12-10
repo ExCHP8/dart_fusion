@@ -1,6 +1,6 @@
 part of '../../dart_fusion.dart';
 
-/// An exception of [Response] to be thrown.
+/// An exception containing [Response] value.
 class ResponseException implements Exception {
   /// [ResponseException] passing [Response] data to be safely thrown.
   const ResponseException({required this.response});
