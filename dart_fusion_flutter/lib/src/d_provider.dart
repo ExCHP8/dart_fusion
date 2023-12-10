@@ -36,11 +36,11 @@ class DProvider<T extends Object> extends InheritedWidget {
   /// Retrieves the value of type [T] from the nearest ancestor [DProvider].
   ///
   /// Throws a [FlutterError] if no ancestor [DProvider] of type [T] is found.
-  static T of<T extends Object>(BuildContext context) {
-    final widget = context.dependOnInheritedWidgetOfExactType<DProvider<T>>();
+  static T of<T extends DProvider>(BuildContext context) {
+    final widget = context.dependOnInheritedWidgetOfExactType<T>();
     if (widget == null) {
-      throw FlutterError("No DProvider<$T> found in context");
+      throw FlutterError("No $T found in context");
     }
-    return widget.value;
+    return widget;
   }
 }

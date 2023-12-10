@@ -31,7 +31,7 @@
     <li><a href="../../index.html">dart_fusion_flutter</a></li>
     <li><a href="../../dart_fusion_flutter/dart_fusion_flutter-library.html">dart_fusion_flutter</a></li>
     <li><a href="../../dart_fusion_flutter/DProvider-class.html">DProvider<span class="signature">&lt;<wbr><span class="type-parameter">T extends Object</span>&gt;</span></a></li>
-    <li class="self-crumb">of&lt;<wbr><span class="type-parameter">T extends Object</span>&gt; static method</li>
+    <li class="self-crumb">of&lt;<wbr><span class="type-parameter">T extends DProvider&lt;<wbr><span class="type-parameter">Object</span>&gt;</span>&gt; static method</li>
   </ol>
   <div class="self-name">of</div>
   <form class="search navbar-right" role="search">
@@ -57,14 +57,14 @@
       data-above-sidebar="dart_fusion_flutter&#47;DProvider-class-sidebar.html"
       data-below-sidebar="">
       <div>
-<h1><span class="kind-method">of&lt;<wbr><span class="type-parameter">T extends Object</span>&gt;</span> static method 
+<h1><span class="kind-method">of&lt;<wbr><span class="type-parameter">T extends DProvider&lt;<wbr><span class="type-parameter">Object</span>&gt;</span>&gt;</span> static method 
 </h1></div>
 
     <section class="multi-line-signature">
       
 
 <span class="returntype">T</span>
-<span class="name ">of</span>&lt;<wbr><span class="type-parameter">T extends Object</span>&gt;(<wbr><ol class="parameter-list"><li><span class="parameter" id="of-param-context"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html">BuildContext</a></span> <span class="parameter-name">context</span></span></li>
+<span class="name ">of</span>&lt;<wbr><span class="type-parameter">T extends DProvider&lt;<wbr><span class="type-parameter">Object</span>&gt;</span>&gt;(<wbr><ol class="parameter-list"><li><span class="parameter" id="of-param-context"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html">BuildContext</a></span> <span class="parameter-name">context</span></span></li>
 </ol>)
 
       
@@ -80,12 +80,12 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">static T of&lt;T extends Object&gt;(BuildContext context) {
-  final widget = context.dependOnInheritedWidgetOfExactType&lt;DProvider&lt;T&gt;&gt;();
+  <pre class="language-dart"><code class="language-dart">static T of&lt;T extends DProvider&gt;(BuildContext context) {
+  final widget = context.dependOnInheritedWidgetOfExactType&lt;T&gt;();
   if (widget == null) {
-    throw FlutterError(&quot;No DProvider&lt;$T&gt; found in context&quot;);
+    throw FlutterError(&quot;No $T found in context&quot;);
   }
-  return widget.value;
+  return widget;
 }</code></pre>
 </section>
 
@@ -104,7 +104,7 @@
     <li><a href="../../index.html">dart_fusion_flutter</a></li>
     <li><a href="../../dart_fusion_flutter/dart_fusion_flutter-library.html">dart_fusion_flutter</a></li>
     <li><a href="../../dart_fusion_flutter/DProvider-class.html">DProvider<span class="signature">&lt;<wbr><span class="type-parameter">T extends Object</span>&gt;</span></a></li>
-    <li class="self-crumb">of&lt;<wbr><span class="type-parameter">T extends Object</span>&gt; static method</li>
+    <li class="self-crumb">of&lt;<wbr><span class="type-parameter">T extends DProvider&lt;<wbr><span class="type-parameter">Object</span>&gt;</span>&gt; static method</li>
 </ol>
 
 
@@ -119,7 +119,7 @@
 <footer>
   <span class="no-break">
     dart_fusion_flutter
-      3.1.1
+      3.1.3
   </span>
 
   
