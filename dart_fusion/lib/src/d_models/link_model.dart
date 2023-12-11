@@ -1,6 +1,13 @@
 part of '../../dart_fusion.dart';
 
 /// Link reference used in [ResponseModel] to indicate the relationship of resources.
+///
+/// ```dart
+/// LinkModel(
+///   method: HttpMethod.get,
+///   description: 'Read User Detail',
+///   reference: '/user/123');
+/// ```
 class LinkModel extends DModel {
   /// Constructs a [LinkModel] with [method], [description] and [reference].
   ///

@@ -1,6 +1,6 @@
 part of '../../dart_fusion.dart';
 
-/// Base dart model which consist `copyWith`, `toJSON`, `fromJSON` and `toString` value;
+/// Base dart model which consist `copyWith`, `toJSON`, `fromJSON` and `toString` value.
 ///
 /// ```dart
 /// class NewDModel extends DModel {}
