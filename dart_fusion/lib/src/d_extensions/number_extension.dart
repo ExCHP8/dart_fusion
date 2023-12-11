@@ -33,11 +33,8 @@ extension NumberExtension<Number extends num> on Number {
       : this > max
           ? max
           : this;
-}
 
-/// Extension on [int] to provide additional functionality.
-extension IntegerExtension on int {
-  /// Converts the integer to a human-readable string representing bytes, KB, MB, or GB.
+  /// Converts the number to a human-readable string representing bytes, KB, MB, or GB.
   ///
   /// Returns a string representation of the size in bytes, KB, MB, or GB.
   ///
