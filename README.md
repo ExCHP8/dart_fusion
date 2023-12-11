@@ -65,7 +65,7 @@ A library that brings together a harmonious blend of essential tools, utilities,
 - [D Image](#d-image)
 - [D Log](#d-log)
 - [D Models](#d-models)
-  - [D Model](#d-model)
+  - [D Model](#d-model-model)
   - [Link Model](#d-model-link)
   - [Response Model](#d-model-response)
 - [D Overlay](#d-overlay)
@@ -74,8 +74,10 @@ A library that brings together a harmonious blend of essential tools, utilities,
   - [HTTP Status Message](#d-parse-http-status-message)
   - [Exception Message](#d-parse-exception-message)
 - [D Runner](#d-runner)
-- [D Service](#d-service)
+- [D Services](#d-services)
   - [Middleware](#d-service-middleware)
+  - [Cors](#d-service-cors)
+  - [Header](#d-service-header)
   - [Random ID](#d-service-random-id)
 - [D Typedefs](#d-typedefs)
 - [D Widget](#d-widget-logo)
@@ -242,7 +244,6 @@ D Annotations is a set of class used as an indicator for `Dart Fusion CLI` model
 # D Assertions
 D Assertion is a set of assertion class used for performing assertions and validations.
 
-## <a name="d-assertions-usage"></a> Usage
 <a name="d-assertion-assert"></a>
 - **Assert**: The `Assert` class facilitates assertion checks based on boolean conditions. If the assertion fails, it throws an `Exception` with a provided message.
   
@@ -301,7 +302,6 @@ DBuilder(
 # D Exceptions
 D Exceptions is a set of exception class used in this library.
 
-## <a name="d-exceptions-usage"></a> Usage
 <a name="d-exception-type"></a>
 - **Type Exception**: An exception caused by failing to parse `Type`.
   
@@ -363,7 +363,7 @@ Extension on the Map<String, dynamic> value.
     JSON anotherJSON = {"primary": "10", "tertiary": "3"};
     print(json.merge(anotherJSON)); // {"primary": "10", "secondary": "2", "tertiary": "3"}
     ```
-  - <a name="d-extensions-json-of"></a> **Of** : Parse `dynamic` value in `JSON` to given [T] with an optional [onError] fallback.
+  - <a name="d-extensions-json-of"></a> **Of** : Parse `dynamic` value in `JSON` to given `Object` with an optional `onError` fallback.
     ```dart
     JSON value = {"primary": "1"};
     String primary = value.of<String>("primary");
@@ -371,7 +371,7 @@ Extension on the Map<String, dynamic> value.
     String secondary = value.of<String>("secondary", "No Data");
     print(secondary); // "No Data"
     ```
-  - <a name="d-extensions-json-maybe-of"></a> **Maybe of** : Parse `dynamic` value in `JSON` to given nullable [T].
+  - <a name="d-extensions-json-maybe-of"></a> **Maybe of** : Parse `dynamic` value in `JSON` to given nullable `Object`.
     ```dart
     JSON value = {"primary": "1"};
     String? primary = value.maybeOf<String>("primary");
@@ -423,23 +423,23 @@ A set of extension collection on `BuildContext`.
     ```
 ## <a name="d-extensions-request-context"></a> RequestContext Extension
 A set of extension collection on `RequestContext`.
-  - <a name="d-extensions-request-context-method"></a> **Method** : A shortcut to get [HttpMethod] out of [RequestContext].
+  - <a name="d-extensions-request-context-method"></a> **Method** : A shortcut to get `HttpMethod` out of `RequestContext`.
     ```dart
     HttpMethod method = context.method;
     ```
-  - <a name="d-extensions-request-context-isget"></a> **Is Get** : Check whether request method is [HttpMethod.get] or not.
+  - <a name="d-extensions-request-context-isget"></a> **Is Get** : Check whether request method is `HttpMethod.get` or not.
     ```dart
     bool isGET = context.isGET;
     ```
-  - <a name="d-extensions-request-context-ispost"></a> **Is Post** : Check whether request method is [HttpMethod.post] or not.
+  - <a name="d-extensions-request-context-ispost"></a> **Is Post** : Check whether request method is `HttpMethod.post` or not.
     ```dart
     bool isPOST = context.isPOST;
     ```
-  - <a name="d-extensions-request-context-isput"></a> **Is Put** : Check whether request method is [HttpMethod.put] or not.
+  - <a name="d-extensions-request-context-isput"></a> **Is Put** : Check whether request method is `HttpMethod.put` or not.
     ```dart
     bool isPUT = context.isPUT;
     ```
-  - <a name="d-extensions-request-context-isdelete"></a> **Is Delete** : Check whether request method is [HttpMethod.delete] or not.
+  - <a name="d-extensions-request-context-isdelete"></a> **Is Delete** : Check whether request method is `HttpMethod.delete` or not.
     ```dart
     bool isDELETE = context.isDELETE;
     ```
@@ -447,11 +447,11 @@ A set of extension collection on `RequestContext`.
     ```dart
     bool isWS = context.isWebSocket;
     ```
- - <a name="d-extensions-request-context-parameter"></a> **Parameter** : A shortcut to get parameter from [RequestContext].
+ - <a name="d-extensions-request-context-parameter"></a> **Parameter** : A shortcut to get parameter from `RequestContext`.
     ```dart
     JSON parameter = context.parameter;
     ```
- - <a name="d-extensions-request-context-header"></a> **Header** : A shortcut to get header from [RequestContext].
+ - <a name="d-extensions-request-context-header"></a> **Header** : A shortcut to get header from `RequestContext`.
     ```dart
     JSON parameter = context.parameter;
     ```
@@ -460,7 +460,7 @@ A set of extension collection on `RequestContext`.
     JWT jwt = await context.verify((key) => Env.read<String>(key));
     ```
 ## <a name="d-extensions-list"></a> List Extension
-A set of extension collection on [BuildContext].
+A set of extension collection on `BuildContext`.
   - <a name="d-extensions-list-to"></a> **To** : Generate key index and value of its items.
     ```dart
     List<String> texts = ["one", "two", "three"];
@@ -473,13 +473,13 @@ A set of extension collection on [BuildContext].
     print(sublist); // [2, 3]
     ```
 ## <a name="d-extensions-list-dmodel"></a> DModel List Extension
-Extending list of [DModel] to get its toJSON values.
+Extending list of `DModel` to get its toJSON values.
 ```dart
 List<DModel> dmodels = [DModel(), DModel()];
 List<JSON> jsons = dmodels.toJSON;
 ```
 ## <a name="d-extensions-string"></a> String Extension
-Capitalizing the first letter of [String].
+Capitalizing the first letter of `String`s.
 ```dart
 String word = 'magnificent'.capitalize;
 print(word); // Magnificent
@@ -515,27 +515,47 @@ DLog(e); // Exception: something
 ```
 ---
 
-# D Model
-Base dart model which consist `copyWith`, `toJSON`, `fromJSON` and `toString` value;
+# D Models
+A collection of `DModel` models.
 
-## <a name="d-model-usage"></a> Usage
-```dart
-class MyModel extends DModel {
-  @override
-  MyModel copyWith() {
-    return MyModel();
+<a name="d-model-model"></a>
+- **D Model**: Base dart model which consist `copyWith`, `toJSON`, `fromJSON` and `toString` value.
+  
+  ```dart
+  class MyModel extends DModel {
+    @override
+    MyModel copyWith() {
+      return MyModel();
+    }
+  
+    static MyModel fromJSON(JSON value) {
+      return MyModel();
+    }
+  
+    @override
+    JSON get toJSON {
+      return {};
+    }
   }
+  ```
+<a name="d-model-response"></a>
+- **Response Model**: Basic model in root of every `Response`, containing `success` status, `message` and also `data` that extends `DModel` class.
 
-  static MyModel fromJSON(JSON value) {
-    return MyModel();
-  }
-
-  @override
-  JSON get toJSON {
-    return {};
-  }
-}
-```
+  ```dart
+  ResponseModel(
+    success: true,
+    message: 'Successfully Fetching Data!',
+    data: const ResponseDataModel());
+  ```
+<a name="d-model-link"></a>
+- **Link Model**: Link reference used in `ResponseModel` to indicate the relationship of resources.
+  ```dart
+  LinkModel(
+    method: HttpMethod.get,
+    description: 'Read User Detail',
+    reference: '/user/123');
+  ```
+---
 
 # D Overlay
 A builder widget that displays an overlay.
@@ -593,7 +613,7 @@ Set this in your root main.dart
 
 ---
 
-# D Service
+# D Services
 A set of service collection mosty used in dart backend.
 
 ## <a name="d-service-middleware"></a> MiddleWare
@@ -609,6 +629,32 @@ Middleware for handling requests and responses in `Dart Frog`. This middleware s
 >   );
 > }
 > ```
+
+## <a name="d-service-cors"></a> Cors
+Configuration class for defining Cross-Origin Resource Sharing (CORS) policies in a Dart backend application.
+> **File:** `_middleware.dart`
+> 
+> ```dart
+> Handler middleware(Handler handler) {
+>   return handler.use(
+>     Cors(
+>       accessControlAllowOrigin: ['*'],
+>       accessControlAllowMethods: [HttpMethod.get, HttpMethod.post],
+>       accessControlAllowHeaders: [Header.contentType, Header.authorization],
+>       accessControlAllowCredentials: false,
+>       accessControlExposeHeaders: [Header.date],
+>       accessControlMaxAge: Duration(hours: 24)
+>     ).handler,
+>   );
+> }
+> ```
+
+## <a name="d-service-header"></a> Header
+Abstract class representing headers used in CORS policies. It has 98 child class extending this class.
+```dart
+Header header = ContentType();
+print(header); // 'Content-Type'
+```
 
 ## <a name="d-service-random-id"></a> Random ID
 Generate simple random key identifier
