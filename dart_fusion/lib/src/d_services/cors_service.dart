@@ -5,35 +5,32 @@ part of '../../dart_fusion.dart';
 /// Use the [Cors] class to specify CORS policy settings for handling cross-origin requests in a Dart backend application.
 class Cors extends DModel {
   /// Constructs a [Cors] instance with specified CORS policy settings.
-  ///
-  /// By default, allows requests from any origin ('*'), doesn't specify allowed methods or headers,
-  /// allows credentials, doesn't expose additional headers, and sets a maximum age of 24 hours.
   const Cors({
-    this.accessControlAllowOrigin = const ['*'],
-    this.accessControlAllowMethods = const [],
-    this.accessControlAllowHeaders = const [Header.contentType],
-    this.accessControlAllowCredentials = false,
-    this.accessControlExposeHeaders = const [],
-    this.accessControlMaxAge = const Duration(hours: 24),
+    this.accessControlAllowOrigin,
+    this.accessControlAllowMethods,
+    this.accessControlAllowHeaders,
+    this.accessControlAllowCredentials,
+    this.accessControlExposeHeaders,
+    this.accessControlMaxAge,
   });
 
   /// List of allowed origins for CORS requests.
-  final List<String> accessControlAllowOrigin;
+  final List<String>? accessControlAllowOrigin;
 
   /// List of allowed HTTP methods for CORS requests.
-  final List<HttpMethod> accessControlAllowMethods;
+  final List<HttpMethod>? accessControlAllowMethods;
 
   /// List of allowed headers for CORS requests.
-  final List<Header> accessControlAllowHeaders;
+  final List<Header>? accessControlAllowHeaders;
 
   /// Indicates whether credentials (such as cookies or HTTP authentication) are allowed for CORS requests.
-  final bool accessControlAllowCredentials;
+  final bool? accessControlAllowCredentials;
 
   /// List of headers exposed to the browser in CORS responses.
-  final List<Header> accessControlExposeHeaders;
+  final List<Header>? accessControlExposeHeaders;
 
   /// Maximum duration (in seconds) that the CORS preflight response should be cached.
-  final Duration accessControlMaxAge;
+  final Duration? accessControlMaxAge;
 
   @override
   Cors copyWith({
@@ -62,12 +59,12 @@ class Cors extends DModel {
   static Cors fromJSON(JSON value) {
     return Cors(
       accessControlAllowCredentials:
-          value.of('Access-Control-Allow-Credentials'),
+          value.maybeOf('Access-Control-Allow-Credentials'),
       accessControlAllowOrigin:
-          value.of<String>('Access-Control-Allow-Origin').split(', '),
+          value.maybeOf<String>('Access-Control-Allow-Origin')?.split(', '),
       accessControlAllowMethods: value
-          .of<String>('Access-Control-Allow-Methods')
-          .split(', ')
+          .maybeOf<String>('Access-Control-Allow-Methods')
+          ?.split(', ')
           .map(
             (e) => HttpMethod.values.firstWhere(
               (f) => f.name.toUpperCase() == e.toUpperCase(),
@@ -76,16 +73,16 @@ class Cors extends DModel {
           )
           .toList(),
       accessControlMaxAge:
-          Duration(seconds: value.of('Access-Control-Max-Age')),
+          value.maybeOf<int>('Access-Control-Max-Age')?.toDuration(),
       accessControlAllowHeaders: value
-          .of<String>('Access-Control-Allow-Headers')
-          .replaceAll('-', '')
+          .maybeOf<String>('Access-Control-Allow-Headers')
+          ?.replaceAll('-', '')
           .split(', ')
           .map((e) => Header.fromJSON({'model_type': e}))
           .toList(),
       accessControlExposeHeaders: value
-          .of<String>('Access-Control-Expose-Headers')
-          .replaceAll('-', '')
+          .maybeOf<String>('Access-Control-Expose-Headers')
+          ?.replaceAll('-', '')
           .split(', ')
           .map((e) => Header.fromJSON({'model_type': e}))
           .toList(),
@@ -102,13 +99,16 @@ class Cors extends DModel {
     final acma = accessControlMaxAge;
     String toString(HttpMethod e) => e.name.toUpperCase();
     return {
-      if (acao.isNotEmpty) 'Access-Control-Allow-Origin': acao.join(', '),
-      if (acam.isNotEmpty)
+      if (acao != null && acao.isNotEmpty)
+        'Access-Control-Allow-Origin': acao.join(', '),
+      if (acam != null && acam.isNotEmpty)
         'Access-Control-Allow-Methods': acam.map(toString).join(', '),
-      if (acah.isNotEmpty) 'Access-Control-Allow-Headers': acah.join(', '),
-      'Access-Control-Allow-Credentials': '$acac',
-      if (aceh.isNotEmpty) 'Access-Control-Expose-Headers': aceh.join(', '),
-      'Access-Control-Max-Age': '${acma.inSeconds}',
+      if (acah != null && acah.isNotEmpty)
+        'Access-Control-Allow-Headers': acah.join(', '),
+      if (acac != null) 'Access-Control-Allow-Credentials': '$acac',
+      if (aceh != null && aceh.isNotEmpty)
+        'Access-Control-Expose-Headers': aceh.join(', '),
+      if (acma != null) 'Access-Control-Max-Age': '${acma.inSeconds}',
     };
   }
 
@@ -118,19 +118,21 @@ class Cors extends DModel {
     required Cors cors,
   }) {
     final origin = context.request.headers['Origin'];
-    final isAllAllowed = cors.accessControlAllowOrigin.contains('*') ||
-        cors.accessControlAllowOrigin.isEmpty;
-    final isOneAllowed = cors.accessControlAllowOrigin.any((e) {
-      if (origin != null) {
-        final encode = e
-            .replaceAll('.', r'\.')
-            .replaceAll('/', r'\/')
-            .replaceAll('*', '.*');
-        return RegExp('^$encode\$').hasMatch(origin);
-      } else {
-        return false;
-      }
-    });
+    final allowOrigin = cors.accessControlAllowOrigin;
+    final isAllAllowed =
+        allowOrigin == null || allowOrigin.contains('*') || allowOrigin.isEmpty;
+    final isOneAllowed = allowOrigin != null &&
+        allowOrigin.any((e) {
+          if (origin != null) {
+            final encode = e
+                .replaceAll('.', r'\.')
+                .replaceAll('/', r'\/')
+                .replaceAll('*', '.*');
+            return RegExp('^$encode\$').hasMatch(origin);
+          } else {
+            return false;
+          }
+        });
     return isAllAllowed || isOneAllowed;
   }
 
@@ -139,9 +141,10 @@ class Cors extends DModel {
     RequestContext context, {
     required Cors cors,
   }) {
-    final isAllAllowed = cors.accessControlAllowMethods.isEmpty;
+    final allowMethod = cors.accessControlAllowMethods;
+    final isAllAllowed = allowMethod == null || allowMethod.isEmpty;
     final isOneAllowed =
-        cors.accessControlAllowMethods.contains(context.request.method);
+        allowMethod != null && allowMethod.contains(context.request.method);
     return isAllAllowed || isOneAllowed;
   }
 
@@ -154,8 +157,10 @@ class Cors extends DModel {
       for (final key in context.request.headers.keys)
         Header.fromJSON({'model_type': key}),
     ];
-    final isAllAllowed = cors.accessControlAllowHeaders.isEmpty;
-    final isOneAllowed = cors.accessControlAllowHeaders.any(headers.contains);
+    final allowHeader = cors.accessControlAllowHeaders;
+    final isAllAllowed = allowHeader == null || allowHeader.isEmpty;
+    final isOneAllowed =
+        allowHeader != null && allowHeader.any(headers.contains);
     return isAllAllowed || isOneAllowed;
   }
 
@@ -164,10 +169,12 @@ class Cors extends DModel {
     RequestContext context, {
     required Cors cors,
   }) {
-    final isAllAlowed = !cors.accessControlAllowCredentials;
-    final isOneAllowed = (!cors.accessControlAllowOrigin.contains('*') ||
-            !cors.accessControlAllowOrigin.isEmpty) &&
-        cors.accessControlAllowCredentials;
+    final allowCredential = cors.accessControlAllowCredentials;
+    final allowOrigin = cors.accessControlAllowOrigin;
+    final isAllAlowed = allowCredential == null || allowCredential == false;
+    final isOneAllowed = allowOrigin != null &&
+        ((allowOrigin.contains('*') == false || allowOrigin.isNotEmpty)) &&
+        allowCredential == true;
     return isAllAlowed || isOneAllowed;
   }
 
@@ -177,10 +184,11 @@ class Cors extends DModel {
       var response = await handler(context);
       response = response.copyWith(
         headers: {
-          ...response.headers,
           ...toJSON,
+          ...response.headers,
         },
       );
+
       final cors = Cors.fromJSON(response.headers);
 
       Assert.list(
