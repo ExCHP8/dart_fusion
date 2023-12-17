@@ -26,6 +26,7 @@ part 'src/d_models/link_model.dart';
 part 'src/d_models/response_model.dart';
 part 'src/d_parse.dart';
 part 'src/d_services/d_service.dart';
+part 'src/d_services/middleware_service.dart';
 part 'src/d_services/cors_service.dart';
 part 'src/d_services/header_service.dart';
 part 'src/d_typedefs.dart';
