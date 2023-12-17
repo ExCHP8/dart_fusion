@@ -9,17 +9,22 @@ class ResponseAssert extends Assert {
   ///
   /// The [statusCode] parameter sets the HTTP status code for the response
   /// if the assertion fails. The default status code is 400 (Bad Request).
-  ResponseAssert(bool assertion, String message, {this.statusCode = 400})
+  ResponseAssert(bool assertion, String message,
+      {this.statusCode = 400, this.headers = const {}})
       : super(assertion, message);
 
   /// The HTTP status code for the response if the assertion fails.
   final int statusCode;
 
+  /// Header for [Response].
+  final Map<String, String> headers;
+
   @override
   void _run() {
-    if (!assertion) {
+    if (!assertion && children.isEmpty) {
       throw ResponseException(
         response: Response.json(
+          headers: headers,
           statusCode: statusCode,
           body: ResponseModel(
             message: message,
@@ -31,6 +36,7 @@ class ResponseAssert extends Assert {
 
   @override
   JSON get toJSON => {
+        'headers': headers,
         'status_code': statusCode,
         ...super.toJSON,
       };
@@ -40,6 +46,7 @@ class ResponseAssert extends Assert {
       value.of('assertion', true),
       value.of('message'),
       statusCode: value.of('status_code', 400),
+      headers: value.of('headers', {}),
     );
   }
 

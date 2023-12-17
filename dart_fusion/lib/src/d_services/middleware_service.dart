@@ -65,8 +65,8 @@ class DMiddleware extends DModel {
       } on ResponseException catch (e) {
         return e.response;
       } catch (e) {
-        Response? response;
         // [6] Return uncaught event
+        Response? response;
 
         try {
           response = await handler(context);
