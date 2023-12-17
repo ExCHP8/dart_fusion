@@ -19,6 +19,7 @@ part 'src/d_extensions/json_extension.dart';
 part 'src/d_extensions/list_extension.dart';
 part 'src/d_extensions/number_extension.dart';
 part 'src/d_extensions/request_context_extension.dart';
+part 'src/d_extensions/response_extension.dart';
 part 'src/d_extensions/string_extension.dart';
 part 'src/d_log.dart';
 part 'src/d_models/d_model.dart';

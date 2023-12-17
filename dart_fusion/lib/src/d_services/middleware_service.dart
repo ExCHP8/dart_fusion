@@ -28,7 +28,7 @@ class DMiddleware extends DModel {
 
           // [4] Return successful response
           if (response.statusCode >= 200 && response.statusCode < 300) {
-            final json = await response.json() as JSON? ?? {};
+            final json = (await response.json()) as JSON? ?? {};
             return Response.json(
               headers: response.headers,
               body: json['model_type'] == 'ResponseModel'
@@ -41,23 +41,17 @@ class DMiddleware extends DModel {
             );
           } else {
             // [5] Return failed response
-            final body = await response.body();
-            bool isHavingMessage() {
-              try {
-                return (jsonDecode(body) as JSON).isNotEmpty;
-              } catch (e) {
-                return body.isNotEmpty;
-              }
-            }
-
+            final json = (await response.json()) as JSON? ?? {};
             throw ResponseException(
               response: Response.json(
                 headers: response.headers,
                 statusCode: response.statusCode,
-                body: ResponseModel(
-                  message: DParse.httpStatusMessage(response.statusCode) +
-                      (isHavingMessage() ? '\n\n --- \n\n$body' : body),
-                ).toJSON,
+                body: json['model_type'] == 'ResponseModel'
+                    ? json
+                    : ResponseModel(
+                        message: DParse.httpStatusMessage(response.statusCode),
+                        data: json,
+                      ).toJSON,
               ),
             );
           }

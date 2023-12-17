@@ -111,3 +111,6 @@
 * Add try parse primitive object from string
 * Fix Cors.fromJSON parser
 * Update `DMiddleware`
+* Update `ResponseAssertion`
+* Add `ResponseAssertExtension`
+* Update `CORS` handler

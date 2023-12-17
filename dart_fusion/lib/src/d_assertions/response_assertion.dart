@@ -17,7 +17,7 @@ class ResponseAssert extends Assert {
   final int statusCode;
 
   /// Header for [Response].
-  final Map<String, String> headers;
+  final Map<String, Object> headers;
 
   @override
   void _run() {
@@ -55,11 +55,13 @@ class ResponseAssert extends Assert {
     bool? assertion,
     String? message,
     int? statusCode,
+    Map<String, String>? headers,
   }) {
     return ResponseAssert(
       assertion ?? this.assertion,
       message ?? this.message,
       statusCode: statusCode ?? this.statusCode,
+      headers: headers ?? this.headers,
     );
   }
 }

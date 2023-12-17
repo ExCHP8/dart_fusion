@@ -206,47 +206,58 @@ class Cors extends DModel {
   /// Handler method to validate CORS policies and modify response headers.
   Handler handler(Handler handler) {
     return (context) async {
-      var response = await handler(context);
-      response = response.copyWith(
-        headers: {
+      try {
+        var response = await handler(context);
+        response = response.copyWith(
+          headers: {
+            ...Cors.byDefault().toHeader,
+            ...toJSON,
+            ...response.headers,
+          },
+        );
+
+        final cors = Cors.fromJSON(response.headers);
+
+        Assert.list(
+          children: [
+            response.assertion(
+              context.request.headers['Origin'] != null,
+              'Missing Origin header in the request.',
+              statusCode: 400,
+            ),
+            response.assertion(
+              isOriginAllowed(context, cors: cors),
+              'Access denied for this origin.',
+              statusCode: 403,
+            ),
+            response.assertion(
+              isMethodAllowed(context, cors: cors),
+              'Requested HTTP method is not allowed for this resource.',
+              statusCode: 405,
+            ),
+            // Assert.response(
+            //   isHeaderAllowed(context, cors: cors),
+            //   'Requested headers are not allowed by the CORS policy.',
+            //   statusCode: 403,
+            // )
+            response.assertion(
+              isCredentialAllowed(context, cors: cors),
+              'Conflict between Allow-Credentials and Allow-Origin.',
+              statusCode: 500,
+            ),
+          ],
+        );
+
+        return response;
+      } on ResponseException catch (e) {
+        return e.response.copyWith(headers: {
           ...Cors.byDefault().toHeader,
           ...toJSON,
-          ...response.headers,
-        },
-      );
-
-      final cors = Cors.fromJSON(response.headers);
-
-      Assert.list(
-        children: [
-          Assert.response(
-            context.request.headers['Origin'] != null,
-            'Missing Origin header in the request.',
-          ),
-          Assert.response(
-            isOriginAllowed(context, cors: cors),
-            'Access denied for this origin.',
-            statusCode: 403,
-          ),
-          Assert.response(
-            isMethodAllowed(context, cors: cors),
-            'Requested HTTP method is not allowed for this resource.',
-            statusCode: 405,
-          ),
-          // Assert.response(
-          //   isHeaderAllowed(context, cors: cors),
-          //   'Requested headers are not allowed by the CORS policy.',
-          //   statusCode: 403,
-          // )
-          Assert.response(
-            isCredentialAllowed(context, cors: cors),
-            'Conflict between Allow-Credentials and Allow-Origin.',
-            statusCode: 500,
-          ),
-        ],
-      );
-
-      return response;
+          ...e.response.headers,
+        });
+      } catch (e) {
+        throw e;
+      }
     };
   }
 }

@@ -57,11 +57,13 @@ class Assert extends DModel {
     bool assertion,
     String message, {
     int statusCode = 400,
+    Map<String, Object> headers = const {},
   }) {
     return ResponseAssert(
       assertion,
       message,
       statusCode: statusCode,
+      headers: headers,
     );
   }
 
