@@ -216,6 +216,7 @@ class Cors extends DModel {
       );
 
       final cors = Cors.fromJSON(response.headers);
+      print("CORS: ${cors.toJSON}");
 
       Assert.list(
         children: [
