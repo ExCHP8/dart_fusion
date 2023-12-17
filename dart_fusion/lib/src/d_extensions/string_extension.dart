@@ -36,4 +36,20 @@ extension StringExtension on String {
     return RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z]{2,})+$')
         .hasMatch(this);
   }
+
+  /// Try parse [bool] from [String].
+  bool? get parseBoolean => bool.tryParse(this);
+
+  /// Try parse [DateTime] from [String].
+  DateTime? get parseDatetime => DateTime.tryParse(this);
+
+  /// Try parse [int] from [String].
+  int? get parseInteger => int.tryParse(this);
+
+  /// Try parse [double] from [String].
+  double? get parseDouble => double.tryParse(this);
+
+  /// Try parse [Duration] from [String].
+  Duration? parseDuration({DurationType type = DurationType.seconds}) =>
+      int.tryParse(this)?.toDuration(type: type);
 }

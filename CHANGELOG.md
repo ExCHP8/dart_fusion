@@ -108,3 +108,5 @@
 * Update readme
 ## 3.1.4
 * Add cors default values,
+* Add try parse primitive object from string
+* Fix Cors.fromJSON parser
