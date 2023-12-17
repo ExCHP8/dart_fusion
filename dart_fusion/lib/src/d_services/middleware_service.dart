@@ -14,10 +14,11 @@ class DMiddleware extends DModel {
   ///
   /// [handler] is the main request handler.
   /// [certificate] is an optional function for certificate verification.
-  Handler handler({required Handler handler}) {
+  Handler handler(Handler handler) {
     return (context) async {
-      final response = await handler(context);
       try {
+        final response = await handler(context);
+
         // [2] Return Websocket
         if (context.isWebSocket) {
           return response;
@@ -65,6 +66,7 @@ class DMiddleware extends DModel {
         return e.response;
       } catch (e) {
         // [6] Return uncaught event
+        final response = await handler(context);
         return Response.json(
           headers: response.headers,
           statusCode: 400,
