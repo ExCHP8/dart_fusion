@@ -149,6 +149,8 @@ abstract class Header extends DModel {
         return const SecWebSocketVersionParentId();
       case 'SecWebSocketVersionNonce':
         return const SecWebSocketVersionNonce();
+      case 'XCustomHeader':
+        return const XCustomHeader();
       case 'XWebKitCSP':
         return const XWebKitCSP();
       case 'XPermittedCrossDomainPolicy':
@@ -430,6 +432,9 @@ abstract class Header extends DModel {
   /// Represents the 'Sec-WebSocket-Version-Nonce' header.
   static const SecWebSocketVersionNonce secWebSocketVersionNonce =
       SecWebSocketVersionNonce();
+
+  /// Represents the 'X-Custom-Header' header.
+  static const XCustomHeader xCustomHeader = XCustomHeader();
 
   /// Represents the 'X-WebKit-CSP' header.
   static const XWebKitCSP xWebKitCSP = XWebKitCSP();
@@ -1230,6 +1235,16 @@ class SecWebSocketVersionNonce extends Header {
   /// Default constructor of [SecWebSocketVersionNonce] to be used
   /// in [Cors] allowed header and expose header parameter.
   const SecWebSocketVersionNonce();
+}
+
+/// Represents the 'X-Custom-Header' header.
+///
+/// The `X-Custom-Header` header provides custom information for communication.
+class XCustomHeader extends Header {
+  /// Default constructor for [XCustomHeader].
+  ///
+  /// This header allows for custom data to be transmitted in requests or responses.
+  const XCustomHeader();
 }
 
 /// Represents the 'X-WebKit-CSP' header.

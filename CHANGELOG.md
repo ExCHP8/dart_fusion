@@ -106,3 +106,5 @@
 * Add `Header` models
 * Update dart doc
 * Update readme
+## 3.1.4
+* Add cors default values,

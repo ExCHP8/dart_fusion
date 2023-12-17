@@ -14,6 +14,27 @@ class Cors extends DModel {
     this.accessControlMaxAge,
   });
 
+  Cors.byDefault()
+      : this(
+          accessControlAllowCredentials: false,
+          accessControlAllowHeaders: [
+            Header.accept,
+            Header.acceptLanguage,
+            Header.contentLanguage,
+            Header.contentType,
+          ],
+          accessControlAllowMethods: [
+            HttpMethod.get,
+            HttpMethod.post,
+            HttpMethod.head,
+          ],
+          accessControlAllowOrigin: ['*'],
+          accessControlMaxAge: Duration(days: 1),
+          accessControlExposeHeaders: [
+            Header.xCustomHeader,
+          ],
+        );
+
   /// List of allowed origins for CORS requests.
   final List<String>? accessControlAllowOrigin;
 
@@ -112,6 +133,9 @@ class Cors extends DModel {
     };
   }
 
+  /// Convert type of [toJSON] method into a compatible header type.
+  Map<String, Object> get toHeader => <String, Object>{...toJSON};
+
   /// Checks if the origin is allowed based on the CORS configuration.
   bool isOriginAllowed(
     RequestContext context, {
@@ -184,6 +208,7 @@ class Cors extends DModel {
       var response = await handler(context);
       response = response.copyWith(
         headers: {
+          ...Cors.byDefault().toHeader,
           ...toJSON,
           ...response.headers,
         },
