@@ -65,10 +65,17 @@ class DMiddleware extends DModel {
       } on ResponseException catch (e) {
         return e.response;
       } catch (e) {
+        Response? response;
         // [6] Return uncaught event
-        final response = await handler(context);
+
+        try {
+          response = await handler(context);
+        } catch (e) {
+          response = null;
+        }
+
         return Response.json(
-          headers: response.headers,
+          headers: response?.headers ?? {},
           statusCode: 400,
           body: ResponseModel(
             message: DParse.exceptionMessage('$e'),
