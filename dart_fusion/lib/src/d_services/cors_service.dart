@@ -248,12 +248,16 @@ class Cors extends DModel {
           ],
         );
 
-        return response;
+        return response.copyWith(headers: {
+          ...response.headers,
+          'Access-Control-Allow-Origin': context.request.headers['Origin'],
+        });
       } on ResponseException catch (e) {
         return e.response.copyWith(headers: {
           ...Cors.byDefault().toHeader,
           ...toJSON,
           ...e.response.headers,
+          'Access-Control-Allow-Origin': context.request.headers['Origin'],
         });
       } catch (e) {
         throw e;
