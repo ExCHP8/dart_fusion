@@ -80,12 +80,12 @@ class Cors extends DModel {
   static Cors fromJSON(JSON value) {
     return Cors(
       accessControlAllowCredentials: value
-          .maybeOf<String>('Access-Control-Allow-Credentials')
+          .maybeOf<String>('access-control-allow-credentials')
           ?.parseBoolean,
       accessControlAllowOrigin:
-          value.maybeOf<String>('Access-Control-Allow-Origin')?.split(', '),
+          value.maybeOf<String>('access-control-allow-origin')?.split(', '),
       accessControlAllowMethods: value
-          .maybeOf<String>('Access-Control-Allow-Methods')
+          .maybeOf<String>('access-control-allow-methods')
           ?.split(', ')
           .map(
             (e) => HttpMethod.values.firstWhere(
@@ -95,15 +95,15 @@ class Cors extends DModel {
           )
           .toList(),
       accessControlMaxAge:
-          value.maybeOf<String>('Access-Control-Max-Age')?.parseDuration(),
+          value.maybeOf<String>('access-control-max-age')?.parseDuration(),
       accessControlAllowHeaders: value
-          .maybeOf<String>('Access-Control-Allow-Headers')
+          .maybeOf<String>('access-control-allow-headers')
           ?.replaceAll('-', '')
           .split(', ')
           .map((e) => Header.fromJSON({'model_type': e}))
           .toList(),
       accessControlExposeHeaders: value
-          .maybeOf<String>('Access-Control-Expose-Headers')
+          .maybeOf<String>('access-control-expose-headers')
           ?.replaceAll('-', '')
           .split(', ')
           .map((e) => Header.fromJSON({'model_type': e}))
@@ -122,15 +122,15 @@ class Cors extends DModel {
     String toString(HttpMethod e) => e.name.toUpperCase();
     return {
       if (acao != null && acao.isNotEmpty)
-        'Access-Control-Allow-Origin': acao.join(', '),
+        'access-control-allow-origin': acao.join(', '),
       if (acam != null && acam.isNotEmpty)
-        'Access-Control-Allow-Methods': acam.map(toString).join(', '),
+        'access-control-allow-methods': acam.map(toString).join(', '),
       if (acah != null && acah.isNotEmpty)
-        'Access-Control-Allow-Headers': acah.join(', '),
-      if (acac != null) 'Access-Control-Allow-Credentials': '$acac',
+        'access-control-allow-headers': acah.join(', '),
+      if (acac != null) 'access-control-allow-credentials': '$acac',
       if (aceh != null && aceh.isNotEmpty)
-        'Access-Control-Expose-Headers': aceh.join(', '),
-      if (acma != null) 'Access-Control-Max-Age': '${acma.inSeconds}',
+        'access-control-expose-headers': aceh.join(', '),
+      if (acma != null) 'access-control-max-age': '${acma.inSeconds}',
     };
   }
 
@@ -206,7 +206,7 @@ class Cors extends DModel {
   /// Handler method to validate CORS policies and modify response headers.
   Handler handler(Handler handler) {
     String addOption(Map<String, Object> header) {
-      String method = header['Access-Control-Allow-Methods']?.toString() ?? '';
+      String method = header['access-control-allow-methods']?.toString() ?? '';
       return method.contains('OPTIONS') ? method : method + ', OPTIONS';
     }
 
@@ -255,8 +255,8 @@ class Cors extends DModel {
 
         return response.copyWith(headers: {
           ...response.headers,
-          'Access-Control-Allow-Origin': context.request.headers['Origin'],
-          'Access-Control-Allow-Methods': addOption(response.headers)
+          'access-control-allow-origin': context.request.headers['Origin'],
+          'access-control-allow-methods': addOption(response.headers)
         });
       } on ResponseException catch (e) {
         final header = <String, Object>{
@@ -266,8 +266,8 @@ class Cors extends DModel {
         };
         return e.response.copyWith(headers: {
           ...header,
-          'Access-Control-Allow-Origin': context.request.headers['Origin'],
-          'Access-Control-Allow-Methods': addOption(header)
+          'access-control-allow-origin': context.request.headers['Origin'],
+          'access-control-allow-methods': addOption(header)
         });
       } catch (e) {
         throw e;
