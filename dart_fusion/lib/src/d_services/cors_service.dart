@@ -205,6 +205,11 @@ class Cors extends DModel {
 
   /// Handler method to validate CORS policies and modify response headers.
   Handler handler(Handler handler) {
+    String addOption(Map<String, Object> header) {
+      String method = header['Access-Control-Allow-Methods']?.toString() ?? '';
+      return method.contains('OPTIONS') ? method : method + ', OPTIONS';
+    }
+
     return (context) async {
       try {
         var response = await handler(context);
@@ -251,13 +256,18 @@ class Cors extends DModel {
         return response.copyWith(headers: {
           ...response.headers,
           'Access-Control-Allow-Origin': context.request.headers['Origin'],
+          'Access-Control-Allow-Methods': addOption(response.headers)
         });
       } on ResponseException catch (e) {
-        return e.response.copyWith(headers: {
+        final header = <String, Object>{
           ...Cors.byDefault().toHeader,
           ...toJSON,
           ...e.response.headers,
+        };
+        return e.response.copyWith(headers: {
+          ...header,
           'Access-Control-Allow-Origin': context.request.headers['Origin'],
+          'Access-Control-Allow-Methods': addOption(header)
         });
       } catch (e) {
         throw e;
