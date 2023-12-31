@@ -94,13 +94,13 @@ dependencies:
   dart_fusion:
     git:
       url: https://github.com/Nialixus/dart_fusion.git
-      parth: dart_fusion
+      part: dart_fusion
       ## Optional with version
       ref: v3.1.3
   dart_fusion_flutter:
     git:
       url: https://github.com/Nialixus/dart_fusion.git
-      parth: dart_fusion_flutter
+      part: dart_fusion_flutter
       ## Optional with version
       ref: v3.1.3
 ```
