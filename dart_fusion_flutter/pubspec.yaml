@@ -22,7 +22,9 @@ environment:
 
 dependencies:
   dart_fusion:
-    path: ../dart_fusion
+    git:
+      url: https://github.com/Nialixus/dart_fusion.git
+      path: dart_fusion
   flutter:
     sdk: flutter
   flutter_svg: ^2.0.9
