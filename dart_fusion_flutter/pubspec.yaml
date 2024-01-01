@@ -25,6 +25,7 @@ dependencies:
     git:
       url: https://github.com/Nialixus/dart_fusion.git
       path: dart_fusion
+      ref: v3.1.4
   flutter:
     sdk: flutter
   flutter_svg: ^2.0.9
