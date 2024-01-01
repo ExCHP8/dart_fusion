@@ -11,6 +11,8 @@ import 'package:dart_fusion_flutter/src/d_process/d_process_io.dart'
     if (dart.library.js) 'package:dart_fusion_flutter/src/d_process/d_process.dart'
     if (dart.library.html) 'package:dart_fusion_flutter/src/d_process/d_process.dart';
 
+export 'package:dart_fusion/dart_fusion.dart';
+
 part 'src/d_behavior.dart';
 part 'src/d_builder.dart';
 part 'src/d_buttons/d_button.dart';

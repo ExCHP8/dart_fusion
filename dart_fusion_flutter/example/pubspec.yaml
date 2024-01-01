@@ -8,10 +8,6 @@ environment:
 
 dependencies:
   cupertino_icons: ^1.0.2
-  dart_fusion:
-    git:
-      url: https://github.com/Nialixus/dart_fusion.git
-      path: dart_fusion
   dart_fusion_flutter:
     git:
       url: https://github.com/Nialixus/dart_fusion.git
@@ -27,7 +23,7 @@ dev_dependencies:
 
 flutter:
   assets:
-    - assets/translation//
+    - assets/translation/
     - assets/image/icon/
     - assets/image/background/
     - assets/image/

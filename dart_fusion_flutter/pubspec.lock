@@ -94,7 +94,7 @@ packages:
     description:
       path: dart_fusion
       ref: HEAD
-      resolved-ref: c25070b77f8fec6ea58d2bf6e6de1afb7de87be9
+      resolved-ref: "84d913218163042318626045ec4575533e12860d"
       url: "https://github.com/Nialixus/dart_fusion.git"
     source: git
     version: "3.1.3"
