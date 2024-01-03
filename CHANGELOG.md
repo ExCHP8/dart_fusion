@@ -114,3 +114,5 @@
 * Update `ResponseAssertion`
 * Add `ResponseAssertExtension`
 * Update `CORS` handler
+## 3.1.5
+* Add get random item from list

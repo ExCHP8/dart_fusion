@@ -24,6 +24,9 @@ extension ListExtension<OldValue extends Object?> on List<OldValue> {
             ? sublist(start, this.length)
             : sublist(start, end);
   }
+
+  /// A shortcut to get random item inside list.
+  OldValue get random => this[Random().nextInt(length)];
 }
 
 /// An extension of [DModel] list.
