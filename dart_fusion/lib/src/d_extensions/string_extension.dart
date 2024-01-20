@@ -17,10 +17,10 @@ extension StringExtension on String {
   /// Returns the string with the first letter capitalized.
   ///
   /// ```dart
-  /// String word = 'magnificent'.capitalize;
+  /// String word = 'magnificent'.toCamelCase();
   /// print(word); // Magnificent
   /// ```
-  String get capitalize {
+  String toCamelCase() {
     try {
       return this[0].toUpperCase() + substring(1, length);
     } catch (e) {
@@ -38,18 +38,18 @@ extension StringExtension on String {
   }
 
   /// Try parse [bool] from [String].
-  bool? get parseBoolean => bool.tryParse(this);
+  bool? toBool() => bool.tryParse(this);
 
   /// Try parse [DateTime] from [String].
-  DateTime? get parseDatetime => DateTime.tryParse(this);
+  DateTime? toDateTime() => DateTime.tryParse(this);
 
   /// Try parse [int] from [String].
-  int? get parseInteger => int.tryParse(this);
+  int? toInt() => int.tryParse(this);
 
   /// Try parse [double] from [String].
-  double? get parseDouble => double.tryParse(this);
+  double? toDouble() => double.tryParse(this);
 
   /// Try parse [Duration] from [String].
-  Duration? parseDuration({DurationType type = DurationType.seconds}) =>
+  Duration? toDuration({DurationType type = DurationType.seconds}) =>
       int.tryParse(this)?.toDuration(type: type);
 }

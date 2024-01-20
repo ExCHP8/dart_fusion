@@ -79,9 +79,8 @@ class Cors extends DModel {
 
   static Cors fromJSON(JSON value) {
     return Cors(
-      accessControlAllowCredentials: value
-          .maybeOf<String>('access-control-allow-credentials')
-          ?.parseBoolean,
+      accessControlAllowCredentials:
+          value.maybeOf<String>('access-control-allow-credentials')?.toBool(),
       accessControlAllowOrigin:
           value.maybeOf<String>('access-control-allow-origin')?.split(', '),
       accessControlAllowMethods: value
@@ -95,7 +94,7 @@ class Cors extends DModel {
           )
           .toList(),
       accessControlMaxAge:
-          value.maybeOf<String>('access-control-max-age')?.parseDuration(),
+          value.maybeOf<String>('access-control-max-age')?.toDuration(),
       accessControlAllowHeaders: value
           .maybeOf<String>('access-control-allow-headers')
           ?.replaceAll('-', '')
