@@ -96,13 +96,16 @@ dependencies:
       url: https://github.com/Nialixus/dart_fusion.git
       part: dart_fusion
       ## Optional with version
-      ref: v3.1.3
+      ref: v3.1.6
+
+  # or import this one instead
+  
   dart_fusion_flutter:
     git:
       url: https://github.com/Nialixus/dart_fusion.git
       part: dart_fusion_flutter
       ## Optional with version
-      ref: v3.1.3
+      ref: v3.1.6
 ```
 
 also run this command in terminal

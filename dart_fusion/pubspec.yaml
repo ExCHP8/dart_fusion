@@ -1,7 +1,7 @@
 name: dart_fusion
 description: A library that brings together a harmonious blend of essential
   tools, utilities, and components designed to supercharge your Dart projects.
-version: 3.1.5
+version: 3.1.6
 executables:
   dart_fusion: dart_fusion
 homepage: https://inidia.app

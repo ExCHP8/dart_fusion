@@ -40,35 +40,32 @@ extension JSONExtension on JSON {
   /// print(secondary); // "No Data"
   /// ```
   T of<T extends Object>(String key, [T? onError]) {
-    switch (T) {
-      case int:
-        return (int.tryParse(this[key].toString()) ?? onError ?? 0) as T;
-      case double:
-        return (double.tryParse(this[key].toString()) ?? onError ?? 0.0) as T;
-      case bool:
-        return (bool.tryParse(this[key].toString()) ?? onError ?? false) as T;
-      case String:
-        return (this[key]?.toString() ?? onError ?? '') as T;
-      case JSON:
-        try {
-          return this[key] as T;
-        } catch (e) {
-          return onError ?? <JSON>{} as T;
-        }
-      case List:
-        return this[key] is List ? this[key] : onError ?? [] as T;
-      case DateTime:
-        return (DateTime.tryParse(this[key].toString()) ??
+    if (T is int) {
+      return int.tryParse(this[key].toString()) ?? onError ?? 0;
+    } else if (T is double) {
+      return double.tryParse(this[key].toString()) ?? onError ?? 0.0;
+    } else if (T is bool) {
+      return bool.tryParse(this[key].toString()) ?? onError ?? false;
+    } else if (T is JSON) {
+      try {
+        return <JSON>{ ...this[key]};
+      } catch {
+        return onError ?? <JSON>{};
+      }
+    } else if (T is List){
+      try {
+        return [ ...this[key]];
+      } catch (e) {
+        return onError ?? const [];
+      }
+    } else if (T is DateTime) {
+      return DateTime.tryParse(this[key].toString()) ??
             onError ??
-            DateTime.now()) as T;
-      default:
-        try {
-          return this[key] as T? ?? onError!;
-        } catch (e) {
-          throw TypeException(
-              message:
-                  '$e\n\n Type is not provided, use <JSON>{}.maybeOf("key") instead.');
-        }
+            DateTime.now();
+    } else if (T is String){
+      return this[key]?.toString() ?? onError ?? '';
+    } else {
+      return this[key] as T? ?? onError;
     }
   }
 
