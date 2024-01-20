@@ -40,34 +40,39 @@ extension JSONExtension on JSON {
   /// print(secondary); // "No Data"
   /// ```
   T of<T extends Object>(String key, [T? onError]) {
+    String value = this[key]?.toString() ?? '';
     if (T is int) {
-      return (int.tryParse(this[key]?.toString() ?? '') ?? onError ?? 0) as T;
+      return (int.tryParse(value) ?? onError ?? 0) as T;
     } else if (T is double) {
-      return (double.tryParse(this[key]?.toString() ?? '') ?? onError ?? 0.0)
-          as T;
+      return (double.tryParse(value) ?? onError ?? 0.0) as T;
     } else if (T is bool) {
-      return (bool.tryParse(this[key]?.toString() ?? '') ?? onError ?? false)
-          as T;
+      return (bool.tryParse(value) ?? onError ?? false) as T;
     } else if (T is JSON) {
       try {
-        return <JSON>{...this[key]!} as T;
+        return <JSON>{...this[key] ?? const {}} as T;
       } catch (e) {
         return (onError ?? <JSON>{}) as T;
       }
     } else if (T is List) {
       try {
-        return [...this[key]!] as T;
+        return [...this[key] ?? const []] as T;
       } catch (e) {
         return (onError ?? const []) as T;
       }
     } else if (T is DateTime) {
-      return (DateTime.tryParse(this[key]?.toString() ?? '') ??
-          onError ??
-          DateTime.now()) as T;
+      return (DateTime.tryParse(value) ?? onError ?? DateTime.now()) as T;
     } else if (T is String) {
       return (this[key]?.toString() ?? onError ?? '') as T;
     } else {
-      return (this[key] as T? ?? onError) as T;
+      try {
+        return (this[key] as T? ?? onError) as T;
+      } catch (e, s) {
+        DLog('error: $e, stacktrace: $s', level: DLevel.error);
+        throw TypeException(
+            message:
+                '${this[key]?.runtimeType} Doesn\'t have built in default value,'
+                ' you should provide onError value manually!');
+      }
     }
   }
 
@@ -81,26 +86,27 @@ extension JSONExtension on JSON {
   /// print(secondary); // null
   /// ```
   T? maybeOf<T extends Object>(String key) {
+    String value = this[key]?.toString() ?? '';
     if (T is int) {
-      return int.tryParse(this[key]!.toString()) as T?;
+      return int.tryParse(value) as T?;
     } else if (T is double) {
-      return double.tryParse(this[key]!.toString()) as T?;
+      return double.tryParse(value) as T?;
     } else if (T is bool) {
-      return bool.tryParse(this[key]!.toString()) as T?;
+      return bool.tryParse(value) as T?;
     } else if (T is JSON) {
       try {
-        return <JSON>{...this[key]!} as T;
+        return <JSON>{...this[key] ?? const {}} as T;
       } catch (e) {
         return null;
       }
     } else if (T is List) {
       try {
-        return [...this[key]!] as T;
+        return [...this[key] ?? const []] as T;
       } catch (e) {
         return null;
       }
     } else if (T is DateTime) {
-      return DateTime.tryParse(this[key]!.toString()) as T?;
+      return DateTime.tryParse(value) as T?;
     } else if (T is String) {
       return this[key]?.toString() as T?;
     } else {
