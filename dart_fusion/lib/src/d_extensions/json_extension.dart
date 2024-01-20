@@ -79,7 +79,32 @@ extension JSONExtension on JSON {
   /// print(secondary); // null
   /// ```
   T? maybeOf<T extends Object>(String key) {
-    return this[key] as T?;
+     if (T is int) {
+      return int.tryParse(this[key].toString()) as T?;
+    } else if (T is double) {
+      return double.tryParse(this[key].toString())  as T?;
+    } else if (T is bool) {
+      return bool.tryParse(this[key].toString())  as T?;
+    } else if (T is JSON) {
+        return <JSON>{...this[key]} as T;
+      } catch (e) {
+        return null as T?;
+      }
+    } else if (T is List) {
+      try {
+        return [...this[key]] as T;
+      } catch (e) {
+        return (onError ?? const []) as T;
+      }
+    } else if (T is DateTime) {
+      return (DateTime.tryParse(this[key].toString()) ??
+          onError ??
+          DateTime.now()) as T;
+    } else if (T is String) {
+      return (this[key]?.toString() ?? onError ?? '') as T;
+    } else {
+      return (this[key] as T? ?? onError) as T;
+    }
   }
 
   /// Parse [FormData] fields to [JSON].
