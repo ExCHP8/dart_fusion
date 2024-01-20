@@ -49,13 +49,13 @@ extension JSONExtension on JSON {
       return (bool.tryParse(value) ?? onError ?? false) as T;
     } else if (T is JSON) {
       try {
-        return <JSON>{...this[key] ?? const {}} as T;
+        return this[key] as T;
       } catch (e) {
         return (onError ?? <JSON>{}) as T;
       }
     } else if (T is List) {
       try {
-        return [...this[key] ?? const []] as T;
+        return this[key] as T;
       } catch (e) {
         return (onError ?? const []) as T;
       }
@@ -95,13 +95,13 @@ extension JSONExtension on JSON {
       return bool.tryParse(value) as T?;
     } else if (T is JSON) {
       try {
-        return <JSON>{...this[key] ?? const {}} as T;
+        return this[key] as T;
       } catch (e) {
         return null;
       }
     } else if (T is List) {
       try {
-        return [...this[key] ?? const []] as T;
+        return this[key] as T;
       } catch (e) {
         return null;
       }
