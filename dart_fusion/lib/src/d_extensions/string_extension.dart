@@ -38,18 +38,62 @@ extension StringExtension on String {
   }
 
   /// Try parse [bool] from [String].
-  bool? toBool() => bool.tryParse(this);
+  ///
+  /// Returns `null` if parsing fails.
+  bool? tryToBool() => bool.tryParse(this);
+
+  /// Parse [String] to [bool].
+  ///
+  /// If parsing fails, returns the provided [onError] value, or `false` if not specified.
+  bool toBool([bool? onError]) => bool.tryParse(this) ?? onError ?? false;
 
   /// Try parse [DateTime] from [String].
-  DateTime? toDateTime() => DateTime.tryParse(this);
+  ///
+  /// Returns `null` if parsing fails.
+  DateTime? tryToDate() => DateTime.tryParse(this);
+
+  /// Parse [String] to [DateTime].
+  ///
+  /// If parsing fails, returns the provided [onError] value, or the current date and time if not specified.
+  DateTime toDate([DateTime? onError]) =>
+      DateTime.tryParse(this) ?? onError ?? DateTime.now();
 
   /// Try parse [int] from [String].
-  int? toInt() => int.tryParse(this);
+  ///
+  /// Returns `null` if parsing fails.
+  int? tryToInt() => int.tryParse(this);
+
+  /// Parse [String] to [int].
+  ///
+  /// If parsing fails, returns the provided [onError] value, or `0` if not specified.
+  int toInt([int? onError]) => int.tryParse(this) ?? onError ?? 0;
 
   /// Try parse [double] from [String].
-  double? toDouble() => double.tryParse(this);
+  ///
+  /// Returns `null` if parsing fails.
+  double? tryToDouble() => double.tryParse(this);
+
+  /// Parse [String] to [double].
+  ///
+  /// If parsing fails, returns the provided [onError] value, or `0.0` if not specified.
+  double toDouble([double? onError]) => double.tryParse(this) ?? 0.0;
 
   /// Try parse [Duration] from [String].
-  Duration? toDuration({DurationType type = DurationType.seconds}) =>
+  ///
+  /// Returns `null` if parsing fails.
+  ///
+  /// Optional parameter [type] specifies the unit of the duration (default is [DurationType.seconds]).
+  Duration? tryToDuration({DurationType type = DurationType.seconds}) =>
       int.tryParse(this)?.toDuration(type: type);
+
+  /// Parse [String] to [Duration].
+  ///
+  /// If parsing fails, returns the provided [onError] value, or `Duration.zero` if not specified.
+  ///
+  /// Optional parameter [type] specifies the unit of the duration (default is [DurationType.seconds]).
+  Duration toDuration({
+    Duration? onError,
+    DurationType type = DurationType.seconds,
+  }) =>
+      int.tryParse(this)?.toDuration(type: type) ?? Duration.zero;
 }
