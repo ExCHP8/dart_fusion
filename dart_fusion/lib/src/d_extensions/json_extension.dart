@@ -41,25 +41,27 @@ extension JSONExtension on JSON {
   /// ```
   T of<T extends Object>(String key, [T? onError]) {
     if (T is int) {
-      return (int.tryParse(this[key].toString()) ?? onError ?? 0) as T;
+      return (int.tryParse(this[key]?.toString() ?? '') ?? onError ?? 0) as T;
     } else if (T is double) {
-      return (double.tryParse(this[key].toString()) ?? onError ?? 0.0) as T;
+      return (double.tryParse(this[key]?.toString() ?? '') ?? onError ?? 0.0)
+          as T;
     } else if (T is bool) {
-      return (bool.tryParse(this[key].toString()) ?? onError ?? false) as T;
+      return (bool.tryParse(this[key]?.toString() ?? '') ?? onError ?? false)
+          as T;
     } else if (T is JSON) {
       try {
-        return <JSON>{...this[key]} as T;
+        return <JSON>{...this[key]!} as T;
       } catch (e) {
         return (onError ?? <JSON>{}) as T;
       }
     } else if (T is List) {
       try {
-        return [...this[key]] as T;
+        return [...this[key]!] as T;
       } catch (e) {
         return (onError ?? const []) as T;
       }
     } else if (T is DateTime) {
-      return (DateTime.tryParse(this[key].toString()) ??
+      return (DateTime.tryParse(this[key]?.toString() ?? '') ??
           onError ??
           DateTime.now()) as T;
     } else if (T is String) {
@@ -80,25 +82,25 @@ extension JSONExtension on JSON {
   /// ```
   T? maybeOf<T extends Object>(String key) {
     if (T is int) {
-      return int.tryParse(this[key].toString()) as T?;
+      return int.tryParse(this[key]!.toString()) as T?;
     } else if (T is double) {
-      return double.tryParse(this[key].toString()) as T?;
+      return double.tryParse(this[key]!.toString()) as T?;
     } else if (T is bool) {
-      return bool.tryParse(this[key].toString()) as T?;
+      return bool.tryParse(this[key]!.toString()) as T?;
     } else if (T is JSON) {
       try {
-        return <JSON>{...this[key]} as T;
+        return <JSON>{...this[key]!} as T;
       } catch (e) {
         return null;
       }
     } else if (T is List) {
       try {
-        return [...this[key]] as T;
+        return [...this[key]!] as T;
       } catch (e) {
         return null;
       }
     } else if (T is DateTime) {
-      return DateTime.tryParse(this[key].toString()) as T?;
+      return DateTime.tryParse(this[key]!.toString()) as T?;
     } else if (T is String) {
       return this[key]?.toString() as T?;
     } else {
