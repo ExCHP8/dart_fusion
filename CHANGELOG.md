@@ -150,3 +150,4 @@
 
 ## 3.1.6
 * Update `JSONExtension` of.
+* Rename parse in `StringExtension` from prefix `parse` to `to`.
