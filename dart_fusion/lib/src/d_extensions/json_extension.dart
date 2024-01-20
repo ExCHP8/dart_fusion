@@ -51,14 +51,10 @@ extension JSONExtension on JSON {
       try {
         return this[key] as T;
       } catch (e) {
-        return (onError ?? <JSON>{}) as T;
+        return onError ?? <JSON>{} as T;
       }
     } else if (T is List) {
-      try {
-        return this[key] as T;
-      } catch (e) {
-        return (onError ?? const []) as T;
-      }
+      return this[key] is List ? this[key] : onError ?? [] as T;
     } else if (T is DateTime) {
       return (DateTime.tryParse(value) ?? onError ?? DateTime.now()) as T;
     } else if (T is String) {
@@ -100,11 +96,7 @@ extension JSONExtension on JSON {
         return null;
       }
     } else if (T is List) {
-      try {
-        return this[key] as T;
-      } catch (e) {
-        return null;
-      }
+      return this[key] as T?;
     } else if (T is DateTime) {
       return DateTime.tryParse(value) as T?;
     } else if (T is String) {
