@@ -41,31 +41,31 @@ extension JSONExtension on JSON {
   /// ```
   T of<T extends Object>(String key, [T? onError]) {
     if (T is int) {
-      return int.tryParse(this[key].toString()) ?? onError ?? 0;
+      return (int.tryParse(this[key].toString()) ?? onError ?? 0) as T;
     } else if (T is double) {
-      return double.tryParse(this[key].toString()) ?? onError ?? 0.0;
+      return (double.tryParse(this[key].toString()) ?? onError ?? 0.0) as T;
     } else if (T is bool) {
-      return bool.tryParse(this[key].toString()) ?? onError ?? false;
+      return (bool.tryParse(this[key].toString()) ?? onError ?? false) as T;
     } else if (T is JSON) {
       try {
-        return <JSON>{ ...this[key]};
-      } catch {
-        return onError ?? <JSON>{};
-      }
-    } else if (T is List){
-      try {
-        return [ ...this[key]];
+        return <JSON>{...this[key]} as T;
       } catch (e) {
-        return onError ?? const [];
+        return (onError ?? <JSON>{}) as T;
+      }
+    } else if (T is List) {
+      try {
+        return [...this[key]] as T;
+      } catch (e) {
+        return (onError ?? const []) as T;
       }
     } else if (T is DateTime) {
-      return DateTime.tryParse(this[key].toString()) ??
-            onError ??
-            DateTime.now();
-    } else if (T is String){
-      return this[key]?.toString() ?? onError ?? '';
+      return (DateTime.tryParse(this[key].toString()) ??
+          onError ??
+          DateTime.now()) as T;
+    } else if (T is String) {
+      return (this[key]?.toString() ?? onError ?? '') as T;
     } else {
-      return this[key] as T? ?? onError;
+      return (this[key] as T? ?? onError) as T;
     }
   }
 
