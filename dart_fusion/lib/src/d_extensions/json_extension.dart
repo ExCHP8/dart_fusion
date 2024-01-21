@@ -41,34 +41,31 @@ extension JSONExtension on JSON {
   /// ```
   T of<T extends Object>(String key, [T? onError]) {
     String value = this[key]?.toString() ?? '';
-    if (T is int) {
-      return (int.tryParse(value) ?? onError ?? 0) as T;
-    } else if (T is double) {
-      return (double.tryParse(value) ?? onError ?? 0.0) as T;
-    } else if (T is bool) {
-      return (bool.tryParse(value) ?? onError ?? false) as T;
-    } else if (T is JSON) {
-      try {
-        return this[key] as T;
-      } catch (e) {
-        return onError ?? <JSON>{} as T;
-      }
-    } else if (T is List) {
-      return this[key] is List ? this[key] : onError ?? [] as T;
-    } else if (T is DateTime) {
-      return (DateTime.tryParse(value) ?? onError ?? DateTime.now()) as T;
-    } else if (T is String) {
-      return (this[key]?.toString() ?? onError ?? '') as T;
-    } else {
-      try {
-        return (this[key] as T? ?? onError) as T;
-      } catch (e, s) {
-        DLog('error: $e, stacktrace: $s', level: DLevel.error);
-        throw TypeException(
-            message:
-                '${this[key]?.runtimeType} Doesn\'t have built in default value,'
-                ' you should provide onError value manually!');
-      }
+    switch (T) {
+      case int:
+        return (int.tryParse(value) ?? onError ?? 0) as T;
+      case double:
+        return (double.tryParse(value) ?? onError ?? 0.0) as T;
+      case bool:
+        return (bool.tryParse(value) ?? onError ?? false) as T;
+      case JSON:
+        return (this[key] is JSON ? this[key] : onError ?? <JSON>{}) as T;
+      case List:
+        return (this[key] is List ? this[key] : onError ?? []) as T;
+      case DateTime:
+        return (DateTime.tryParse(value) ?? onError ?? DateTime.now()) as T;
+      case String:
+        return (this[key]?.toString() ?? onError ?? '') as T;
+      default:
+        try {
+          return (this[key] as T? ?? onError) as T;
+        } catch (e, s) {
+          DLog('error: $e, stacktrace: $s', level: DLevel.error);
+          throw TypeException(
+              message:
+                  '${this[key]?.runtimeType} Doesn\'t have built in default value,'
+                  ' you should provide onError value manually!');
+        }
     }
   }
 
@@ -83,26 +80,23 @@ extension JSONExtension on JSON {
   /// ```
   T? maybeOf<T extends Object>(String key) {
     String value = this[key]?.toString() ?? '';
-    if (T is int) {
-      return int.tryParse(value) as T?;
-    } else if (T is double) {
-      return double.tryParse(value) as T?;
-    } else if (T is bool) {
-      return bool.tryParse(value) as T?;
-    } else if (T is JSON) {
-      try {
-        return this[key] as T;
-      } catch (e) {
-        return null;
-      }
-    } else if (T is List) {
-      return this[key] as T?;
-    } else if (T is DateTime) {
-      return DateTime.tryParse(value) as T?;
-    } else if (T is String) {
-      return this[key]?.toString() as T?;
-    } else {
-      return this[key] as T?;
+    switch (T) {
+      case int:
+        return int.tryParse(value) as T?;
+      case double:
+        return double.tryParse(value) as T?;
+      case bool:
+        return bool.tryParse(value) as T?;
+      case JSON:
+        return (this[key] is JSON ? this[key] : null) as T?;
+      case List:
+        return this[key] as T?;
+      case DateTime:
+        return DateTime.tryParse(value) as T?;
+      case String:
+        return this[key]?.toString() as T?;
+      default:
+        return this[key] as T?;
     }
   }
 
