@@ -2,6 +2,7 @@
 library dart_fusion_flutter;
 
 import 'dart:io';
+import 'dart:convert';
 
 import 'package:dart_fusion/dart_fusion.dart';
 import 'package:flutter/foundation.dart';

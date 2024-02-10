@@ -26,7 +26,6 @@ class DImage<Source extends Object> extends StatelessWidget {
   /// The [color] parameter is used to apply a color filter to the image.
   /// The [colorBlendMode] parameter determines how the [color] should be blended with the image.
   /// The [alignment] parameter specifies how the image should be aligned within its container.
-  /// The [colorFilter] parameter is used to apply a color filter to the image.
   /// The [placeholderBuilder] parameter is used to build a placeholder widget while the image is being loaded.
   /// The [semanticsLabel] parameter is used to provide a description of the image for accessibility purposes.
   /// The [errorBuilder] parameter is used to build a widget when the image fails to load.
@@ -106,35 +105,21 @@ class DImage<Source extends Object> extends StatelessWidget {
         }
       } else if (source is Uint8List) {
         final source = this.source as Uint8List;
-        try {
-          return SvgPicture.memory(
-            source,
+        return Image.memory(source,
             width: size?.width,
             height: size?.height,
             fit: fit,
             alignment: alignment,
-            placeholderBuilder: placeholderBuilder,
-            semanticsLabel: semanticsLabel,
+            errorBuilder: errorBuilder,
+            frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+          if (placeholderBuilder != null && frame == null) {
+            return placeholderBuilder!(context);
+          }
+          return child;
+        },
+            semanticLabel: semanticsLabel,
             color: color,
-            colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
-          );
-        } catch (e) {
-          return Image.memory(source,
-              width: size?.width,
-              height: size?.height,
-              fit: fit,
-              alignment: alignment,
-              errorBuilder: errorBuilder,
-              frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-            if (placeholderBuilder != null && frame == null) {
-              return placeholderBuilder!(context);
-            }
-            return child;
-          },
-              semanticLabel: semanticsLabel,
-              color: color,
-              colorBlendMode: colorBlendMode);
-        }
+            colorBlendMode: colorBlendMode);
       } else {
         final source = this.source.toString();
         if (source.startsWith("http")) {
@@ -167,6 +152,23 @@ class DImage<Source extends Object> extends StatelessWidget {
                 color: color,
                 colorBlendMode: colorBlendMode);
           }
+        } else if (source.startsWith('data:image')) {
+          final source = base64Decode(this.source.toString().split(',').last);
+          return Image.memory(source,
+              width: size?.width,
+              height: size?.height,
+              fit: fit,
+              alignment: alignment,
+              errorBuilder: errorBuilder,
+              frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+            if (placeholderBuilder != null && frame == null) {
+              return placeholderBuilder!(context);
+            }
+            return child;
+          },
+              semanticLabel: semanticsLabel,
+              color: color,
+              colorBlendMode: colorBlendMode);
         } else {
           final source = this.source.toString();
           if (source.endsWith(".svg")) {
