@@ -40,6 +40,24 @@ class DImage<Source extends Object> extends StatelessWidget {
     this.placeholderBuilder,
     this.semanticsLabel,
     this.errorBuilder,
+    this.theme,
+    this.allowDrawingOutsideViewBox = false,
+    this.clipBehavior = Clip.hardEdge,
+    this.excludeFromSemantics = false,
+    this.colorFilter,
+    this.matchTextDirection = false,
+    this.scale = 1.0,
+    this.repeat = ImageRepeat.noRepeat,
+    this.opacity,
+    this.isAntiAlias = false,
+    this.filterQuality = FilterQuality.low,
+    this.cacheWidth,
+    this.cacheHeight,
+    this.centerSlice,
+    this.package,
+    this.bundle,
+    this.gaplessPlayback = false,
+    this.headers,
   });
 
   /// The source of the image to be displayed.
@@ -69,141 +87,342 @@ class DImage<Source extends Object> extends StatelessWidget {
   /// A builder function to create a widget when the image fails to load.
   final Widget Function(BuildContext, Object, StackTrace?)? errorBuilder;
 
+  /// Theme used in [SvgPicture].
+  final SvgTheme? theme;
+
+  /// If true, will allow the SVG to be drawn outside of the clip boundary of its viewBox.
+  final bool allowDrawingOutsideViewBox;
+
+  /// The content will be clipped (or not) according to this option.
+  final Clip clipBehavior;
+
+  /// Color filter used in [SvgPicture]
+  final ColorFilter? colorFilter;
+
+  /// Whether to exclude this picture from semantics.
+  ///
+  /// Useful for pictures which do not contribute meaningful information to an application.
+  final bool excludeFromSemantics;
+
+  /// If true, will horizontally flip the picture in [TextDirection.rtl] contexts.
+  final bool matchTextDirection;
+
+  /// This option only used for [Image] widget.
+  final double scale;
+
+  /// How to paint any portions of the layout bounds not covered by the image.
+  ///
+  /// Only used in [Image] widget.
+  final ImageRepeat repeat;
+
+  /// Fade animation, only used in [Image] widget.
+  final Animation<double>? opacity;
+
+  /// Whether to paint the image with anti-aliasing.
+  ///
+  /// Anti-aliasing alleviates the sawtooth artifact when the image is rotated.
+  /// This is used in [Image] widget only.
+  final bool isAntiAlias;
+
+  /// Whether to continue showing the old image (true), or briefly show nothing (false), when the image provider changes. The default value is false.
+  ///
+  /// This is used for [Image] widget only.
+  final bool gaplessPlayback;
+
+  /// The rendering quality of the [Image] widget.
+  final FilterQuality filterQuality;
+
+  /// The center slice for a nine-patch image. Used in [Image] widget only.
+  final Rect? centerSlice;
+
+  /// Caching image based on height, used only for [Image] widget.
+  final int? cacheHeight;
+
+  /// Caching image based on width, used only for [Image] widget.
+  final int? cacheWidth;
+
+  /// Custom header for fetching image. Used only for [SvgPicture.network] or [Image.network].
+  final Map<String, String>? headers;
+
+  /// Asset bundle used in [SvgPicture.asset] and [Image.asset].
+  final AssetBundle? bundle;
+
+  /// Package used in [SvgPicture.asset] and [Image.asset].
+  final String? package;
+
   @override
   Widget build(BuildContext context) {
     try {
       if (source is File) {
-        final source = (this.source as File).readAsBytesSync();
-        try {
+        File data = source as File;
+        if (data.path.endsWith('.svg')) {
           return SvgPicture.memory(
-            source,
+            data.readAsBytesSync(),
+            fit: fit,
+            key: key,
+            theme: theme,
+            color: color,
             width: size?.width,
             height: size?.height,
-            fit: fit,
             alignment: alignment,
-            placeholderBuilder: placeholderBuilder,
+            colorFilter: colorFilter,
+            clipBehavior: clipBehavior,
             semanticsLabel: semanticsLabel,
-            color: color,
+            placeholderBuilder: placeholderBuilder,
+            matchTextDirection: matchTextDirection,
+            excludeFromSemantics: excludeFromSemantics,
             colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
+            allowDrawingOutsideViewBox: allowDrawingOutsideViewBox,
           );
-        } catch (e) {
-          return Image.memory(source,
-              width: size?.width,
-              height: size?.height,
-              fit: fit,
-              alignment: alignment,
-              errorBuilder: errorBuilder,
-              frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-            if (placeholderBuilder != null && frame == null) {
-              return placeholderBuilder!(context);
-            }
+        }
+
+        return Image.memory(
+          data.readAsBytesSync(),
+          fit: fit,
+          key: key,
+          color: color,
+          scale: scale,
+          repeat: repeat,
+          opacity: opacity,
+          width: size?.width,
+          height: size?.height,
+          alignment: alignment,
+          cacheWidth: cacheWidth,
+          centerSlice: centerSlice,
+          cacheHeight: cacheHeight,
+          isAntiAlias: isAntiAlias,
+          errorBuilder: errorBuilder,
+          filterQuality: filterQuality,
+          semanticLabel: semanticsLabel,
+          colorBlendMode: colorBlendMode,
+          gaplessPlayback: gaplessPlayback,
+          matchTextDirection: matchTextDirection,
+          excludeFromSemantics: excludeFromSemantics,
+          frameBuilder: (context, child, _, __) {
+            if (placeholderBuilder != null) return placeholderBuilder!(context);
             return child;
           },
-              semanticLabel: semanticsLabel,
-              color: color,
-              colorBlendMode: colorBlendMode);
-        }
+        );
       } else if (source is Uint8List) {
-        final source = this.source as Uint8List;
-        return Image.memory(source,
+        Uint8List data = this.source as Uint8List;
+        try {
+          return SvgPicture.memory(
+            data,
+            fit: fit,
+            key: key,
+            theme: theme,
+            color: color,
             width: size?.width,
             height: size?.height,
-            fit: fit,
             alignment: alignment,
-            errorBuilder: errorBuilder,
-            frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-          if (placeholderBuilder != null && frame == null) {
-            return placeholderBuilder!(context);
-          }
-          return child;
-        },
-            semanticLabel: semanticsLabel,
+            colorFilter: colorFilter,
+            clipBehavior: clipBehavior,
+            semanticsLabel: semanticsLabel,
+            placeholderBuilder: placeholderBuilder,
+            matchTextDirection: matchTextDirection,
+            excludeFromSemantics: excludeFromSemantics,
+            colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
+            allowDrawingOutsideViewBox: allowDrawingOutsideViewBox,
+          );
+        } catch (e) {
+          return Image.memory(
+            data,
+            fit: fit,
+            key: key,
             color: color,
-            colorBlendMode: colorBlendMode);
-      } else {
-        final source = this.source.toString();
-        if (source.startsWith("http")) {
-          if (source.endsWith(".svg")) {
-            return SvgPicture.network(
-              source,
-              width: size?.width,
-              height: size?.height,
-              fit: fit,
-              alignment: alignment,
-              placeholderBuilder: placeholderBuilder,
-              semanticsLabel: semanticsLabel,
-              color: color,
-              colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
-            );
-          } else {
-            return Image.network(source,
-                width: size?.width,
-                height: size?.height,
-                fit: fit,
-                alignment: alignment,
-                errorBuilder: errorBuilder,
-                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-              if (placeholderBuilder != null && frame == null) {
+            scale: scale,
+            repeat: repeat,
+            opacity: opacity,
+            width: size?.width,
+            height: size?.height,
+            alignment: alignment,
+            cacheWidth: cacheWidth,
+            centerSlice: centerSlice,
+            cacheHeight: cacheHeight,
+            isAntiAlias: isAntiAlias,
+            errorBuilder: errorBuilder,
+            filterQuality: filterQuality,
+            semanticLabel: semanticsLabel,
+            colorBlendMode: colorBlendMode,
+            gaplessPlayback: gaplessPlayback,
+            matchTextDirection: matchTextDirection,
+            excludeFromSemantics: excludeFromSemantics,
+            frameBuilder: (context, child, _, __) {
+              if (placeholderBuilder != null) {
                 return placeholderBuilder!(context);
               }
               return child;
             },
-                semanticLabel: semanticsLabel,
-                color: color,
-                colorBlendMode: colorBlendMode);
-          }
-        } else if (source.startsWith('data:image')) {
-          final source = base64Decode(this.source.toString().split(',').last);
-          return Image.memory(source,
-              width: size?.width,
-              height: size?.height,
+          );
+        }
+      } else {
+        String data = this.source.toString();
+        if (data.startsWith("http")) {
+          if (data.endsWith(".svg")) {
+            return SvgPicture.network(
+              data,
               fit: fit,
-              alignment: alignment,
-              errorBuilder: errorBuilder,
-              frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-            if (placeholderBuilder != null && frame == null) {
-              return placeholderBuilder!(context);
-            }
-            return child;
-          },
-              semanticLabel: semanticsLabel,
+              key: key,
+              theme: theme,
               color: color,
-              colorBlendMode: colorBlendMode);
-        } else {
-          final source = this.source.toString();
-          if (source.endsWith(".svg")) {
-            return SvgPicture.asset(
-              source,
+              headers: headers,
               width: size?.width,
               height: size?.height,
-              fit: fit,
               alignment: alignment,
-              placeholderBuilder: placeholderBuilder,
+              colorFilter: colorFilter,
+              clipBehavior: clipBehavior,
               semanticsLabel: semanticsLabel,
-              color: color,
+              placeholderBuilder: placeholderBuilder,
+              matchTextDirection: matchTextDirection,
+              excludeFromSemantics: excludeFromSemantics,
               colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
+              allowDrawingOutsideViewBox: allowDrawingOutsideViewBox,
             );
-          } else {
-            return Image.asset(source,
-                width: size?.width,
-                height: size?.height,
-                fit: fit,
-                alignment: alignment,
-                errorBuilder: errorBuilder,
-                semanticLabel: semanticsLabel,
-                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-              if (placeholderBuilder != null && frame == null) {
+          }
+
+          return Image.network(
+            data,
+            fit: fit,
+            key: key,
+            color: color,
+            scale: scale,
+            repeat: repeat,
+            opacity: opacity,
+            headers: headers,
+            width: size?.width,
+            height: size?.height,
+            alignment: alignment,
+            cacheWidth: cacheWidth,
+            centerSlice: centerSlice,
+            cacheHeight: cacheHeight,
+            isAntiAlias: isAntiAlias,
+            errorBuilder: errorBuilder,
+            filterQuality: filterQuality,
+            semanticLabel: semanticsLabel,
+            colorBlendMode: colorBlendMode,
+            gaplessPlayback: gaplessPlayback,
+            matchTextDirection: matchTextDirection,
+            excludeFromSemantics: excludeFromSemantics,
+            frameBuilder: (context, child, _, __) {
+              if (placeholderBuilder != null) {
                 return placeholderBuilder!(context);
               }
               return child;
-            }, color: color, colorBlendMode: colorBlendMode);
+            },
+          );
+        } else if (data.startsWith('data:image')) {
+          Uint8List memory = base64Decode(data.split(',').last);
+          if (data.startsWith('data:image/svg')) {
+            return SvgPicture.memory(
+              memory,
+              fit: fit,
+              key: key,
+              theme: theme,
+              color: color,
+              width: size?.width,
+              height: size?.height,
+              alignment: alignment,
+              colorFilter: colorFilter,
+              clipBehavior: clipBehavior,
+              semanticsLabel: semanticsLabel,
+              placeholderBuilder: placeholderBuilder,
+              matchTextDirection: matchTextDirection,
+              excludeFromSemantics: excludeFromSemantics,
+              colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
+              allowDrawingOutsideViewBox: allowDrawingOutsideViewBox,
+            );
           }
+
+          return Image.memory(
+            memory,
+            fit: fit,
+            key: key,
+            color: color,
+            scale: scale,
+            repeat: repeat,
+            opacity: opacity,
+            width: size?.width,
+            height: size?.height,
+            alignment: alignment,
+            cacheWidth: cacheWidth,
+            centerSlice: centerSlice,
+            cacheHeight: cacheHeight,
+            isAntiAlias: isAntiAlias,
+            errorBuilder: errorBuilder,
+            filterQuality: filterQuality,
+            semanticLabel: semanticsLabel,
+            colorBlendMode: colorBlendMode,
+            gaplessPlayback: gaplessPlayback,
+            matchTextDirection: matchTextDirection,
+            excludeFromSemantics: excludeFromSemantics,
+            frameBuilder: (context, child, _, __) {
+              if (placeholderBuilder != null) {
+                return placeholderBuilder!(context);
+              }
+              return child;
+            },
+          );
+        } else {
+          String data = this.source.toString();
+          if (data.endsWith(".svg")) {
+            return SvgPicture.asset(
+              data,
+              fit: fit,
+              key: key,
+              theme: theme,
+              color: color,
+              bundle: bundle,
+              package: package,
+              width: size?.width,
+              height: size?.height,
+              alignment: alignment,
+              colorFilter: colorFilter,
+              clipBehavior: clipBehavior,
+              semanticsLabel: semanticsLabel,
+              placeholderBuilder: placeholderBuilder,
+              matchTextDirection: matchTextDirection,
+              excludeFromSemantics: excludeFromSemantics,
+              colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
+              allowDrawingOutsideViewBox: allowDrawingOutsideViewBox,
+            );
+          }
+
+          return Image.asset(
+            data,
+            fit: fit,
+            key: key,
+            color: color,
+            scale: scale,
+            bundle: bundle,
+            repeat: repeat,
+            package: package,
+            opacity: opacity,
+            width: size?.width,
+            height: size?.height,
+            alignment: alignment,
+            cacheWidth: cacheWidth,
+            centerSlice: centerSlice,
+            cacheHeight: cacheHeight,
+            isAntiAlias: isAntiAlias,
+            errorBuilder: errorBuilder,
+            filterQuality: filterQuality,
+            semanticLabel: semanticsLabel,
+            colorBlendMode: colorBlendMode,
+            gaplessPlayback: gaplessPlayback,
+            matchTextDirection: matchTextDirection,
+            excludeFromSemantics: excludeFromSemantics,
+            frameBuilder: (context, child, _, __) {
+              if (placeholderBuilder != null) {
+                return placeholderBuilder!(context);
+              }
+              return child;
+            },
+          );
         }
       }
-    } catch (e) {
-      if (kDebugMode) {
-        DLog(e, level: DLevel.error);
-      }
+    } catch (e, s) {
+      if (kDebugMode) DLog(e, level: DLevel.error);
+      if (errorBuilder != null) return errorBuilder!(context, e, s);
       return const SizedBox();
     }
   }
