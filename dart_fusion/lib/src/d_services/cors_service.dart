@@ -79,13 +79,12 @@ class Cors extends DModel {
 
   static Cors fromJSON(JSON value) {
     return Cors(
-      accessControlAllowCredentials: value
-          .maybeOf<String>('access-control-allow-credentials')
-          ?.tryToBool(),
+      accessControlAllowCredentials:
+          value.of<String?>('access-control-allow-credentials')?.tryToBool(),
       accessControlAllowOrigin:
-          value.maybeOf<String>('access-control-allow-origin')?.split(', '),
+          value.of<String?>('access-control-allow-origin')?.split(', '),
       accessControlAllowMethods: value
-          .maybeOf<String>('access-control-allow-methods')
+          .of<String?>('access-control-allow-methods')
           ?.split(', ')
           .map(
             (e) => HttpMethod.values.firstWhere(
@@ -95,15 +94,15 @@ class Cors extends DModel {
           )
           .toList(),
       accessControlMaxAge:
-          value.maybeOf<String>('access-control-max-age')?.tryToDuration(),
+          value.of<String?>('access-control-max-age')?.tryToDuration(),
       accessControlAllowHeaders: value
-          .maybeOf<String>('access-control-allow-headers')
+          .of<String?>('access-control-allow-headers')
           ?.replaceAll('-', '')
           .split(', ')
           .map((e) => Header.fromJSON({'model_type': e}))
           .toList(),
       accessControlExposeHeaders: value
-          .maybeOf<String>('access-control-expose-headers')
+          .of<String?>('access-control-expose-headers')
           ?.replaceAll('-', '')
           .split(', ')
           .map((e) => Header.fromJSON({'model_type': e}))

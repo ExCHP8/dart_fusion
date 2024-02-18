@@ -39,7 +39,7 @@ class LinkModel extends DModel {
         (e) => e.name.toUpperCase() == value.of<String>('method').toUpperCase(),
         orElse: () => HttpMethod.options,
       ),
-      description: value.maybeOf('description'),
+      description: value.of<String?>('description'),
       reference: value.of('reference'),
     );
   }

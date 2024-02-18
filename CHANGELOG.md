@@ -154,3 +154,4 @@
 
 ## 3.1.7
 * Update `DImage` to read base64 image
+* Update `JSONExtension` of.
