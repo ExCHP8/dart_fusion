@@ -52,7 +52,7 @@ class MutableModel extends DModel {
   static MutableModel fromJSON(JSON value) {
     return MutableModel()
       ..message = value.of<String>('message', 'Lorem ipsum dolor sit amet')
-      ..absurd = value.maybeOf<String>('absurd') ?? 'THUIS IS AS TEST'
+      ..absurd = value.of<String?>('absurd') ?? 'THUIS IS AS TEST'
       ..status = value.of<int>('status')
       ..immutables = value
           .of<List<JSON>>('immutables')
@@ -127,8 +127,7 @@ class ImmutableModel extends DModel {
 
   static ImmutableModel fromJSON(JSON value) {
     return ImmutableModel(
-      message:
-          value.maybeOf<String>('message') ?? 'Lorem ipsum dolor sit amet 🚀',
+      message: value.of<String?>('message') ?? 'Lorem ipsum dolor sit amet 🚀',
       status: value.of<int>('status'),
       mutable:
           value.of<List<JSON>>('mutable').map(MutableModel.fromJSON).toList(),

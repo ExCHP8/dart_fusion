@@ -9,7 +9,7 @@ repository: https://github.com/Nialixus/dart_fusion.git
 issue_tracker: https://github.com/Nialixus/dart_fusion/issues
 documentation: https://raw.githack.com/Nialixus/dart_fusion/main/dart_fusion/doc/api/index.html
 publish_to: none
-funding: 
+funding:
   - https://www.buymeacoffee.com/nialixus
 screenshots:
   - description: 'Dart Fusion Logo'
@@ -29,3 +29,6 @@ dependencies:
   equatable: ^2.0.5
   http: ^1.1.0
   logger: ^2.0.2+1
+  
+dev_dependencies:
+  test: ^1.25.2

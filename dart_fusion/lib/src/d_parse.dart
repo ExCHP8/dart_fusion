@@ -1,7 +1,7 @@
 part of '../dart_fusion.dart';
 
 /// A utility class for parsing mostly related to http request.
-class DParse {
+final class DParse {
   /// Parsing message of http method value like `DELETE`, `GET`, `HEAD`, `OPTIONS`, `PATCH`, `POST` or `PUT`.
   ///
   /// ```dart
@@ -177,6 +177,109 @@ class DParse {
         return 'Data is not exist';
       default:
         return value.toString();
+    }
+  }
+
+  static T to<T extends dynamic>(dynamic value, [T? onError]) {
+    try {
+      if (T == int) {
+        return toInt(value, onError as int?) as T;
+      } else if (T == double) {
+        return toDouble(value, onError as double?) as T;
+      } else if (T == bool) {
+        return toBool(value, onError as bool?) as T;
+      } else if (T == DateTime) {
+        return toDate(value, onError as DateTime?) as T;
+      } else if (T == String) {
+        return toText(value, onError as String?) as T;
+      } else if (T == Map) {
+        return toMap(value, onError as dynamic) as T;
+      } else if (T == List) {
+        return toList(value, onError as dynamic) as T;
+      } else {
+        return (value ?? onError) as T;
+      }
+    } catch (e, s) {
+      DLog({'error': e, 'stacktrace': s}.toString(), level: DLevel.error);
+      return onError as T;
+    }
+  }
+
+  static int toInt(dynamic value, [int? onError]) {
+    return mayToInt(value) ?? onError ?? 0;
+  }
+
+  static double toDouble(dynamic value, [double? onError]) {
+    return mayToDouble(value) ?? onError ?? 0.0;
+  }
+
+  static bool toBool(dynamic value, [bool? onError]) {
+    return mayToBool(value) ?? onError ?? false;
+  }
+
+  static DateTime toDate(dynamic value, [DateTime? onError]) {
+    return mayToDate(value) ?? onError ?? DateTime.now();
+  }
+
+  static String toText(dynamic value, [String? onError]) {
+    return mayToText(value) ?? onError ?? '';
+  }
+
+  static List<U> toList<U extends dynamic>(dynamic value, [List<U>? onError]) {
+    return mayToList<U>(value) ?? onError ?? <U>[];
+  }
+
+  static Map<U, V> toMap<U extends Object, V extends dynamic>(
+    dynamic value, [
+    Map<U, V>? onError,
+  ]) {
+    return mayToMap<U, V>(value) ?? onError ?? <U, V>{};
+  }
+
+  static int? mayToInt(dynamic value) {
+    if (value is int) return value;
+    return int.tryParse(value?.toString() ?? '');
+  }
+
+  static double? mayToDouble(dynamic value) {
+    if (value is double) return value;
+    return double.tryParse(value?.toString() ?? '');
+  }
+
+  static bool? mayToBool(dynamic value) {
+    if (value is bool) return value;
+    return bool.tryParse(value?.toString() ?? '');
+  }
+
+  static DateTime? mayToDate(dynamic value) {
+    if (value is DateTime) return value;
+    return DateTime.tryParse(value?.toString() ?? '');
+  }
+
+  static String? mayToText(dynamic value) {
+    if (value is String) return value;
+    return value?.toString();
+  }
+
+  static Map<U, V>? mayToMap<U extends Object, V extends dynamic>(
+    dynamic value,
+  ) {
+    try {
+      if (!(value is Map)) return null;
+      return <U, V>{
+        for (var item in value.entries) to<U>(item.key): to<V>(item.value)
+      };
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static List<U>? mayToList<U extends dynamic>(dynamic value) {
+    try {
+      if (!(value is List)) return null;
+      return <U>[for (var item in value) to<U>(item)];
+    } catch (e) {
+      return null;
     }
   }
 }
