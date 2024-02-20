@@ -198,7 +198,24 @@ final class DParse {
         return toList(value, onError as dynamic) as T;
       } else {
         try {
-          if (value != null && value is T) return value;
+          if (value != null) {
+            if (value is T) return value;
+            if ('$T' == 'int?') {
+              return (mayToInt(value ?? onError)) as T;
+            } else if ('$T' == 'double?') {
+              return (mayToDouble(value) ?? onError) as T;
+            } else if ('$T' == 'bool?') {
+              return (mayToBool(value) ?? onError) as T;
+            } else if ('$T' == 'DateTime?') {
+              return (mayToDate(value) ?? onError) as T;
+            } else if ('$T' == 'String?') {
+              return (mayToText(value) ?? onError) as T;
+            } else if ('$T'.startsWith('Map') && '$T'.endsWith('?')) {
+              return (mayToMap(value) ?? onError) as T;
+            } else if ('$T'.startsWith('List') && '$T'.endsWith('?')) {
+              return (mayToList(value) ?? onError) as T;
+            }
+          }
           return onError as T;
         } catch (e) {
           throw TypeException(
