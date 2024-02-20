@@ -197,7 +197,17 @@ final class DParse {
       } else if (T == List) {
         return toList(value, onError as dynamic) as T;
       } else {
-        return (value ?? onError) as T;
+        try {
+          if (value != null && value is T) return value;
+          return onError as T;
+        } catch (e) {
+          throw TypeException(
+              message: {
+            'message': 'Failed to parse ${T.toString()}, '
+                'you should add onError value',
+            'exception': e,
+          }.toString());
+        }
       }
     } catch (e, s) {
       DLog({'error': e, 'stacktrace': s}.toString(), level: DLevel.error);
@@ -229,7 +239,7 @@ final class DParse {
     return mayToList<U>(value) ?? onError ?? <U>[];
   }
 
-  static Map<U, V> toMap<U extends Object, V extends dynamic>(
+  static Map<U, V> toMap<U extends dynamic, V extends dynamic>(
     dynamic value, [
     Map<U, V>? onError,
   ]) {
@@ -258,10 +268,10 @@ final class DParse {
 
   static String? mayToText(dynamic value) {
     if (value is String) return value;
-    return value?.toString();
+    return null;
   }
 
-  static Map<U, V>? mayToMap<U extends Object, V extends dynamic>(
+  static Map<U, V>? mayToMap<U extends dynamic, V extends dynamic>(
     dynamic value,
   ) {
     try {

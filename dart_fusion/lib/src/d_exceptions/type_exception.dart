@@ -7,4 +7,9 @@ class TypeException implements Exception {
 
   /// Exception [message].
   final String message;
+
+  @override
+  String toString() {
+    return 'TypeException($message)';
+  }
 }

@@ -150,8 +150,9 @@
 
 ## 3.1.6
 * Update `JSONExtension` of.
-* Rename parse in `StringExtension` from prefix `parse` to `to`.
+* Rename parse in `StringExtension` from prefix `parse` to `to`
 
 ## 3.1.7
 * Update `DImage` to read base64 image
-* Update `JSONExtension` of.
+* Update `JSONExtension` of
+* Add `JSONExtension` Unit test
