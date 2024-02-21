@@ -68,11 +68,11 @@ void main() {
       JSON json2 = {'value': false, 'new_value': 'Test'};
       expect(json.of<String>('value'), equals('Hello, World!'));
       expect(json.of<String>('non_value', 'Default'), equals('Default'));
-      expect(json2.of<String>('value'), equals(''));
-      expect(json2.of<String>('value', 'Default'), equals('Default'));
+      expect(json2.of<String>('value'), equals('false'));
+      expect(json2.of<String>('value', 'Default'), equals('false'));
       expect(json.of<String?>('value'), equals('Hello, World!'));
       expect(json.of<String?>('non_value', 'Default'), equals('Default'));
-      expect(json2.of<String?>('value'), isNull);
+      expect(json2.of<String?>('non_value'), isNull);
       expect(json2.of<String?>('new_value'), equals('Test'));
       expect(json.of<String?>('value'), isA<String?>());
       expect(json.of('value'), isA<String>());

@@ -182,49 +182,37 @@ final class DParse {
 
   static T to<T extends dynamic>(dynamic value, [T? onError]) {
     try {
-      if (T == int) {
+      if ('$T' == 'int') {
         return toInt(value, onError as int?) as T;
-      } else if (T == double) {
+      } else if ('$T' == 'double') {
         return toDouble(value, onError as double?) as T;
-      } else if (T == bool) {
+      } else if ('$T' == 'bool') {
         return toBool(value, onError as bool?) as T;
-      } else if (T == DateTime) {
+      } else if ('$T' == 'DateTime') {
         return toDate(value, onError as DateTime?) as T;
-      } else if (T == String) {
+      } else if ('$T' == 'String') {
         return toText(value, onError as String?) as T;
-      } else if (T == Map) {
-        return toMap(value, onError as dynamic) as T;
-      } else if (T == List) {
-        return toList(value, onError as dynamic) as T;
+      } else if ('$T'.startsWith('Map') && !'$T'.endsWith('?')) {
+        return toMap(value, onError as Map?) as T;
+      } else if ('$T'.startsWith('List') && !'$T'.endsWith('?')) {
+        return toList(value, onError as List?) as T;
+      } else if ('$T' == 'int?') {
+        return (mayToInt(value ?? onError)) as T;
+      } else if ('$T' == 'double?') {
+        return (mayToDouble(value) ?? onError) as T;
+      } else if ('$T' == 'bool?') {
+        return (mayToBool(value) ?? onError) as T;
+      } else if ('$T' == 'DateTime?') {
+        return (mayToDate(value) ?? onError) as T;
+      } else if ('$T' == 'String?') {
+        return (mayToText(value) ?? onError) as T;
+      } else if ('$T'.startsWith('Map') && '$T'.endsWith('?')) {
+        return (mayToMap(value) ?? onError) as T;
+      } else if ('$T'.startsWith('List') && '$T'.endsWith('?')) {
+        return (mayToList(value) ?? onError) as T;
       } else {
-        try {
-          if (value != null) {
-            if (value is T) return value;
-            if ('$T' == 'int?') {
-              return (mayToInt(value ?? onError)) as T;
-            } else if ('$T' == 'double?') {
-              return (mayToDouble(value) ?? onError) as T;
-            } else if ('$T' == 'bool?') {
-              return (mayToBool(value) ?? onError) as T;
-            } else if ('$T' == 'DateTime?') {
-              return (mayToDate(value) ?? onError) as T;
-            } else if ('$T' == 'String?') {
-              return (mayToText(value) ?? onError) as T;
-            } else if ('$T'.startsWith('Map') && '$T'.endsWith('?')) {
-              return (mayToMap(value) ?? onError) as T;
-            } else if ('$T'.startsWith('List') && '$T'.endsWith('?')) {
-              return (mayToList(value) ?? onError) as T;
-            }
-          }
-          return onError as T;
-        } catch (e) {
-          throw TypeException(
-              message: {
-            'message': 'Failed to parse ${T.toString()}, '
-                'you should add onError value',
-            'exception': e,
-          }.toString());
-        }
+        if (value is T) return value;
+        return onError as T;
       }
     } catch (e, s) {
       DLog({'error': e, 'stacktrace': s}.toString(), level: DLevel.error);
@@ -285,17 +273,22 @@ final class DParse {
 
   static String? mayToText(dynamic value) {
     if (value is String) return value;
-    return null;
+    return value?.toString();
   }
 
   static Map<U, V>? mayToMap<U extends dynamic, V extends dynamic>(
     dynamic value,
   ) {
     try {
-      if (!(value is Map)) return null;
-      return <U, V>{
-        for (var item in value.entries) to<U>(item.key): to<V>(item.value)
-      };
+      if (value != null) {
+        if (value is Map<U, V>) return value;
+        if (value is Map) {
+          return <U, V>{
+            for (var item in value.entries) to<U>(item.key): to<V>(item.value)
+          };
+        }
+      }
+      return null;
     } catch (e) {
       return null;
     }
@@ -303,8 +296,11 @@ final class DParse {
 
   static List<U>? mayToList<U extends dynamic>(dynamic value) {
     try {
-      if (!(value is List)) return null;
-      return <U>[for (var item in value) to<U>(item)];
+      if (value != null) {
+        if (value is List<U>) return value;
+        if (value is List) return <U>[for (var item in value) to<U>(item)];
+      }
+      return null;
     } catch (e) {
       return null;
     }

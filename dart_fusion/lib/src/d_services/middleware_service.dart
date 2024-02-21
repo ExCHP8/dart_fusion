@@ -1,19 +1,12 @@
 part of '../../dart_fusion.dart';
 
 /// A well-design middleware used in dart backend.
-class DMiddleware extends DModel {
-  /// Default constructor of [DMiddleware].
-  const DMiddleware({this.certificate});
-
-  /// A function to validate jwt certificate
-  final String Function(String key)? certificate;
-
+final class DMiddleware {
   /// Middleware for handling requests and responses.
   ///
   /// This middleware supports both regular HTTP requests and websockets.
   ///
   /// [handler] is the main request handler.
-  /// [certificate] is an optional function for certificate verification.
   Handler handler(Handler handler) {
     return (context) async {
       try {
@@ -24,7 +17,7 @@ class DMiddleware extends DModel {
           return response;
         } else {
           // [3] Verify Bearer Token
-          if (certificate != null) await context.verify(certificate!);
+          // if (certificate != null) await context.verify(certificate!);
 
           // [4] Return successful response
           if (response.statusCode >= 200 && response.statusCode < 300) {

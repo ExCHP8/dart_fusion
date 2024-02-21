@@ -5,7 +5,7 @@ part of '../../dart_fusion.dart';
 /// ```dart
 /// class NewDModel extends DModel {}
 /// ```
-class DModel extends Equatable {
+abstract class DModel extends Equatable {
   /// Default constructor
   const DModel();
 
@@ -15,7 +15,7 @@ class DModel extends Equatable {
   /// DModel DModel = const DModel();
   /// DModel newDModel = DModel.copyWith();
   /// ```
-  DModel copyWith() => const DModel();
+  DModel copyWith();
 
   /// Convert this DModel to JSON.
   ///
@@ -33,7 +33,9 @@ class DModel extends Equatable {
   /// ```dart
   /// DModel model = DModel.fromJSON(json);
   /// ```
-  static DModel fromJSON(JSON value) => const DModel();
+  static DModel fromJSON(JSON value) {
+    throw UnimplementedError('fromJSON is not implemented');
+  }
 
   /// A Dummy test model value.
   ///
@@ -41,7 +43,7 @@ class DModel extends Equatable {
   /// DModel test = Dmodel.test;
   /// ```
   static DModel get test {
-    return const DModel();
+    throw UnimplementedError('test is not implemented');
   }
 
   @override

@@ -6,12 +6,17 @@ abstract class Header extends DModel {
   const Header();
 
   @override
+  DModel copyWith({DModel? model}) {
+    return model ?? this;
+  }
+
+  @override
   String toString() {
     final type = toJSON.of<String>('model_type');
     return type.split(RegExp('(?=[A-Z])')).join('-');
   }
 
-  static Header fromJSON(JSON value) {
+  factory Header.fromJSON(JSON value) {
     switch (value.of<String>('model_type')) {
       case 'Accept':
         return const Accept();
