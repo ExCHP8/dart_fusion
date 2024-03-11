@@ -2,6 +2,36 @@
 
 part of '../dart_fusion_flutter.dart';
 
+/// The type of image to be displayed.
+enum DImageType {
+  /// Load bitmap image from asset.
+  bitmapAsset,
+
+  /// Load bitmap image from network.
+  bitmapNetwork,
+
+  /// Load bitmap image from file.
+  bitmapFile,
+
+  /// Load bitmap image from memory.
+  bitmapMemory,
+
+  /// Load vector image from asset.
+  vectorAsset,
+
+  /// Load vector image from network.
+  vectorNetwork,
+
+  /// Load vector image from file.
+  vectorFile,
+
+  /// Load vector image from memory.
+  vectorMemory,
+
+  /// Let [DImage] choose the image type automatically.
+  auto,
+}
+
 /// A widget for displaying vector or bitmap images from different sources.
 ///
 /// ```dart
@@ -58,7 +88,12 @@ class DImage<Source extends Object> extends StatelessWidget {
     this.bundle,
     this.gaplessPlayback = false,
     this.headers,
+    this.type = DImageType.auto,
+    this.print = true,
   });
+
+  /// The type of image to be displayed.
+  final DImageType type;
 
   /// The source of the image to be displayed.
   final Source source;
@@ -150,281 +185,274 @@ class DImage<Source extends Object> extends StatelessWidget {
   /// Package used in [SvgPicture.asset] and [Image.asset].
   final String? package;
 
+  /// If true, the error will be printed.
+  final bool print;
+
   @override
   Widget build(BuildContext context) {
     try {
-      if (source is File) {
-        File data = source as File;
-        if (data.path.endsWith('.svg')) {
-          return SvgPicture.memory(
-            data.readAsBytesSync(),
-            fit: fit,
-            key: key,
-            theme: theme,
-            color: color,
-            width: size?.width,
-            height: size?.height,
-            alignment: alignment,
-            colorFilter: colorFilter,
-            clipBehavior: clipBehavior,
-            semanticsLabel: semanticsLabel,
-            placeholderBuilder: placeholderBuilder,
-            matchTextDirection: matchTextDirection,
-            excludeFromSemantics: excludeFromSemantics,
-            colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
-            allowDrawingOutsideViewBox: allowDrawingOutsideViewBox,
-          );
-        }
-
-        return Image.memory(
-          data.readAsBytesSync(),
-          fit: fit,
-          key: key,
-          color: color,
-          scale: scale,
-          repeat: repeat,
-          opacity: opacity,
-          width: size?.width,
-          height: size?.height,
-          alignment: alignment,
-          cacheWidth: cacheWidth,
-          centerSlice: centerSlice,
-          cacheHeight: cacheHeight,
-          isAntiAlias: isAntiAlias,
-          errorBuilder: errorBuilder,
-          filterQuality: filterQuality,
-          semanticLabel: semanticsLabel,
-          colorBlendMode: colorBlendMode,
-          gaplessPlayback: gaplessPlayback,
-          matchTextDirection: matchTextDirection,
-          excludeFromSemantics: excludeFromSemantics,
-          frameBuilder: (context, child, _, __) {
-            if (placeholderBuilder != null) return placeholderBuilder!(context);
-            return child;
-          },
-        );
-      } else if (source is Uint8List) {
-        Uint8List data = this.source as Uint8List;
-        try {
-          return SvgPicture.memory(
-            data,
-            fit: fit,
-            key: key,
-            theme: theme,
-            color: color,
-            width: size?.width,
-            height: size?.height,
-            alignment: alignment,
-            colorFilter: colorFilter,
-            clipBehavior: clipBehavior,
-            semanticsLabel: semanticsLabel,
-            placeholderBuilder: placeholderBuilder,
-            matchTextDirection: matchTextDirection,
-            excludeFromSemantics: excludeFromSemantics,
-            colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
-            allowDrawingOutsideViewBox: allowDrawingOutsideViewBox,
-          );
-        } catch (e) {
-          return Image.memory(
-            data,
-            fit: fit,
-            key: key,
-            color: color,
-            scale: scale,
-            repeat: repeat,
-            opacity: opacity,
-            width: size?.width,
-            height: size?.height,
-            alignment: alignment,
-            cacheWidth: cacheWidth,
-            centerSlice: centerSlice,
-            cacheHeight: cacheHeight,
-            isAntiAlias: isAntiAlias,
-            errorBuilder: errorBuilder,
-            filterQuality: filterQuality,
-            semanticLabel: semanticsLabel,
-            colorBlendMode: colorBlendMode,
-            gaplessPlayback: gaplessPlayback,
-            matchTextDirection: matchTextDirection,
-            excludeFromSemantics: excludeFromSemantics,
-            frameBuilder: (context, child, _, __) {
-              if (placeholderBuilder != null) {
-                return placeholderBuilder!(context);
-              }
-              return child;
-            },
-          );
-        }
-      } else {
-        String data = this.source.toString();
-        if (data.startsWith("http")) {
-          if (data.endsWith(".svg")) {
-            return SvgPicture.network(
-              data,
-              fit: fit,
-              key: key,
-              theme: theme,
-              color: color,
-              headers: headers,
-              width: size?.width,
-              height: size?.height,
-              alignment: alignment,
-              colorFilter: colorFilter,
-              clipBehavior: clipBehavior,
-              semanticsLabel: semanticsLabel,
-              placeholderBuilder: placeholderBuilder,
-              matchTextDirection: matchTextDirection,
-              excludeFromSemantics: excludeFromSemantics,
-              colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
-              allowDrawingOutsideViewBox: allowDrawingOutsideViewBox,
-            );
+      switch (type) {
+        case DImageType.auto:
+          if (source is File) {
+            final data = source as File;
+            if (data.path.endsWith('.svg')) return _fromVectorFile();
+            return _fromBitmapFile();
+          } else if (source is Uint8List) {
+            try {
+              return _fromVectorMemory();
+            } catch (e) {
+              return _fromBitmapMemory();
+            }
+          } else {
+            String data = this.source.toString();
+            if (data.startsWith("http")) {
+              if (data.endsWith(".svg")) return _fromVectorNetwork();
+              return _fromBitmapNetwork();
+            } else if (data.startsWith('data:image')) {
+              if (data.startsWith('data:image/svg')) return _fromVectorMemory();
+              return _fromBitmapMemory();
+            } else {
+              String data = this.source.toString();
+              if (data.endsWith(".svg")) return _fromVectorAsset();
+              return _fromBitmapAsset();
+            }
           }
-
-          return Image.network(
-            data,
-            fit: fit,
-            key: key,
-            color: color,
-            scale: scale,
-            repeat: repeat,
-            opacity: opacity,
-            headers: headers,
-            width: size?.width,
-            height: size?.height,
-            alignment: alignment,
-            cacheWidth: cacheWidth,
-            centerSlice: centerSlice,
-            cacheHeight: cacheHeight,
-            isAntiAlias: isAntiAlias,
-            errorBuilder: errorBuilder,
-            filterQuality: filterQuality,
-            semanticLabel: semanticsLabel,
-            colorBlendMode: colorBlendMode,
-            gaplessPlayback: gaplessPlayback,
-            matchTextDirection: matchTextDirection,
-            excludeFromSemantics: excludeFromSemantics,
-            frameBuilder: (context, child, _, __) {
-              if (placeholderBuilder != null) {
-                return placeholderBuilder!(context);
-              }
-              return child;
-            },
-          );
-        } else if (data.startsWith('data:image')) {
-          Uint8List memory = base64Decode(data.split(',').last);
-          if (data.startsWith('data:image/svg')) {
-            return SvgPicture.memory(
-              memory,
-              fit: fit,
-              key: key,
-              theme: theme,
-              color: color,
-              width: size?.width,
-              height: size?.height,
-              alignment: alignment,
-              colorFilter: colorFilter,
-              clipBehavior: clipBehavior,
-              semanticsLabel: semanticsLabel,
-              placeholderBuilder: placeholderBuilder,
-              matchTextDirection: matchTextDirection,
-              excludeFromSemantics: excludeFromSemantics,
-              colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
-              allowDrawingOutsideViewBox: allowDrawingOutsideViewBox,
-            );
-          }
-
-          return Image.memory(
-            memory,
-            fit: fit,
-            key: key,
-            color: color,
-            scale: scale,
-            repeat: repeat,
-            opacity: opacity,
-            width: size?.width,
-            height: size?.height,
-            alignment: alignment,
-            cacheWidth: cacheWidth,
-            centerSlice: centerSlice,
-            cacheHeight: cacheHeight,
-            isAntiAlias: isAntiAlias,
-            errorBuilder: errorBuilder,
-            filterQuality: filterQuality,
-            semanticLabel: semanticsLabel,
-            colorBlendMode: colorBlendMode,
-            gaplessPlayback: gaplessPlayback,
-            matchTextDirection: matchTextDirection,
-            excludeFromSemantics: excludeFromSemantics,
-            frameBuilder: (context, child, _, __) {
-              if (placeholderBuilder != null) {
-                return placeholderBuilder!(context);
-              }
-              return child;
-            },
-          );
-        } else {
-          String data = this.source.toString();
-          if (data.endsWith(".svg")) {
-            return SvgPicture.asset(
-              data,
-              fit: fit,
-              key: key,
-              theme: theme,
-              color: color,
-              bundle: bundle,
-              package: package,
-              width: size?.width,
-              height: size?.height,
-              alignment: alignment,
-              colorFilter: colorFilter,
-              clipBehavior: clipBehavior,
-              semanticsLabel: semanticsLabel,
-              placeholderBuilder: placeholderBuilder,
-              matchTextDirection: matchTextDirection,
-              excludeFromSemantics: excludeFromSemantics,
-              colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
-              allowDrawingOutsideViewBox: allowDrawingOutsideViewBox,
-            );
-          }
-
-          return Image.asset(
-            data,
-            fit: fit,
-            key: key,
-            color: color,
-            scale: scale,
-            bundle: bundle,
-            repeat: repeat,
-            package: package,
-            opacity: opacity,
-            width: size?.width,
-            height: size?.height,
-            alignment: alignment,
-            cacheWidth: cacheWidth,
-            centerSlice: centerSlice,
-            cacheHeight: cacheHeight,
-            isAntiAlias: isAntiAlias,
-            errorBuilder: errorBuilder,
-            filterQuality: filterQuality,
-            semanticLabel: semanticsLabel,
-            colorBlendMode: colorBlendMode,
-            gaplessPlayback: gaplessPlayback,
-            matchTextDirection: matchTextDirection,
-            excludeFromSemantics: excludeFromSemantics,
-            frameBuilder: (context, child, _, __) {
-              if (placeholderBuilder != null) {
-                return placeholderBuilder!(context);
-              }
-              return child;
-            },
-          );
-        }
+        case DImageType.bitmapAsset:
+          return _fromBitmapAsset();
+        case DImageType.bitmapNetwork:
+          return _fromBitmapNetwork();
+        case DImageType.bitmapFile:
+          return _fromBitmapFile();
+        case DImageType.bitmapMemory:
+          return _fromBitmapMemory();
+        case DImageType.vectorAsset:
+          return _fromVectorAsset();
+        case DImageType.vectorNetwork:
+          return _fromVectorNetwork();
+        case DImageType.vectorFile:
+          return _fromVectorFile();
+        case DImageType.vectorMemory:
+          return _fromVectorMemory();
       }
     } catch (e, s) {
-      if (kDebugMode) DLog(e, level: DLevel.error);
+      if (kDebugMode && print) DLog(e, level: DLevel.error);
       if (errorBuilder != null) return errorBuilder!(context, e, s);
       return const SizedBox();
     }
+  }
+
+  Widget _fromBitmapAsset() {
+    return Image.asset(
+      source.toString(),
+      fit: fit,
+      key: key,
+      color: color,
+      scale: scale,
+      bundle: bundle,
+      repeat: repeat,
+      package: package,
+      opacity: opacity,
+      width: size?.width,
+      height: size?.height,
+      alignment: alignment,
+      cacheWidth: cacheWidth,
+      centerSlice: centerSlice,
+      cacheHeight: cacheHeight,
+      isAntiAlias: isAntiAlias,
+      errorBuilder: errorBuilder,
+      filterQuality: filterQuality,
+      semanticLabel: semanticsLabel,
+      colorBlendMode: colorBlendMode,
+      gaplessPlayback: gaplessPlayback,
+      matchTextDirection: matchTextDirection,
+      excludeFromSemantics: excludeFromSemantics,
+      frameBuilder: (context, child, _, __) {
+        if (placeholderBuilder != null) return placeholderBuilder!(context);
+        return child;
+      },
+    );
+  }
+
+  Widget _fromVectorAsset() {
+    return SvgPicture.asset(
+      source.toString(),
+      fit: fit,
+      key: key,
+      theme: theme,
+      color: color,
+      bundle: bundle,
+      package: package,
+      width: size?.width,
+      height: size?.height,
+      alignment: alignment,
+      colorFilter: colorFilter,
+      clipBehavior: clipBehavior,
+      semanticsLabel: semanticsLabel,
+      placeholderBuilder: placeholderBuilder,
+      matchTextDirection: matchTextDirection,
+      excludeFromSemantics: excludeFromSemantics,
+      colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
+      allowDrawingOutsideViewBox: allowDrawingOutsideViewBox,
+    );
+  }
+
+  Widget _fromBitmapFile() {
+    return Image.file(
+      source is File ? source as File : File(source.toString()),
+      fit: fit,
+      key: key,
+      color: color,
+      scale: scale,
+      repeat: repeat,
+      opacity: opacity,
+      width: size?.width,
+      height: size?.height,
+      alignment: alignment,
+      cacheWidth: cacheWidth,
+      centerSlice: centerSlice,
+      cacheHeight: cacheHeight,
+      isAntiAlias: isAntiAlias,
+      errorBuilder: errorBuilder,
+      filterQuality: filterQuality,
+      semanticLabel: semanticsLabel,
+      colorBlendMode: colorBlendMode,
+      gaplessPlayback: gaplessPlayback,
+      matchTextDirection: matchTextDirection,
+      excludeFromSemantics: excludeFromSemantics,
+      frameBuilder: (context, child, _, __) {
+        if (placeholderBuilder != null) return placeholderBuilder!(context);
+        return child;
+      },
+    );
+  }
+
+  Widget _fromVectorFile() {
+    return SvgPicture.file(
+      source is File ? source as File : File(source.toString()),
+      fit: fit,
+      key: key,
+      theme: theme,
+      color: color,
+      width: size?.width,
+      height: size?.height,
+      alignment: alignment,
+      colorFilter: colorFilter,
+      clipBehavior: clipBehavior,
+      semanticsLabel: semanticsLabel,
+      placeholderBuilder: placeholderBuilder,
+      matchTextDirection: matchTextDirection,
+      excludeFromSemantics: excludeFromSemantics,
+      colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
+      allowDrawingOutsideViewBox: allowDrawingOutsideViewBox,
+    );
+  }
+
+  Widget _fromBitmapNetwork() {
+    return Image.network(
+      source.toString(),
+      fit: fit,
+      key: key,
+      color: color,
+      scale: scale,
+      repeat: repeat,
+      opacity: opacity,
+      width: size?.width,
+      height: size?.height,
+      alignment: alignment,
+      cacheWidth: cacheWidth,
+      centerSlice: centerSlice,
+      cacheHeight: cacheHeight,
+      isAntiAlias: isAntiAlias,
+      errorBuilder: errorBuilder,
+      filterQuality: filterQuality,
+      semanticLabel: semanticsLabel,
+      colorBlendMode: colorBlendMode,
+      gaplessPlayback: gaplessPlayback,
+      matchTextDirection: matchTextDirection,
+      excludeFromSemantics: excludeFromSemantics,
+      frameBuilder: (context, child, _, __) {
+        if (placeholderBuilder != null) return placeholderBuilder!(context);
+        return child;
+      },
+      headers: headers,
+    );
+  }
+
+  Widget _fromVectorNetwork() {
+    return SvgPicture.network(
+      source.toString(),
+      fit: fit,
+      key: key,
+      theme: theme,
+      color: color,
+      width: size?.width,
+      height: size?.height,
+      alignment: alignment,
+      colorFilter: colorFilter,
+      clipBehavior: clipBehavior,
+      semanticsLabel: semanticsLabel,
+      placeholderBuilder: placeholderBuilder,
+      matchTextDirection: matchTextDirection,
+      excludeFromSemantics: excludeFromSemantics,
+      colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
+      allowDrawingOutsideViewBox: allowDrawingOutsideViewBox,
+      headers: headers,
+    );
+  }
+
+  Widget _fromBitmapMemory() {
+    return Image.memory(
+      source is Uint8List
+          ? source as Uint8List
+          : base64Decode(source.toString().split(',').last),
+      fit: fit,
+      key: key,
+      color: color,
+      scale: scale,
+      repeat: repeat,
+      opacity: opacity,
+      width: size?.width,
+      height: size?.height,
+      alignment: alignment,
+      cacheWidth: cacheWidth,
+      centerSlice: centerSlice,
+      cacheHeight: cacheHeight,
+      isAntiAlias: isAntiAlias,
+      errorBuilder: errorBuilder,
+      filterQuality: filterQuality,
+      semanticLabel: semanticsLabel,
+      colorBlendMode: colorBlendMode,
+      gaplessPlayback: gaplessPlayback,
+      matchTextDirection: matchTextDirection,
+      excludeFromSemantics: excludeFromSemantics,
+      frameBuilder: (context, child, _, __) {
+        if (placeholderBuilder != null) return placeholderBuilder!(context);
+        return child;
+      },
+    );
+  }
+
+  Widget _fromVectorMemory() {
+    return SvgPicture.memory(
+      source is Uint8List
+          ? source as Uint8List
+          : base64Decode(source.toString().split(',').last),
+      fit: fit,
+      key: key,
+      theme: theme,
+      color: color,
+      width: size?.width,
+      height: size?.height,
+      alignment: alignment,
+      colorFilter: colorFilter,
+      clipBehavior: clipBehavior,
+      semanticsLabel: semanticsLabel,
+      placeholderBuilder: placeholderBuilder,
+      matchTextDirection: matchTextDirection,
+      excludeFromSemantics: excludeFromSemantics,
+      colorBlendMode: colorBlendMode ?? BlendMode.srcIn,
+      allowDrawingOutsideViewBox: allowDrawingOutsideViewBox,
+    );
   }
 
   /// Creates a copy of this [DImage] but with the given fields replaced with the new values.
