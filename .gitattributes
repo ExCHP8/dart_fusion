@@ -1,4 +1,2 @@
-*.html linguist-vendored
-*.js linguist-vendored
-*.sh linguist-vendored
-*.css linguist-vendored
+dart_fusion/doc/api/** linguist-vendored
+dart_fusion_flutter/doc/api/** linguist-vendored
