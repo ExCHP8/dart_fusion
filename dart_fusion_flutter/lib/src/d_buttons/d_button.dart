@@ -146,7 +146,7 @@ class DButton extends StatelessWidget {
   final ShapeBorder? shapeBorder;
 
   /// The controller to manually control the interaction states of the material.
-  final MaterialStatesController? controller;
+  final WidgetStatesController? controller;
 
   /// Custom decoration for button.
   final BoxDecoration? decoration;

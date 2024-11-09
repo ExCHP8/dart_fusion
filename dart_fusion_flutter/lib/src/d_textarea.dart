@@ -133,7 +133,7 @@ class DTextArea extends StatelessWidget {
               decoration: decoration ??
                   BoxDecoration(
                     color: backgroundColor ??
-                        context.color.background.withOpacity(0.5),
+                        context.color.surface.withOpacity(0.5),
                     borderRadius: borderRadius,
                   ),
               child: Column(
@@ -143,10 +143,10 @@ class DTextArea extends StatelessWidget {
                     child: TextField(
                         textAlign: textAlign,
                         controller: controller,
-                        cursorColor: cursorColor ?? context.color.onBackground,
+                        cursorColor: cursorColor ?? context.color.onSurface,
                         style: textStyle ??
                             context.text.bodyMedium
-                                ?.copyWith(color: context.color.onBackground),
+                                ?.copyWith(color: context.color.onSurface),
                         maxLines: maxLines,
                         minLines: minLines,
                         onSubmitted: onSubmitted,
@@ -160,13 +160,12 @@ class DTextArea extends StatelessWidget {
                             prefixIcon: prefixIcon,
                             hintStyle: hintStyle ??
                                 context.text.bodyMedium?.copyWith(
-                                    color: context.color.onBackground
+                                    color: context.color.onSurface
                                         .withOpacity(0.5),
                                     height: 0.0),
                             focusedBorder: OutlineInputBorder(
                                 borderSide: borderSideActive ??
-                                    BorderSide(
-                                        color: context.color.onBackground),
+                                    BorderSide(color: context.color.onSurface),
                                 borderRadius:
                                     borderRadius ?? BorderRadius.circular(4.0)),
                             enabledBorder: OutlineInputBorder(

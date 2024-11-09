@@ -67,7 +67,7 @@ class InkMaterial extends StatelessWidget {
   final VoidCallback onTap;
 
   /// The controller to manually control the interaction states of the material.
-  final MaterialStatesController? controller;
+  final WidgetStatesController? controller;
 
   @override
   Widget build(BuildContext context) => Material(
